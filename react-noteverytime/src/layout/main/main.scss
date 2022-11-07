@@ -23,7 +23,7 @@
   .controll-box {
     width: 400px;
     display: flex;
-    justify-content: end;
+    justify-content: flex-end;
 
     .certify-semester-button {
       width: 140px;
@@ -52,5 +52,5 @@
   width: 100%;
   display: flex;
   flex-wrap: wrap;
-  justify-content: start;
+  justify-content: flex-start;
 }
