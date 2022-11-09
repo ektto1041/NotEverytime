@@ -1,0 +1,111 @@
+@import '../../styles/variables.scss';
+
+.class-container {
+  width: 1150px;
+  display: flex;
+  margin: 0 auto;
+  margin-top: 60px;
+
+  .info-box {
+    width: 273px;
+    
+    .info-item {
+      width: 100%;
+    }
+
+    .info-title {
+      color: $text-grey;
+      font-size: 16px;
+      margin-bottom: 8px;
+    }
+    
+    .info-content {
+      font-size: 20px;
+      color: $text-dark;
+    }
+    
+    .semester-box {
+      width: calc(100% - 48px);
+      border: 1px solid $grey-border;
+      border-radius: 12px;
+      padding: 24px;
+    }
+
+    .detail-info {
+      margin-top: 20px;
+      width: calc(100% - 48px);
+      padding: 24px;
+      border: 1px solid $grey-border;
+      border-radius: 12px;
+
+      .class-name {
+        font-size: 28px;
+        color: $ajou-blue;
+        font-weight: bold;
+      }
+
+      .info-item {
+        margin-top: 20px;
+      }
+    }
+  }
+
+  .board {
+    margin-left: 20px;
+    width: 857px;
+
+    .board-menu {
+      width: 100%;
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 20px;
+
+      button {
+        border-radius: 12px;
+        cursor: pointer;
+      }
+
+      .board-button {
+        width: 175px;
+        height: 48px;
+        font-size: 16px;
+        border: 1px solid $grey-border;
+        background-color: white;
+        color: $text-dark;
+      }
+
+      .write-button {
+        width: 77px;
+        height: 48px;
+        background-color: $ajou-blue;
+        border: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        img {
+          width: 36px;
+          height: 36px;
+        }
+      }
+
+      .selected {
+        border: 0;
+        background-color: $ajou-yellow;
+        color: white;
+      }
+    }
+
+    .post-list {
+      width: 100%;
+      padding-top: 10px;
+      padding-bottom: 10px;
+      border: 1px solid $grey-border;
+      border-radius: 12px;
+    }
+  }
+}
+
+
+
+
