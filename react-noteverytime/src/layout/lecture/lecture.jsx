@@ -1,10 +1,10 @@
 import React from 'react';
 import { PostItem } from '../../components/postItem/postItem';
-import './class.scss';
+import './lecture.scss';
 
-export const Class = () => {
+export const Lecture = () => {
   return (
-    <div className='class-container'>
+    <div className='lecture-container'>
       <div className='info-box'>
         <div className='semester-box'>
           <div className='info-item'>
@@ -13,7 +13,7 @@ export const Class = () => {
           </div>
         </div>
         <div className='detail-info'>
-          <div className='class-name'>웹시스템설계</div>
+          <div className='lecture-name'>웹시스템설계</div>
           <div className='info-item'>
             <div className='info-title'>과목코드</div>
             <div className='info-content'>F065</div>
@@ -45,9 +45,6 @@ export const Class = () => {
           <PostItem hasThunbnail={false} />
           <PostItem hasThunbnail={true} />
           <PostItem hasThunbnail={false} />
-        </div>
-        <div className='paging-box'>
-
         </div>
       </div>
     </div>

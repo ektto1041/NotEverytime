@@ -1,13 +1,13 @@
 @import '../../styles/variables.scss';
 
-.class-container {
-  width: 1150px;
+.lecture-container {
+  width: 60em;
   display: flex;
   margin: 0 auto;
-  margin-top: 60px;
+  margin-top: 4em;
 
   .info-box {
-    width: 273px;
+    width: 15em;
     
     .info-item {
       width: 100%;
@@ -15,50 +15,48 @@
 
     .info-title {
       color: $text-grey;
-      font-size: 16px;
-      margin-bottom: 8px;
+      font-size: 1em;
+      margin-bottom: 0.5em;
     }
     
     .info-content {
-      font-size: 20px;
+      font-size: 1.2em;
       color: $text-dark;
     }
     
     .semester-box {
-      width: calc(100% - 48px);
       border: 1px solid $grey-border;
-      border-radius: 12px;
-      padding: 24px;
+      border-radius: .75em;
+      padding: 1.5em;
     }
 
     .detail-info {
-      margin-top: 20px;
-      width: calc(100% - 48px);
-      padding: 24px;
+      margin-top: 1.2em;
+      padding: 1.5em;
       border: 1px solid $grey-border;
       border-radius: 12px;
 
-      .class-name {
-        font-size: 28px;
+      .lecture-name {
+        font-size: 1.5em;
         color: $ajou-blue;
         font-weight: bold;
       }
 
       .info-item {
-        margin-top: 20px;
+        margin-top: 1.2em;
       }
     }
   }
 
   .board {
-    margin-left: 20px;
-    width: 857px;
+    margin-left: 1em;
+    width: 44em;
 
     .board-menu {
       width: 100%;
       display: flex;
       justify-content: space-between;
-      margin-bottom: 20px;
+      margin-bottom: 1.2em;
 
       button {
         border-radius: 12px;
@@ -66,17 +64,17 @@
       }
 
       .board-button {
-        width: 175px;
-        height: 48px;
-        font-size: 16px;
+        width: 9em;
+        height: 3em;
+        font-size: 1em;
         border: 1px solid $grey-border;
         background-color: white;
         color: $text-dark;
       }
 
       .write-button {
-        width: 77px;
-        height: 48px;
+        width: 5em;
+        height: 3.6em;
         background-color: $ajou-blue;
         border: 0;
         display: flex;
@@ -84,8 +82,8 @@
         align-items: center;
 
         img {
-          width: 36px;
-          height: 36px;
+          width: 2.5em;
+          height: 2.5em;
         }
       }
 
@@ -98,14 +96,10 @@
 
     .post-list {
       width: 100%;
-      padding-top: 10px;
-      padding-bottom: 10px;
+      padding-top: .5em;
+      padding-bottom: .5em;
       border: 1px solid $grey-border;
       border-radius: 12px;
     }
   }
 }
-
-
-
-
