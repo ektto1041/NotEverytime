@@ -1,50 +1,67 @@
 import React from 'react';
+import { useEffect } from 'react';
+import { useState } from 'react';
+import { useParams } from 'react-router-dom';
+import { BoardButton } from '../../components/boardButton/boardButton';
 import { PostItem } from '../../components/postItem/postItem';
+import { DUMMY } from '../../utils/constants';
 import './lecture.scss';
 
 export const Lecture = () => {
+  const params = useParams();
+
+  const [lecture, setLecture] = useState(DUMMY.lectureList[0]);
+  const [selectedBoardId, setSelectedBoardId] = useState(0);
+  const [postList, setPostList] = useState(DUMMY.lectureList[0].boardList[0].postList);
+
+  useEffect(() => {
+    setLecture(DUMMY.lectureList[params.lectureId]);
+    setSelectedBoardId(0);
+  }, [params]);
+
+  useEffect(() => {
+    setPostList(lecture.boardList[selectedBoardId].postList);
+  }, [lecture, selectedBoardId]);
+
   return (
     <div className='lecture-container'>
       <div className='info-box'>
         <div className='semester-box'>
           <div className='info-item'>
             <div className='info-title'>인증학기</div>
-            <div className='info-content'>2022-2학기</div>
+            <div className='info-content'>{`${lecture.lectureSemester}학기`}</div>
           </div>
         </div>
         <div className='detail-info'>
-          <div className='lecture-name'>웹시스템설계</div>
+          <div className='lecture-name'>{lecture.lectureName}</div>
           <div className='info-item'>
             <div className='info-title'>과목코드</div>
-            <div className='info-content'>F065</div>
+            <div className='info-content'>{lecture.lectureCode}</div>
           </div>
           <div className='info-item'>
             <div className='info-title'>교수명</div>
-            <div className='info-content'>오상윤 교수님</div>
+            <div className='info-content'>{`${lecture.professor} 교수님`}</div>
           </div>
           <div className='info-item'>
             <div className='info-title'>수업시간</div>
-            <div className='info-content'>월 12:00~13:30</div>
-            <div className='info-content'>화 09:00~11:00</div>
-            <div className='info-content'>수 12:00~13:30</div>
+            {lecture?.lectureTimes?.map(time => (
+              <div key={time} className='info-content'>{time}</div>
+            ))}
           </div>
         </div>
       </div>
       <div className='board'>
         <div className='board-menu'>
-          <button className='board-button selected' >자유게시판</button>
-          <button className='board-button' >선배의 팁 게시판</button>
+          <BoardButton boardId={0} selectedBoardId={selectedBoardId} setBoardId={setSelectedBoardId}>자유게시판</BoardButton>
+          <BoardButton boardId={1} selectedBoardId={selectedBoardId} setBoardId={setSelectedBoardId}>선배의 팁 게시판</BoardButton>
           <button className='write-button' ><img src="/images/pen.svg" alt="pen" /></button>
-          <button className='board-button' >과제 Q&A 게시판</button>
-          <button className='board-button' >팀원 모집 게시판</button>
+          <BoardButton boardId={2} selectedBoardId={selectedBoardId} setBoardId={setSelectedBoardId}>과제 Q&A 게시판</BoardButton>
+          <BoardButton boardId={3} selectedBoardId={selectedBoardId} setBoardId={setSelectedBoardId}>팀원 모집 게시판</BoardButton>
         </div>
         <div className='post-list'>
-          <PostItem hasThunbnail={true} />
-          <PostItem hasThunbnail={false} />
-          <PostItem hasThunbnail={false} />
-          <PostItem hasThunbnail={false} />
-          <PostItem hasThunbnail={true} />
-          <PostItem hasThunbnail={false} />
+          {postList?.map(post => (
+            <PostItem key={post._id} post={post} />
+          ))}
         </div>
       </div>
     </div>

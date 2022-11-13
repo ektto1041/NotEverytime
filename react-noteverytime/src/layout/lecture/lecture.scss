@@ -63,15 +63,6 @@
         cursor: pointer;
       }
 
-      .board-button {
-        width: 9em;
-        height: 3em;
-        font-size: 1em;
-        border: 1px solid $grey-border;
-        background-color: white;
-        color: $text-dark;
-      }
-
       .write-button {
         width: 5em;
         height: 3.6em;
@@ -85,12 +76,6 @@
           width: 2.5em;
           height: 2.5em;
         }
-      }
-
-      .selected {
-        border: 0;
-        background-color: $ajou-yellow;
-        color: white;
       }
     }
 
