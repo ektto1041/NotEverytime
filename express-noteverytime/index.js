@@ -15,6 +15,12 @@ const handleError = (error) => console.log("DB Error", error);
 db.on("error", handleError);
 db.once("open", handleOpen);
 
+app.use(express.json()); 
+app.use(express.urlencoded( {extended : false } ));
+
+const rootRouter = require('./routers/rootRouter');
+app.use('/', rootRouter);
+
 app.listen(4000, () => {
   console.log("Hello! Node.js!");
 });
