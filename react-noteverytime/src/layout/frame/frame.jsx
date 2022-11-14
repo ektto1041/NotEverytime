@@ -13,24 +13,16 @@ export const Frame = () => {
 
   return (
     <>
-<<<<<<< HEAD
-      {location.pathname == "/" || location.pathname.includes("/lecture") ? <Header /> : <></>}
-=======
       {!(
         location.pathname.includes("/login") ||
         location.pathname.includes("/register")
       ) && <Header />}
->>>>>>> b0cd112 (fix: Fix head to reveal)
       <Routes>
         <Route path="/" element={<Main />}></Route>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-<<<<<<< HEAD
-        <Route path="/lecture/:lectureId" element={<Lecture />} />
-=======
-        <Route path="/class/:classId" element={<Class />} />
+        <Route path="/class/:classId" element={<Lecture />} />
         <Route path="/post" element={<Post />} />
->>>>>>> b0cd112 (fix: Fix head to reveal)
       </Routes>
     </>
   );
