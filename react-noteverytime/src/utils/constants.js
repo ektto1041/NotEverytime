@@ -76,7 +76,49 @@ const newLecture = (() => {
   }
 })();
 
+const newSemester = (() => {
+  let id = 0;
+  return () => {
+    const semester = {
+      _id: id,
+      name: `2022-${id}학기`,
+      lectures: [
+        newLecture(),
+        newLecture(),
+        newLecture(),
+        newLecture(),
+        newLecture(),
+        newLecture(),
+      ],
+    };
+    id++;
+    return semester;
+  }
+})();
+
+const newUser = (() => {
+  let id = 0;
+  return () => {
+    const user = {
+      _id: id,
+      id: 'ajou123',
+      email: 'ajou123@ajou.ac.kr',
+      nickname: `${id}pilots`,
+      semesters: [
+        newSemester(),
+        newSemester(),
+      ]
+    };
+
+    id++;
+    return user;
+  }
+})();
+
 export const DUMMY = {
+  userList: [
+    newUser(),
+  ],
   lectureList: [
     newLecture(),
     newLecture(),

@@ -1,0 +1,9 @@
+@import '../../styles/variables.scss';
+
+.auth-semester-box-container {
+  width: 72em;
+  border: 1px solid $grey-border;
+  border-radius: 12px;
+  padding: 1em;
+  margin-bottom: 2em;
+}

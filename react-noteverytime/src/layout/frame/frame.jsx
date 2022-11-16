@@ -4,6 +4,7 @@ import { Header } from "../../components/header/header.jsx";
 import { Lecture } from "../lecture/lecture.jsx";
 import { Login } from "../login/login.jsx";
 import { Main } from "../main/main.jsx";
+import { MyPage } from "../myPage/myPage.jsx";
 import { Post } from "../post/post.jsx";
 import { Register } from "../register/register.jsx";
 import "./frame.scss";
@@ -23,6 +24,7 @@ export const Frame = () => {
         <Route path="/register" element={<Register />} />
         <Route path="/class/:classId" element={<Lecture />} />
         <Route path="/post" element={<Post />} />
+        <Route path="/mypage" element={<MyPage />} />
       </Routes>
     </>
   );

@@ -12,7 +12,7 @@ export const Main = () => {
   };
 
   return (
-    <div className='container'>
+    <div className='main-container'>
       <div className='menu'>
         <div className='title'>
           인증한 과목 커뮤니티
