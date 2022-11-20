@@ -19,7 +19,9 @@ app.use(express.json());
 app.use(express.urlencoded( {extended : false } ));
 
 const rootRouter = require('./routers/rootRouter');
+const boardRouter = require('./routers/boardRouter');
 app.use('/', rootRouter);
+app.use('/board', boardRouter);
 
 app.listen(4000, () => {
   console.log("Hello! Node.js!");

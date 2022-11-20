@@ -8,4 +8,4 @@ const lectureDetailSchema = new mongoose.Schema({
 });
 
 const lectureDetail = mongoose.model('LectureDetail', lectureDetailSchema);
-export default lectureDetail;
+module.exports = lectureDetail;

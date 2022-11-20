@@ -12,9 +12,9 @@ const isDuplicated = async (db, field) => {
 const isEmpty = (field) => field === '' || field === undefined;
 
 const postJoin = async (req, res) => {
-  const { _id, password, username, email, is_auth, profile_image } = req.body;
+  const { account_id, password, username, email, is_auth, profile_image } = req.body;
     
-  if (isEmpty(_id)) {
+  if (isEmpty(account_id)) {
     return res.status(409).send("please input id");
   } else if (isEmpty(password)) {
     return res.status(409).send("please input password");
@@ -24,7 +24,7 @@ const postJoin = async (req, res) => {
     return res.status(409).send("please input email");
   }
 
-  if (await isDuplicated(User, _id)) {
+  if (await isDuplicated(User, account_id)) {
     return res.status(409).send("id already exists");
   } else if (await isDuplicated(User, username)) {
     return res.status(409).send("username already exists");
@@ -34,7 +34,7 @@ const postJoin = async (req, res) => {
 
   try {
     await User.create({
-      _id,
+      account_id,
       password,
       username,
       email,

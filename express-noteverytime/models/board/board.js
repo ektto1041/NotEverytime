@@ -6,4 +6,4 @@ const boardSchema = new mongoose.Schema({
 });
 
 const board = mongoose.model('Board', boardSchema);
-export default board;
+module.exports = board;

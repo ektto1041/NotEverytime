@@ -6,4 +6,4 @@ const userLectureSchema = new mongoose.Schema({
 });
 
 const userLecture = mongoose.model('UserLecture', userLectureSchema);
-export default userLecture;
+module.exports = userLecture;
