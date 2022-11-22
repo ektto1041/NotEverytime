@@ -1,11 +1,12 @@
-import axios from 'axois';
+import axios from 'axios';
 
 /**
  * Instance of axios
  * 각 API 의 설정을 공통으로 설정할 수 있음
  */
 const ax = axios.create({
-  baseURL: 'http://test.com/',
+  baseURL: 'http://3.37.86.239:4000/',
+  withCredentials: true,
   // headers: { 'key': 'value' },
 });
 
@@ -28,3 +29,5 @@ const fetchUserByIdInComponents = async (userId) => {
   // setUser(response.data)
   // ...
 }
+
+export const getBoardByIdApi = (boardId) => ax.get(`/board/${boardId}/view`);

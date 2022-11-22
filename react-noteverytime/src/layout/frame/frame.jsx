@@ -22,7 +22,7 @@ export const Frame = () => {
         <Route path="/" element={<Main />}></Route>
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
-        <Route path="/class/:classId" element={<Lecture />} />
+        <Route path="/lecture/:lectureId" element={<Lecture />} />
         <Route path="/post" element={<Post />} />
         <Route path="/mypage" element={<MyPage />} />
       </Routes>
