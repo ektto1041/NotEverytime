@@ -12,6 +12,13 @@ const db = mongoose.connection;
 const handleOpen = () => console.log("Connected to DB");
 const handleError = (error) => console.log("DB Error", error);
 
+const cors = require('cors');
+const corsOptions = {
+  origin: "http://localhost:3000",
+  credentials: true
+}
+app.use(cors(corsOptions));
+
 db.on("error", handleError);
 db.once("open", handleOpen);
 
