@@ -1,7 +1,7 @@
 const Lecture = require("../models/lecture/lecture");
 const LectureDetail = require("../models/lecture/lectureDetail");
-const Board = require("../models/board/board");
-const Post = require("../models/board/post");
+const Board = require("../models/article/board");
+const Article = require("../models/article/article");
 const User = require("../models/user/user");
 const UserLecture = require("../models/user/userLecture");
 
@@ -14,7 +14,7 @@ const getBoard = async (req, res) => {
   }
   const lecture_id = board.lecture_id;
   const lecture = await Lecture.findById({ _id: lecture_id });
-  const posts = await Post.find({board_id});
+  const articles = await Article.find({board_id});
   
   // user_id를 통해서는 강의 세부 정보를 불러옴
   const user = await User.findOne({ account_id: "mcodnjs" });
@@ -30,7 +30,7 @@ const getBoard = async (req, res) => {
   lectures.map((lecture) => {
     lecture.lecture_id.equals(lecture_id) ? lecture_detail = lecture : ""
   });
-  result = { lecture, lecture_detail, posts }
+  result = { lecture, lecture_detail, articles }
   return res.send(result);
 };
 

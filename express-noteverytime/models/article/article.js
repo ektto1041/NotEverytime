@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 
-const postSchema = new mongoose.Schema({
+const articleSchema = new mongoose.Schema({
   board_id: { type: mongoose.Schema.Types.ObjectId, ref: "Board" },
   user_id: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
   title: { type: String, required: true, trim: true },
@@ -11,5 +11,5 @@ const postSchema = new mongoose.Schema({
   modified_at: { type: Date }, 
 });
 
-const post = mongoose.model('Post', postSchema);
-module.exports = post;
+const article = mongoose.model('Article', articleSchema);
+module.exports = article;
