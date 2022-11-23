@@ -6,31 +6,31 @@ const User = require("../models/user/user");
 const UserLecture = require("../models/user/userLecture");
 
 const getBoard = async (req, res) => {
-  // board_id를 통해서는 강의 정보와 게시글을 불러오고
-  const { board_id } = req.params;
-  const board = await Board.findById({ _id: board_id });
+  // boardId 통해서는 강의 정보와 게시글을 불러오고
+  const { boardId } = req.params;
+  const board = await Board.findById({ _id: boardId });
   if (!board) {
     return res.status(404).send("Board not found.");
   }
-  const lecture_id = board.lecture_id;
-  const lecture = await Lecture.findById({ _id: lecture_id });
-  const articles = await Article.find({board_id});
+  const lectureId = board.lectureId;
+  const lecture = await Lecture.findById({ _id: lectureId });
+  const articles = await Article.find({boardId});
   
-  // user_id를 통해서는 강의 세부 정보를 불러옴
-  const user = await User.findOne({ account_id: "mcodnjs" });
+  // userId 통해서는 강의 세부 정보를 불러옴
+  const user = await User.findOne({ accountId: "mcodnjs" });
   if (!user) {
     return res.status(404).send("User not found.");
   }
-  const user_lecture = await UserLecture.findOne({user_id: user._id}).populate('lecture_detail_id');
-  if (!user_lecture) {
+  const userLecture = await UserLecture.findOne({userId: user._id}).populate('lectureDetailId');
+  if (!userLecture) {
     return res.status(404).send("User's lecture not found.");
   }
-  const lectures = user_lecture.lecture_detail_id;
-  let lecture_detail;
+  const lectures = userLecture.lectureDetailId;
+  let lectureDetail;
   lectures.map((lecture) => {
-    lecture.lecture_id.equals(lecture_id) ? lecture_detail = lecture : ""
+    lecture.lectureId.equals(lectureId) ? lectureDetail = lecture : ""
   });
-  result = { lecture, lecture_detail, articles }
+  result = { lecture, lectureDetail, articles }
   return res.send(result);
 };
 
