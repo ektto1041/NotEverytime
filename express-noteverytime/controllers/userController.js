@@ -49,12 +49,29 @@ const postJoin = async (req, res) => {
 };
 
 const getLogin = async (req, res) => {
-  return res.status(200).send("login");
+  return res.status(200).send("get login");
 };
 
 const postLogin = async (req, res) => {
   const { accountId, password } = req.body;
-  return res.status(200).send("login");
+  try {
+    if (isEmpty(accountId)) {
+      throw new Error("아이디를 입력해주세요.");
+    }
+    if (isEmpty(password)) {
+      throw new Error("비밀번호를 입력해주세요.");
+    }
+    const user = await User.findOne({accountId, password});
+    if (!user) {
+      return res.status(400).send("등록되지 않은 ID 또는 PW입니다.");
+    }
+    req.session.user = user;
+    req.session.isLogined = true;
+    let session = req.session;
+    return res.status(200).send(session);
+  } catch (error) {
+    return res.status(400).send(error.message);
+  }
 };
 
 module.exports = {

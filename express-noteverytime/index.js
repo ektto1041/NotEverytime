@@ -2,6 +2,22 @@ const express = require("express");
 const app = express();
 const db = require('./db');
 require('dotenv').config();
+const session = require('express-session');
+const MongoStore = require('connect-mongo');
+
+require('dotenv').config();
+
+app.use(
+  session({
+    secret: process.env.COOKIE_SECRET,
+    resave: false,
+    saveUninitialized: false,
+    store: MongoStore.create({mongoUrl: process.env.DB_URL}),
+    cookie: {
+      maxAge: 24 * 60 * 60 * 1000,
+    }
+  })
+)
 
 const cors = require('cors');
 const corsOptions = {
