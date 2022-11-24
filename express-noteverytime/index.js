@@ -26,9 +26,9 @@ app.use(express.json());
 app.use(express.urlencoded( {extended : false } ));
 
 const rootRouter = require('./routers/rootRouter');
-const boardRouter = require('./routers/boardRouter');
+const lectureRouter = require('./routers/lectureRouter');
 app.use('/', rootRouter);
-app.use('/board', boardRouter);
+app.use('/lecture', lectureRouter);
 
 app.listen(4000, () => {
   console.log("Hello! Node.js!");
