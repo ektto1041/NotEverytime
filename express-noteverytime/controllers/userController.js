@@ -48,4 +48,17 @@ const postJoin = async (req, res) => {
   }
 };
 
-module.exports = postJoin;
+const getLogin = async (req, res) => {
+  return res.status(200).send("login");
+};
+
+const postLogin = async (req, res) => {
+  const { accountId, password } = req.body;
+  return res.status(200).send("login");
+};
+
+module.exports = {
+  postJoin,
+  getLogin,
+  postLogin
+};
