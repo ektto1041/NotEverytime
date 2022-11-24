@@ -46,7 +46,7 @@ const getLectureDetail = async (lectureId) => {
 
 const getArticles = async (lectureId, tab) => {
   // lectureId와 tab을 통해서 게시글 가져옴
-  const articles = await Article.find({lectureId, categort: tab});
+  const articles = await Article.find({lectureId, category: tab});
   return articles;
 }
 
