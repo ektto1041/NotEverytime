@@ -6,7 +6,7 @@ const UserLecture = require("../models/user/userLecture");
 
 const getBoard = async (req, res) => {
   const { lectureId } = req.params;
-  const { tab } = req.query;
+  const tab = req.query.tab || 1;
   try {
     const lecture = await getLecture(lectureId);
     const lectureDetail = await getLectureDetail(lectureId);
@@ -50,6 +50,19 @@ const getArticles = async (lectureId, tab) => {
   return articles;
 }
 
+const getArticle = async (req, res) => {
+  const articleId = req.params.articleId;
+  const article = await Article.findOne({ _id: articleId});
+  return res.status(200).send(article);
+}
+
+const postEdit = async (req, res) => {
+  const articleId = req.params.articleId;
+  const article = await Article.findOne({ _id: articleId});
+  return res.status(200).send(article);
+}
+
 module.exports = {
   getBoard,
+  getArticle,
 };
