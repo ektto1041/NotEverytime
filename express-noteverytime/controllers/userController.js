@@ -82,9 +82,29 @@ const getLogout = async (req, res) => {
   res.status(200).send("세션 삭제");
 };
 
+const getMypage = async (req, res) => {
+  if (!req.session.user) {
+    return res.status(400).send("세션 없음");
+  }
+  const userId = req.session.user._id;
+  const user = await User.findOne({userId});
+  if (!user) {
+    return res.status(400).send("등록되지 않은 ID 또는 PW입니다.");
+  }
+  return res.status(200).send({
+    "_id": user._id,
+    "accountId": user.accountId,
+    "username": user.username,
+    "email": user.email,
+    "isAuth": user.isAuth,
+    "profileImage": user.profileImage
+  });
+};
+
 module.exports = {
   postJoin,
   getLogin,
   postLogin,
-  getLogout
+  getLogout,
+  getMypage
 };
