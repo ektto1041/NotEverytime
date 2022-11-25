@@ -74,8 +74,17 @@ const postLogin = async (req, res) => {
   }
 };
 
+const getLogout = async (req, res) => {
+  if (!req.session.user) {
+    return res.status(400).send("세션 없음");
+  }
+  req.session.destroy();
+  res.status(200).send("세션 삭제");
+};
+
 module.exports = {
   postJoin,
   getLogin,
-  postLogin
+  postLogin,
+  getLogout
 };
