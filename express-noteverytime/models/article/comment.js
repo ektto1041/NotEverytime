@@ -6,6 +6,7 @@ const commentSchema = new mongoose.Schema({
   groupId: { type: mongoose.Schema.Types.ObjectId, ref: "Comment" },
   depth: { type: Number, required: true, default: 0 },
   order: { type: Number, required: true },
+  isAnonymous: { type: Boolean, required: true, default: false },
   createdAt: { type: Date },
   modifiedAt: { type: Date },
 });

@@ -8,6 +8,7 @@ const articleSchema = new mongoose.Schema({
   category: { type: Number, required: true, default: 1 },
   likeCount: { type: Number, required: true, default: 0 },
   isImage: { type: Boolean, required: true, default: false },
+  isAnonymous: { type: Boolean, required: true, default: false },
   createdAt: { type: Date },
   modifiedAt: { type: Date }, 
 });
