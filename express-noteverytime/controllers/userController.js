@@ -101,10 +101,28 @@ const getMypage = async (req, res) => {
   });
 };
 
+const editMypage = async (req, res) => {
+  if (!req.session.user) {
+    return res.status(400).send("세션 없음");
+  }
+  const userId = req.session.user._id;
+  const userUpdateInfo = req.body;
+  try {
+    const updatedUser = await User.findOneAndUpdate({_id: userId}, {
+      $set: userUpdateInfo,
+    }, { new: true }).exec();
+    req.session.user = updatedUser;
+    return res.status(200).send(updatedUser);
+  } catch (error) {
+    return res.status(400).send(error.message);
+  }
+};
+
 module.exports = {
   postJoin,
   getLogin,
   postLogin,
   getLogout,
-  getMypage
+  getMypage,
+  editMypage
 };
