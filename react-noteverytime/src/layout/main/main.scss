@@ -1,48 +1,49 @@
 @import "../../styles/variables.scss";
 
-.container {
+.main-container {
   width: 1150px;
   margin: 0 auto;
 }
 
 .menu {
   width: 100%;
-  height: 60px;
-  margin-bottom: 10px;
+
   display: flex;
+  justify-content: space-between;
   align-items: center;
 
+  margin-bottom: 1.25em;
+
   .title {
-    font-size: 28px;
-    width: 750px;
-    text-align: start;
+    height: 36px;
     color: $ajou-blue;
-    font-weight: 600;
+
+    display: flex;
+    align-items:center;
   }
 
   .controll-box {
-    width: 400px;
-    display: flex;
-    justify-content: flex-end;
+    width: 12.88em;
+    height: 2.75em;
 
-    .certify-semester-button {
-      width: 140px;
-      height: 45px;
-      border: 0;
-      border-radius: 12px;
-      background-color: $ajou-yellow;
-      font-size: 16px;
-      color: $background-first;
-      cursor: pointer;
-    }
-    
     .select-semester {
-      width: 205px;
-      height: 45px;
+      appearance: none;
+      -webkit-appearance: none; /* 사파리, 크롬 하위버전용 */
+      -moz-appearance: none; /* 사파리, 크롬 하위버전용 */
+
+      width: 100%;
+      height: 100%;
       border: 1px solid $grey-border;
       border-radius: 12px;
-      padding-left: 20px;
-      margin-left: 20px;
+      
+      padding-left: 1.50em;
+      padding-right: 1.00em;
+      color: $text-grey;
+
+      background-image: url('../../../public/images/Icon_DownArrow.svg');
+      background-repeat: no-repeat;
+      background-position: calc(100% - 16px) center;
+      
       cursor: pointer;
     }
   }
@@ -52,5 +53,5 @@
   width: 100%;
   display: flex;
   flex-wrap: wrap;
-  justify-content: flex-start;
+  justify-content: space-between;
 }

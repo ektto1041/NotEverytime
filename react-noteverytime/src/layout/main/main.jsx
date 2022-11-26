@@ -12,16 +12,13 @@ export const Main = () => {
   };
 
   return (
-    <div className='container'>
+    <div className='main-container'>
       <div className='menu'>
-        <div className='title'>
-          인증한 과목 커뮤니티
+        <div className='h5 title'>
+          인증한 수강 과목 게시판
         </div>
         <div className='controll-box'>
-          <button className='certify-semester-button'>
-            수강학기 인증
-          </button>
-          <select className='select-semester' value={semester} onChange={handleSelectSemester}>
+          <select className='p3 select-semester' value={semester} onChange={handleSelectSemester}>
             <option value="2022-2">2022-2학기</option>
             <option value="2022-3">2022-3학기</option>
             <option value="2022-4">2022-4학기</option>
