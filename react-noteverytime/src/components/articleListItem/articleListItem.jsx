@@ -15,7 +15,7 @@ export const ArticleListItem = ({
 
   return (
     <div className='article-item-container'>
-      <div className={`article-info ${isImage ? 'with-thumbnail' : ''}`}>
+      <div className={`article-info`}>
         <div className='article-title'>
           {title}
         </div>
@@ -32,11 +32,11 @@ export const ArticleListItem = ({
           </div>
           <div className='article-icons'>
             <div className='comments'>
-              <img src="/images/comment.svg" alt='comment' />
+              <img src="/images/Icon_Thumb up.svg" width='24px' height='24px' alt='comment' />
               3
             </div>
             <div className='images'>
-              <img src="/images/image_icon.svg" alt='image' />
+              <img src="/images/Icon_Chat.svg" width='24px' height='24px' alt='image' />
               {likeCount}
             </div>
           </div>

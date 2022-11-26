@@ -6,7 +6,7 @@ const newArticle = (() => {
       lectureId,
       userId: '637f14045732f3b44bc163a1',
       title: `제목 ${id}`,
-      content: Array.from({length: 20}, i => `내용 ${id} `).join(''),
+      content: Array.from({length: 40}, i => `내용 ${id} `).join(''),
       category,
       likeCount: id,
       isImage,
@@ -49,3 +49,11 @@ export const DUMMY = {
     newLecture(),
   ],
 };
+
+export const CATEGORIES = [
+  '0은 묵음',
+  '자유게시판',
+  '선배의 팁 게시판',
+  '과제 Q&A 게시판',
+  '팀원 모집 게시판',
+]

@@ -30,6 +30,22 @@ const fetchUserByIdInComponents = async (userId) => {
   // ...
 }
 
+/**
+ * 로그인 API
+ * @param {{accountId: String, password: String}} loginData 로그인에 필요한 데이터
+ */
 export const loginApi = (loginData) => ax.post('/login', loginData);
 
+/**
+ * 특정 강의의 특정 게시판 글들을 가져오는 API
+ * @param {String} lectureId 가져오려는 강의의 id
+ * @param {Number} tab 가져오려는 게시판 카테고리 id
+ */
 export const getLectureByIdApi = (lectureId, tab) => ax.get(`/lecture/${lectureId}/view?tab=${tab}`);
+
+/**
+ * 글 검색 API
+ * @param {String} lectureId 검색을 하려는 대상 강의의 id
+ * @param {String} keyword 검색어
+ */
+export const searchArticles = (lectureId, keyword) => ax.get(`/lecture/${lectureId}/articles/search?keyword=${keyword}`);

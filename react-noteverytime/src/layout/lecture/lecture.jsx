@@ -3,11 +3,14 @@ import { useCallback } from 'react';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { BoardButton } from '../../components/boardButton/boardButton';
 import { ArticleListItem } from '../../components/articleListItem/articleListItem';
-import { getLectureByIdApi, loginApi } from '../../utils/api';
+import { getLectureByIdApi, loginApi, searchArticles } from '../../utils/api';
 import { DUMMY } from '../../utils/constants';
 import './lecture.scss';
+import { CategoryButtonBox } from '../../components/categoryButtonBox/categoryButtonBox';
+
+// TODO 페이지 사이즈 결정 필요
+const PAGE_SIZE = Math.ceil(window.innerHeight / 150);
 
 export const Lecture = () => {
   const params = useParams();
@@ -15,8 +18,9 @@ export const Lecture = () => {
   const [lecture, setLecture] = useState({});                 // 강의에 대한 정보
   const [selectedCategoryId, setSelectedCategoryId] = useState(0);  // 선택한 카테고리
   const [articleList, setArticleList] = useState([]);         // 선택한 카테고리에 속한 글 리스트
+  const [searchText, setSearchText] = useState('');           // 검색어
 
-  const getLectureById = useCallback(async (tab) => {
+  const getLectureById = useCallback(async (tab, page = 0, size = PAGE_SIZE) => {
     // TODO 임시 로그인
     const login = await loginApi({accountId: "mcodnjs", password: "aaaa"});
 
@@ -32,21 +36,19 @@ export const Lecture = () => {
       const newLecture = {
         id: response.data.lecture._id,
         subjectId: response.data.lecture.lectureSubjectId,
-        code: response.data.lecture_detail.lectureCode,
+        code: response.data.lectureDetail.lectureCode,
         name: response.data.lecture.lectureName,
         professor: response.data.lecture.lectureProfessor,
-        semester: response.data.lecture_detail.lectureSemester,
-        times: response.data.lecture_detail.lectureTime,
+        semester: response.data.lectureDetail.lectureSemester,
+        times: response.data.lectureDetail.lectureTime,
         articles: response.data.articles,
       };
   
       setLecture(newLecture);
-      // setArticleList(response.data.articles?.filter(article => article.category === tab));
     } catch(err) {
       console.log(err);
 
       setLecture(DUMMY.lectureList[0]);
-      // setArticleList(DUMMY.lectureList[0].articles?.filter(article => article.category === tab));
     }
   }, []);
 
@@ -64,6 +66,20 @@ export const Lecture = () => {
   useEffect(() => {
     setArticleList(lecture.articles?.filter(article => article.category === selectedCategoryId));
   }, [lecture, selectedCategoryId]);
+
+  /**
+   * Article 검색
+   */
+  const handleSearchClick = useCallback(async (e) => {
+    e.preventDefault();
+
+    const response = await searchArticles(lecture.id, searchText);
+
+    console.log("# 글 검색 결과")
+    console.log(response);
+
+    // TODO 검색 처리
+  }, [lecture, searchText]);
 
   return (
     <div className='lecture-container'>
@@ -91,14 +107,14 @@ export const Lecture = () => {
             ))}
           </div>
         </div>
+        <CategoryButtonBox selectedCategoryId={selectedCategoryId} setSelectedCategoryId={setSelectedCategoryId} />
       </div>
       <div className='board'>
         <div className='board-menu'>
-          <BoardButton categoryId={1} selectedCategoryId={selectedCategoryId} setSelectedCategoryId={setSelectedCategoryId}>자유게시판</BoardButton>
-          <BoardButton categoryId={2} selectedCategoryId={selectedCategoryId} setSelectedCategoryId={setSelectedCategoryId}>선배의 팁 게시판</BoardButton>
+          <form onSubmit={handleSearchClick}>
+            <input type='text' placeholder='게시물 검색' value={searchText} onChange={(e) => setSearchText(e.target.value)} />
+          </form>
           <button className='write-button' ><img src="/images/pen.svg" alt="pen" /></button>
-          <BoardButton categoryId={3} selectedCategoryId={selectedCategoryId} setSelectedCategoryId={setSelectedCategoryId}>과제 Q&A 게시판</BoardButton>
-          <BoardButton categoryId={4} selectedCategoryId={selectedCategoryId} setSelectedCategoryId={setSelectedCategoryId}>팀원 모집 게시판</BoardButton>
         </div>
         <div className='article-list'>
           {articleList?.map(article => (

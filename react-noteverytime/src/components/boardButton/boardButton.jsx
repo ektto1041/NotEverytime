@@ -1,4 +1,5 @@
 import React from 'react';
+import { CATEGORIES } from '../../utils/constants';
 import './boardButton.scss';
 
 export const BoardButton = ({
@@ -8,9 +9,14 @@ export const BoardButton = ({
   children,
 }) => {
   return (
-    <button
-      className={`board-button ${categoryId === selectedCategoryId ? 'selected' : ''}`}
-      onClick={() => setSelectedCategoryId(categoryId)}
-    >{children}</button>
+    <>
+      {CATEGORIES?.map((category, i) => i === 0 ? (<></>) : (
+        <button
+          className={`category-button ${categoryId === selectedCategoryId ? 'selected' : ''}`}
+          onClick={() => setSelectedCategoryId(categoryId)}
+        >category</button>
+      ))}
+    </>
+    
   );
 };

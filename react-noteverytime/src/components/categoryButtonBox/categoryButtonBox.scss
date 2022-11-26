@@ -1,0 +1,34 @@
+@import '../../styles/variables.scss';
+
+.category-button-box-container {
+  width: 15em;
+  border-radius: 12px;
+  overflow: hidden;
+  margin-top: 1em;
+  border: 1px solid $grey-border;
+}
+
+.selected {
+  border: 0;
+  background-color: $ajou-yellow;
+  color: white;
+}
+
+.category-button-box-container .category-button {
+  width: 100%;
+  height: 3em;
+  padding: 1em;
+  border: 0;
+  background-color: white;
+  color: $text-dark;
+  cursor: pointer;
+
+  &:hover {
+    background-color: rgba($ajou-yellow, .5) ;
+  }
+}
+
+.category-button-box-container .selected {
+  background-color: $ajou-yellow;
+  color: white;
+}

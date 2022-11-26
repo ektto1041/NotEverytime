@@ -15,24 +15,22 @@
 
     .info-title {
       color: $text-grey;
-      font-size: 1em;
       margin-bottom: 0.5em;
     }
     
     .info-content {
-      font-size: 1.2em;
       color: $text-dark;
     }
     
     .semester-box {
       border: 1px solid $grey-border;
-      border-radius: .75em;
-      padding: 1.5em;
+      border-radius: 12px;
+      padding: 1em;
     }
 
     .detail-info {
-      margin-top: 1.2em;
-      padding: 1.5em;
+      margin-top: 1em;
+      padding: 1em;
       border: 1px solid $grey-border;
       border-radius: 12px;
 
@@ -43,7 +41,7 @@
       }
 
       .info-item {
-        margin-top: 1.2em;
+        margin-top: 1em;
       }
     }
   }
@@ -53,19 +51,34 @@
     width: 44em;
 
     .board-menu {
-      width: 100%;
+      width: 44em;
       display: flex;
       justify-content: space-between;
-      margin-bottom: 1.2em;
+      column-gap: 1em;
+      margin-bottom: 1em;
+      font-size: 1em;
 
-      button {
+      form {
+        width: 100%;
+      }
+
+      input {
+        width: 100%;
+        background-image: url("../../../public/images/Icon_Search.svg");
+        background-repeat: no-repeat;
+        background-position: 1em center;
+        background-size: 2em;
         border-radius: 12px;
-        cursor: pointer;
+        border: 1px solid $grey-border;
+        padding: 1em;
+        padding-left: 4em;
+        font-size: 1em;
       }
 
       .write-button {
-        width: 5em;
-        height: 3.6em;
+        border-radius: 12px;
+        cursor: pointer;
+        width: 7.5em;
         background-color: $ajou-blue;
         border: 0;
         display: flex;
