@@ -4,49 +4,66 @@ import { useEffect } from 'react';
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { BoardButton } from '../../components/boardButton/boardButton';
-import { PostItem } from '../../components/postItem/postItem';
-import { getBoardByIdApi, getLectureByIdApi } from '../../utils/api';
+import { ArticleListItem } from '../../components/articleListItem/articleListItem';
+import { getLectureByIdApi, loginApi } from '../../utils/api';
 import { DUMMY } from '../../utils/constants';
 import './lecture.scss';
 
 export const Lecture = () => {
   const params = useParams();
 
-  const [lecture, setLecture] = useState({});
-  const [selectedBoardId, setSelectedBoardId] = useState(0);
-  const [postList, setPostList] = useState([]);
+  const [lecture, setLecture] = useState({});                 // 강의에 대한 정보
+  const [selectedCategoryId, setSelectedCategoryId] = useState(0);  // 선택한 카테고리
+  const [articleList, setArticleList] = useState([]);         // 선택한 카테고리에 속한 글 리스트
 
-  const getBoardById = useCallback(async () => {
+  const getLectureById = useCallback(async (tab) => {
+    // TODO 임시 로그인
+    const login = await loginApi({accountId: "mcodnjs", password: "aaaa"});
+
+    console.log(login);
+
     // TODO 실제 데이터 추가
-    const response = await getLectureByIdApi('637f14045732f3b44bc163a2', 1);
+    try {
+      const response = await getLectureByIdApi('637f14045732f3b44bc163a2', tab);
 
-    console.log(response);
+      console.log('# 강의/게시판 가져온 결과');
+      console.log(response);
 
-    const newLecture = {
-      id: response.data.lecture._id,
-      subjectId: response.data.lecture.lecture_subject_id,
-      code: response.data.lecture_detail.lecture_code,
-      name: response.data.lecture.lecture_name,
-      professor: response.data.lecture.lecture_professor,
-      semester: response.data.lecture_detail.lecture_semester,
-      times: response.data.lecture_detail.lecture_time,
-    };
+      const newLecture = {
+        id: response.data.lecture._id,
+        subjectId: response.data.lecture.lectureSubjectId,
+        code: response.data.lecture_detail.lectureCode,
+        name: response.data.lecture.lectureName,
+        professor: response.data.lecture.lectureProfessor,
+        semester: response.data.lecture_detail.lectureSemester,
+        times: response.data.lecture_detail.lectureTime,
+        articles: response.data.articles,
+      };
+  
+      setLecture(newLecture);
+      // setArticleList(response.data.articles?.filter(article => article.category === tab));
+    } catch(err) {
+      console.log(err);
 
-    setLecture(newLecture);
-    setPostList(response.data.posts);
-    console.log(newLecture);
+      setLecture(DUMMY.lectureList[0]);
+      // setArticleList(DUMMY.lectureList[0].articles?.filter(article => article.category === tab));
+    }
   }, []);
 
+  /**
+   * 처음 페이지가 로딩되면 강의 정보와 해당 강의의 1 category 게시판 글들이 불러와짐
+   */
   useEffect(() => {
-    getBoardById();
-
-    setLecture(DUMMY.lectureList[params.lectureId]);
-    setSelectedBoardId(0);
+    setSelectedCategoryId(1);
+    getLectureById(1);
   }, [params]);
 
-  // useEffect(() => {
-  //   setPostList(lecture.boardList[selectedBoardId].postList);
-  // }, [lecture, selectedBoardId]);
+  /**
+   * 선택한 게시판이 바뀌면 articleList 가 변함
+   */
+  useEffect(() => {
+    setArticleList(lecture.articles?.filter(article => article.category === selectedCategoryId));
+  }, [lecture, selectedCategoryId]);
 
   return (
     <div className='lecture-container'>
@@ -77,15 +94,15 @@ export const Lecture = () => {
       </div>
       <div className='board'>
         <div className='board-menu'>
-          <BoardButton boardId={0} selectedBoardId={selectedBoardId} setBoardId={setSelectedBoardId}>자유게시판</BoardButton>
-          <BoardButton boardId={1} selectedBoardId={selectedBoardId} setBoardId={setSelectedBoardId}>선배의 팁 게시판</BoardButton>
+          <BoardButton categoryId={1} selectedCategoryId={selectedCategoryId} setSelectedCategoryId={setSelectedCategoryId}>자유게시판</BoardButton>
+          <BoardButton categoryId={2} selectedCategoryId={selectedCategoryId} setSelectedCategoryId={setSelectedCategoryId}>선배의 팁 게시판</BoardButton>
           <button className='write-button' ><img src="/images/pen.svg" alt="pen" /></button>
-          <BoardButton boardId={2} selectedBoardId={selectedBoardId} setBoardId={setSelectedBoardId}>과제 Q&A 게시판</BoardButton>
-          <BoardButton boardId={3} selectedBoardId={selectedBoardId} setBoardId={setSelectedBoardId}>팀원 모집 게시판</BoardButton>
+          <BoardButton categoryId={3} selectedCategoryId={selectedCategoryId} setSelectedCategoryId={setSelectedCategoryId}>과제 Q&A 게시판</BoardButton>
+          <BoardButton categoryId={4} selectedCategoryId={selectedCategoryId} setSelectedCategoryId={setSelectedCategoryId}>팀원 모집 게시판</BoardButton>
         </div>
-        <div className='post-list'>
-          {postList?.map(post => (
-            <PostItem key={post._id} post={post} />
+        <div className='article-list'>
+          {articleList?.map(article => (
+            <ArticleListItem key={article.id} article={article} />
           ))}
         </div>
       </div>

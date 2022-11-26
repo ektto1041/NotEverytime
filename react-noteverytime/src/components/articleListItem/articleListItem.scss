@@ -1,6 +1,6 @@
 @import '../../styles/variables.scss';
 
-.post-item-container {
+.article-item-container {
   width: 42em;
   height: 7.75em;
   margin-left: 1em;
@@ -10,21 +10,21 @@
   border-bottom: 1px solid $grey-border;
   display: flex;
 
-  .post-info {
+  .article-info {
     width: 100%;
     height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
 
-    .post-title {
+    .article-title {
       width: 100%;
       font-size: 1em;
       color: $text-dark;
       text-align: start;
     }
 
-    .post-preview {
+    .article-preview {
       width: 100%;
       font-size: 1em;
       height: 2.5em;
@@ -33,27 +33,27 @@
       overflow: hidden;
     }
 
-    .post-data {
+    .article-data {
       width: 100%;
       height: 1.5em;
       display: flex;
       position: relative;
 
-      .post-created-at {
+      .article-created-at {
         height: 100%;
         line-height: 1.5em;
         font-size: 0.8em;
         color: $text-grey;
       }
 
-      .post-writer {
+      .article-writer {
         height: 100%;
         line-height: 1.5em;
         font-size: .8em;
         color: $text-grey;
       }
 
-      .post-icons {
+      .article-icons {
         display: flex;
         height: 1.5em;
         position: absolute;

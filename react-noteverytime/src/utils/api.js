@@ -30,4 +30,6 @@ const fetchUserByIdInComponents = async (userId) => {
   // ...
 }
 
+export const loginApi = (loginData) => ax.post('/login', loginData);
+
 export const getLectureByIdApi = (lectureId, tab) => ax.get(`/lecture/${lectureId}/view?tab=${tab}`);

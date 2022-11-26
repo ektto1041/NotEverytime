@@ -2,15 +2,15 @@ import React from 'react';
 import './boardButton.scss';
 
 export const BoardButton = ({
-  boardId,
-  selectedBoardId,
-  setBoardId,
+  categoryId,
+  selectedCategoryId,
+  setSelectedCategoryId,
   children,
 }) => {
   return (
     <button
-      className={`board-button ${boardId === selectedBoardId ? 'selected' : ''}`}
-      onClick={() => setBoardId(boardId)}
+      className={`board-button ${categoryId === selectedCategoryId ? 'selected' : ''}`}
+      onClick={() => setSelectedCategoryId(categoryId)}
     >{children}</button>
   );
 };

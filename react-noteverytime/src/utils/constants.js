@@ -1,127 +1,51 @@
-const newPost = (() => {
+const newArticle = (() => {
   let id = 0;
-  return () => {
-    const post = {
-      _id: id,
-      user: 'Park',
-      title: `아주대 정말 최고입니다. ${id}`,
-      content: Array.from({length: 10}, (v, i) => "웹시스템설계를 수강하게 되어 정말 다행입니다. ").join(),
-      createdAt: "2022-11-13",
-      modifiedAt: "2022-11-13",
-      isImage: true,
-    }
-
+  return (lectureId, category = 1, isImage = false, isAnonymous = true) => {
+    const article = {
+      id: id,
+      lectureId,
+      userId: '637f14045732f3b44bc163a1',
+      title: `제목 ${id}`,
+      content: Array.from({length: 20}, i => `내용 ${id} `).join(''),
+      category,
+      likeCount: id,
+      isImage,
+      isAnonymous,
+      createdAt: '2022-11-20T14:10:30.000Z',
+      modifiedAt: '2022-11-20T14:10:30.000Z',
+    };
     id++;
-
-    return post;
-  }
+    return article;
+  };
 })();
 
 const newLecture = (() => {
   let id = 0;
   return () => {
     const lecture = {
-      _id: id,
-      lectureName: `강의 ${id}`,
-      lectureSemester: '2022-2',
-      lectureCode: `F00${id}`,
-      professor: '부블레',
-      lectureTimes: [
-        '월 09:00 ~ 10:30',
-        '수 09:00 ~ 10:30',
+      id: id,
+      subjectId: `SCE${id}`,
+      code: `F065-${id}`,
+      name: '웹시스템설계',
+      professor: '오상윤',
+      semester: '2022-2',
+      times: [
+        '월 09:00~10:30',
       ],
-      boardList: [
-        {   // index 0 board
-          postList: [
-            newPost(),
-            newPost(),
-            newPost(),
-            newPost(),
-            newPost(),
-          ]
-        },
-        {   // index 1 board
-          postList: [
-            newPost(),
-            newPost(),
-            newPost(),
-            newPost(),
-            newPost(),
-          ]
-        },
-        {   // index 2 board
-          postList: [
-            newPost(),
-            newPost(),
-            newPost(),
-            newPost(),
-            newPost(),
-          ]
-        },
-        {   // index 3 board
-          postList: [
-            newPost(),
-            newPost(),
-            newPost(),
-            newPost(),
-            newPost(),
-          ]
-        }
+      articles: [
+        newArticle(id),
+        newArticle(id),
+        newArticle(id, 1, true),
+        newArticle(id),
       ],
-    }
-
+    };
     id++;
-
     return lecture;
   }
 })();
 
-const newSemester = (() => {
-  let id = 0;
-  return () => {
-    const semester = {
-      _id: id,
-      name: `2022-${id}학기`,
-      lectures: [
-        newLecture(),
-        newLecture(),
-        newLecture(),
-        newLecture(),
-        newLecture(),
-        newLecture(),
-      ],
-    };
-    id++;
-    return semester;
-  }
-})();
-
-const newUser = (() => {
-  let id = 0;
-  return () => {
-    const user = {
-      _id: id,
-      id: 'ajou123',
-      email: 'ajou123@ajou.ac.kr',
-      nickname: `${id}pilots`,
-      semesters: [
-        newSemester(),
-        newSemester(),
-      ]
-    };
-
-    id++;
-    return user;
-  }
-})();
-
 export const DUMMY = {
-  userList: [
-    newUser(),
-  ],
   lectureList: [
     newLecture(),
-    newLecture(),
-    newLecture(),
   ],
-}
+};

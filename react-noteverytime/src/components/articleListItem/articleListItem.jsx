@@ -1,47 +1,48 @@
 import React from 'react';
-import './postItem.scss';
+import './articleListItem.scss';
 
-export const PostItem = ({
-  post,
+export const ArticleListItem = ({
+  article,
 }) => {
   const {
     title,
     content,
     createdAt,
-    user,
-    is_image,
-  } = post;
+    userId,
+    likeCount,
+    isImage,
+  } = article;
 
   return (
-    <div className='post-item-container'>
-      <div className={`post-info ${is_image ? 'with-thumbnail' : ''}`}>
-        <div className='post-title'>
+    <div className='article-item-container'>
+      <div className={`article-info ${isImage ? 'with-thumbnail' : ''}`}>
+        <div className='article-title'>
           {title}
         </div>
-        <div className='post-preview'>
+        <div className='article-preview'>
           {/* {content.length > 70 ? content.substring(0, 70) + "..." : content} */}
           {content}
         </div>
-        <div className='post-data'>
-          <div className='post-created-at'>
+        <div className='article-data'>
+          <div className='article-created-at'>
             {createdAt}
           </div>
-          <div className='post-writer'>
-            {user}
+          <div className='article-writer'>
+            {userId}
           </div>
-          <div className='post-icons'>
+          <div className='article-icons'>
             <div className='comments'>
               <img src="/images/comment.svg" alt='comment' />
               3
             </div>
             <div className='images'>
               <img src="/images/image_icon.svg" alt='image' />
-              2
+              {likeCount}
             </div>
           </div>
         </div>
       </div>
-      {is_image ? (
+      {isImage ? (
         <div className='thumbnail'>
           {/* mr 24, 124*124 */}
         </div>
