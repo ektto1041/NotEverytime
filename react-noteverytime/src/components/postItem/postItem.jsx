@@ -9,12 +9,12 @@ export const PostItem = ({
     content,
     createdAt,
     user,
-    isImage,
+    is_image,
   } = post;
 
   return (
     <div className='post-item-container'>
-      <div className={`post-info ${isImage ? 'with-thumbnail' : ''}`}>
+      <div className={`post-info ${is_image ? 'with-thumbnail' : ''}`}>
         <div className='post-title'>
           {title}
         </div>
@@ -41,7 +41,7 @@ export const PostItem = ({
           </div>
         </div>
       </div>
-      {isImage ? (
+      {is_image ? (
         <div className='thumbnail'>
           {/* mr 24, 124*124 */}
         </div>

@@ -5,7 +5,7 @@ import axios from 'axios';
  * 각 API 의 설정을 공통으로 설정할 수 있음
  */
 const ax = axios.create({
-  baseURL: 'http://3.37.86.239:4000/',
+  baseURL: process.env.REACT_APP_SERVER_URL,
   withCredentials: true,
   // headers: { 'key': 'value' },
 });
@@ -30,4 +30,4 @@ const fetchUserByIdInComponents = async (userId) => {
   // ...
 }
 
-export const getBoardByIdApi = (boardId) => ax.get(`/board/${boardId}/view`);
+export const getLectureByIdApi = (lectureId, tab) => ax.get(`/lecture/${lectureId}/view?tab=${tab}`);
