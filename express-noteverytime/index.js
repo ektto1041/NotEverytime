@@ -15,11 +15,13 @@ app.use(
     store: MongoStore.create({mongoUrl: process.env.DB_URL}),
     cookie: {
       maxAge: 24 * 60 * 60 * 1000,
+      sameSite: 'none', 
+      secure: true
     }
   })
 )
 
-app.all('/*', function(req, res, next) {
+app.all('/*', (req, res, next) => {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "X-Requested-With");
   next();
