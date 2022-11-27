@@ -1,0 +1,34 @@
+@import "../../styles/variables.scss";
+
+.reply {
+  display: flex;
+  border-top: solid 1px $grey-border;
+  flex-direction: column;
+  width: 90%;
+  align-items: center;
+  margin: 1em 0;
+
+  .reply-top {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    height: 2em;
+    margin: 0.5em 0;
+    .info {
+      display: flex;
+      .reply-writer {
+        white-space: nowrap;
+        align-self: center;
+        padding: 0 0.5em;
+      }
+      .date {
+        white-space: nowrap;
+        align-self: center;
+      }
+    }
+  }
+  .reply-content {
+    text-align: left;
+    width: 100%;
+  }
+}

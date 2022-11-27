@@ -9,7 +9,7 @@ export const Post = () => {
   };
 
   return (
-    <div className="container">
+    <div className="post-container">
       <div className="top">
         <div className="logo">글 작성</div>
         <button className="post-button">글 작성하기</button>

@@ -1,3 +1,8 @@
+<<<<<<< HEAD
 <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
 <path d="M4.01333 30L32 18L4.01333 6L4 15.3333L24 18L4 20.6667L4.01333 30Z" fill="#0465B0"/>
+=======
+<svg width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M3.1217 23.3337L24.8891 14.0003L3.1217 4.66699L3.11133 11.9263L18.6669 14.0003L3.11133 16.0744L3.1217 23.3337Z" fill="#0465B0"/>
+>>>>>>> af26658 (feat: Add article-page)
 </svg>
