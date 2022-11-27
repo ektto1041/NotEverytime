@@ -1,0 +1,19 @@
+@import "../../styles/variables.scss";
+
+.reply-input-container {
+  width: 100%;
+  display: flex;
+  align-self: flex-end;
+  align-items: center;
+  border: 1px solid $grey-border;
+  border-radius: 12px;
+  padding: 0.25em 1em;
+  margin: 0.5em 0em;
+  .reply-input {
+    width: 100%;
+    border: none;
+  }
+  .checkbox {
+    border: 1px solid $ajou-blue;
+  }
+}
