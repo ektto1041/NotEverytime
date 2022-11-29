@@ -12,7 +12,7 @@ export const Main = () => {
   };
 
   return (
-    <div className='main-container'>
+    <div className='main-Container'>
       <div className='menu'>
         <div className='h5 title'>
           인증한 수강 과목 게시판
@@ -26,41 +26,41 @@ export const Main = () => {
         </div>
       </div>
       <div className='grid-box'>
-        <ClassItem className="인공지능" previewList={[
-          { title: "해야할 것 모음집(22-2) 개강하면서 생각해...", createdAt: '10-16' },
-          { title: "해야할 것 모음집(22-2) 개강하면서 생각해...", createdAt: '10-16' },
-          { title: "해야할 것 모음집(22-2) 개강하면서 생각해...", createdAt: '10-16' },
-          { title: "해야할 것 모음집(22-2) 개강하면서 생각해...", createdAt: '10-16' },
+        <ClassItem className="인공지능인공지능인공지능인공지능" previewList={[
+          { title: "해야할 것 모음집(22-2) 개강하면서 생각해보면 좋을 여러가지 이야기", createdAt: '10-16' },
+          { title: "해야할 것 모음집(22-2) 개강하면서 생각해보면 좋을 여러가지 이야기", createdAt: '10-16' },
+          { title: "해야할 것 모음집(22-2) 개강하면서 생각해보면 좋을 여러가지 이야기", createdAt: '10-16' },
+          { title: "해야할 것 모음집(22-2) 개강하면서 생각해보면 좋을 여러가지 이야기", createdAt: '10-16' },
         ]} />
         <ClassItem className="인공지능" previewList={[
-          { title: "해야할 것 모음집(22-2) 개강하면서 생각해...", createdAt: '10-16' },
-          { title: "해야할 것 모음집(22-2) 개강하면서 생각해...", createdAt: '10-16' },
-          { title: "해야할 것 모음집(22-2) 개강하면서 생각해...", createdAt: '10-16' },
-          { title: "해야할 것 모음집(22-2) 개강하면서 생각해...", createdAt: '10-16' },
+          { title: "해야할 것 모음집(22-2) 개강하면서 생각해보면 좋을 여러가지 이야기", createdAt: '10-16' },
+          { title: "해야할 것 모음집(22-2) 개강하면서 생각해보면 좋을 여러가지 이야기", createdAt: '10-16' },
+          { title: "해야할 것 모음집(22-2) 개강하면서 생각해보면 좋을 여러가지 이야기", createdAt: '10-16' },
+          { title: "해야할 것 모음집(22-2) 개강하면서 생각해보면 좋을 여러가지 이야기", createdAt: '10-16' },
         ]} />
         <ClassItem className="인공지능" previewList={[
-          { title: "해야할 것 모음집(22-2) 개강하면서 생각해...", createdAt: '10-16' },
-          { title: "해야할 것 모음집(22-2) 개강하면서 생각해...", createdAt: '10-16' },
-          { title: "해야할 것 모음집(22-2) 개강하면서 생각해...", createdAt: '10-16' },
-          { title: "해야할 것 모음집(22-2) 개강하면서 생각해...", createdAt: '10-16' },
+          { title: "해야할 것 모음집(22-2) 개강하면서 생각해보면 좋을 여러가지 이야기", createdAt: '10-16' },
+          { title: "해야할 것 모음집(22-2) 개강하면서 생각해보면 좋을 여러가지 이야기", createdAt: '10-16' },
+          { title: "해야할 것 모음집(22-2) 개강하면서 생각해보면 좋을 여러가지 이야기", createdAt: '10-16' },
+          { title: "해야할 것 모음집(22-2) 개강하면서 생각해보면 좋을 여러가지 이야기", createdAt: '10-16' },
         ]} />
         <ClassItem className="인공지능" previewList={[
-          { title: "해야할 것 모음집(22-2) 개강하면서 생각해...", createdAt: '10-16' },
-          { title: "해야할 것 모음집(22-2) 개강하면서 생각해...", createdAt: '10-16' },
-          { title: "해야할 것 모음집(22-2) 개강하면서 생각해...", createdAt: '10-16' },
-          { title: "해야할 것 모음집(22-2) 개강하면서 생각해...", createdAt: '10-16' },
+          { title: "해야할 것 모음집(22-2) 개강하면서 생각해보면 좋을 여러가지 이야기", createdAt: '10-16' },
+          { title: "해야할 것 모음집(22-2) 개강하면서 생각해보면 좋을 여러가지 이야기", createdAt: '10-16' },
+          { title: "해야할 것 모음집(22-2) 개강하면서 생각해보면 좋을 여러가지 이야기", createdAt: '10-16' },
+          { title: "해야할 것 모음집(22-2) 개강하면서 생각해보면 좋을 여러가지 이야기", createdAt: '10-16' },
         ]} />
         <ClassItem className="인공지능" previewList={[
-          { title: "해야할 것 모음집(22-2) 개강하면서 생각해...", createdAt: '10-16' },
-          { title: "해야할 것 모음집(22-2) 개강하면서 생각해...", createdAt: '10-16' },
-          { title: "해야할 것 모음집(22-2) 개강하면서 생각해...", createdAt: '10-16' },
-          { title: "해야할 것 모음집(22-2) 개강하면서 생각해...", createdAt: '10-16' },
+          { title: "해야할 것 모음집(22-2) 개강하면서 생각해보면 좋을 여러가지 이야기", createdAt: '10-16' },
+          { title: "해야할 것 모음집(22-2) 개강하면서 생각해보면 좋을 여러가지 이야기", createdAt: '10-16' },
+          { title: "해야할 것 모음집(22-2) 개강하면서 생각해보면 좋을 여러가지 이야기", createdAt: '10-16' },
+          { title: "해야할 것 모음집(22-2) 개강하면서 생각해보면 좋을 여러가지 이야기", createdAt: '10-16' },
         ]} />
         <ClassItem className="인공지능" previewList={[
-          { title: "해야할 것 모음집(22-2) 개강하면서 생각해...", createdAt: '10-16' },
-          { title: "해야할 것 모음집(22-2) 개강하면서 생각해...", createdAt: '10-16' },
-          { title: "해야할 것 모음집(22-2) 개강하면서 생각해...", createdAt: '10-16' },
-          { title: "해야할 것 모음집(22-2) 개강하면서 생각해...", createdAt: '10-16' },
+          { title: "해야할 것 모음집(22-2) 개강하면서 생각해보면 좋을 여러가지 이야기", createdAt: '10-16' },
+          { title: "해야할 것 모음집(22-2) 개강하면서 생각해보면 좋을 여러가지 이야기", createdAt: '10-16' },
+          { title: "해야할 것 모음집(22-2) 개강하면서 생각해보면 좋을 여러가지 이야기", createdAt: '10-16' },
+          { title: "해야할 것 모음집(22-2) 개강하면서 생각해보면 좋을 여러가지 이야기", createdAt: '10-16' },
         ]} />
       </div>
     </div>

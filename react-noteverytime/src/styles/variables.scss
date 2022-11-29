@@ -25,11 +25,6 @@ $tablet: 1024px;
     align-items: center;
 }
 
-@mixin bodyContainer() {
-    width: 100%;
-    @include flexCenter();
-}
-
 @mixin containerBorderStyle() {
     border: 1px solid $grey-border;
     border-radius: 12px;
