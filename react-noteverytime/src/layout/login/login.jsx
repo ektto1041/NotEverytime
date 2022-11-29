@@ -1,6 +1,8 @@
 import React from "react";
 import { useState } from "react";
 import "./login.scss";
+import "../../styles/variables.scss"
+import { InputContainer, FulledButton } from "../../components/globalComponents/globalComponent.jsx";
 
 export const Login = () => {
   const [email, setEmail] = useState("");
@@ -17,29 +19,29 @@ export const Login = () => {
   };
 
   return (
-    <div className="login-container">
-      <div className="wrapper">
-        <div className="login-box">
-          <div className="logo">NotEverytimex</div>
-          <input
-            className="input"
+    <div className="login-Container">
+      <div className="login-Box">
+        <img className="logo" src="/images/Logo.svg"/>
+
+        <div className="">
+          <InputContainer
             type="text"
             placeholder="이메일"
             value={email}
             onChange={handleEmailChange}
           />
-          <input
-            className="input"
+          <InputContainer
             type="password"
             placeholder="비밀번호"
             value={password}
             onChange={handlePasswordChange}
           />
-          <button className="login-button">login</button>
+          <FulledButton variant="yellow" text="로그인" />
         </div>
-        <div className="tip-box">
-          계정이 없으신가요? <a href="https://www.naver.com">회원가입</a>
-        </div>
+      </div>
+
+      <div className="p3 register-Box">
+        계정이 없으신가요? <a className="p3" href="/register">회원가입</a>
       </div>
     </div>
   );

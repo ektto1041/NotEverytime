@@ -19,6 +19,10 @@ $column-size: 71.88em;
 $mobile: 768px;
 $tablet: 1024px;
 
+@mixin widthContainer {
+    width: calc(100% - 3em);
+}
+
 @mixin flexCenter() {
     display: flex;
     justify-content: center;
