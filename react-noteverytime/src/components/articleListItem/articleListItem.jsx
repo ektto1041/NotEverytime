@@ -32,7 +32,7 @@ export const ArticleListItem = ({
           </div>
           <div className='article-icons'>
             <div className='comments'>
-              <img src="/images/Icon_Thumb up.svg" width='24px' height='24px' alt='comment' />
+              <img src="/images/Icon_Thumb_up.svg" width='24px' height='24px' alt='comment' />
               3
             </div>
             <div className='images'>

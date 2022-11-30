@@ -9,7 +9,7 @@ export const CategoryButtonBox = ({
   return (
     <div className='category-button-box-container'>
       {CATEGORIES?.map((category, i) => i === 0 ? (<></>) : (
-        <button
+        <button key={category}
           className={`category-button ${i === selectedCategoryId ? 'selected' : ''}`}
           onClick={() => setSelectedCategoryId(i)}
         >{category}</button>

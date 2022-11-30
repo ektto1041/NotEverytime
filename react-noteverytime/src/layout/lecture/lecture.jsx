@@ -4,23 +4,41 @@ import { useEffect } from 'react';
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { ArticleListItem } from '../../components/articleListItem/articleListItem';
-import { getLectureByIdApi, loginApi, searchArticles } from '../../utils/api';
+import { getLectureByIdApi, getLectureByIdApiPaging, loginApi, searchArticles } from '../../utils/api';
 import { DUMMY } from '../../utils/constants';
 import './lecture.scss';
 import { CategoryButtonBox } from '../../components/categoryButtonBox/categoryButtonBox';
 
 // TODO 페이지 사이즈 결정 필요
 const PAGE_SIZE = Math.ceil(window.innerHeight / 150);
+const OFFSET = 20;
+
+const debounce = (callback, limit) => {
+  let timeout;
+  return (...args) => {
+    console.log('call debounce');
+    clearTimeout(timeout);
+    timeout = setTimeout(() => {
+      callback.apply(this, args);
+    }, limit);
+  }
+};
 
 export const Lecture = () => {
   const params = useParams();
 
   const [lecture, setLecture] = useState({});                 // 강의에 대한 정보
-  const [selectedCategoryId, setSelectedCategoryId] = useState(0);  // 선택한 카테고리
+  const [selectedCategoryId, setSelectedCategoryId] = useState(1);  // 선택한 카테고리
   const [articleList, setArticleList] = useState([]);         // 선택한 카테고리에 속한 글 리스트
   const [searchText, setSearchText] = useState('');           // 검색어
 
-  const getLectureById = useCallback(async (tab, page = 0, size = PAGE_SIZE) => {
+  const [page, setPage] = useState(1);                // 무한 스크롤에서 현재 페이지
+  // 무한 스크롤에서 현재 데이터를 가져오고 있는 지 여부
+  // true라면 데이터를 가져오지 않음
+  const [isFetching, setFetching] = useState(false);
+  const [hasNextPage, setNextPage] = useState(true);  // 무한 스크롤에서 다음 페이지가 존재하는 지 여부
+
+  const getLectureById = useCallback(async (tab, page = 0, size = PAGE_SIZE,) => {
     // TODO 임시 로그인
     const login = await loginApi({accountId: "mcodnjs", password: "aaaa"});
 
@@ -45,27 +63,114 @@ export const Lecture = () => {
       };
   
       setLecture(newLecture);
+      setArticleList(newLecture.articles);
     } catch(err) {
       console.log(err);
 
       setLecture(DUMMY.lectureList[0]);
+      setArticleList(DUMMY.lectureList[0].articles);
+    }
+  }, []);
+  
+  const getLectureByIdFirst = useCallback(async (tab) => {
+    // TODO 임시 로그인
+    const login = await loginApi({accountId: "mcodnjs", password: "aaaa"});
+
+    console.log(login);
+
+    // TODO 실제 데이터 추가
+    try {
+      const response = await getLectureByIdApiPaging('637f14045732f3b44bc163a2', tab, 1, OFFSET, 0);
+
+      console.log('# 강의/게시판 가져온 결과');
+      console.log(response);
+
+      const newLecture = {
+        id: response.data.lecture._id,
+        subjectId: response.data.lecture.lectureSubjectId,
+        code: response.data.lectureDetail.lectureCode,
+        name: response.data.lecture.lectureName,
+        professor: response.data.lecture.lectureProfessor,
+        semester: response.data.lectureDetail.lectureSemester,
+        times: response.data.lectureDetail.lectureTime,
+        articles: response.data.articles,
+      };
+  
+      setLecture(newLecture);
+      setArticleList(newLecture.articles);
+      setNextPage(!response.data?.last);
+    } catch(err) {
+      console.log(err);
+
+      setLecture(DUMMY.lectureList[0]);
+      setArticleList(DUMMY.lectureList[0].articles);
+      setNextPage(true);
     }
   }, []);
 
-  /**
-   * 처음 페이지가 로딩되면 강의 정보와 해당 강의의 1 category 게시판 글들이 불러와짐
-   */
+  const getLectureByIdPaging = useCallback(async (tab, page, size, offset) => {
+    // TODO 임시 로그인
+    const login = await loginApi({accountId: "mcodnjs", password: "aaaa"});
+
+    console.log(login);
+
+    // TODO 실제 데이터 추가
+    try {
+      const response = await getLectureByIdApiPaging('637f14045732f3b44bc163a2', tab, page, size, offset);
+
+      console.log('# 강의/게시판 가져온 결과');
+      console.log(response);
+  
+      console.log([...articleList, ...response.data.articles]);
+      setArticleList([...articleList, ...response.data.articles]);
+      setPage(page+1);
+      setFetching(false);
+      setNextPage(!response.data?.last);
+    } catch(err) {
+      console.log(err);
+
+      setArticleList(DUMMY.lectureList[0].articles);
+      setPage(page+1);
+      setFetching(false);
+      setNextPage(true);
+    }
+  }, [articleList]);
+
+  // 무한 스크롤 이벤트 등록
   useEffect(() => {
-    setSelectedCategoryId(1);
-    getLectureById(1);
-  }, [params]);
+    const handleScroll = debounce(() => {
+      const { scrollTop, offsetHeight } = document.documentElement;
+      if(window.innerHeight + scrollTop >= offsetHeight - 2) {
+        console.log(window.innerHeight + scrollTop);
+        console.log(offsetHeight);
+        setFetching(true);
+      }
+    }, 100);
+
+    window.addEventListener('scroll', handleScroll);
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    }
+  }, []);
+
+  // 무한 스크롤 시 데이터 가져오기
+  useEffect(() => {
+    console.log("scroll!")
+
+    if(isFetching && hasNextPage) {
+      getLectureByIdPaging(selectedCategoryId, page, PAGE_SIZE, OFFSET);
+
+    } else if(!hasNextPage) setFetching(false);
+  // eslint-disable-next-line
+  }, [isFetching]);
 
   /**
    * 선택한 게시판이 바뀌면 articleList 가 변함
    */
   useEffect(() => {
-    setArticleList(lecture.articles?.filter(article => article.category === selectedCategoryId));
-  }, [lecture, selectedCategoryId]);
+    getLectureByIdFirst(selectedCategoryId);
+  // eslint-disable-next-line
+  }, [selectedCategoryId]);
 
   /**
    * Article 검색
@@ -118,7 +223,21 @@ export const Lecture = () => {
         </div>
         <div className='article-list'>
           {articleList?.map(article => (
+            <>
+              <ArticleListItem key={article.id} article={article} />
             <ArticleListItem key={article.id} article={article} />
+            <ArticleListItem key={article.id} article={article} />
+            <ArticleListItem key={article.id} article={article} />
+            <ArticleListItem key={article.id} article={article} />
+            <ArticleListItem key={article.id} article={article} />
+            <ArticleListItem key={article.id} article={article} />
+            <ArticleListItem key={article.id} article={article} />
+            <ArticleListItem key={article.id} article={article} />
+            <ArticleListItem key={article.id} article={article} />
+            <ArticleListItem key={article.id} article={article} />
+            <ArticleListItem key={article.id} article={article} />
+            <ArticleListItem key={article.id} article={article} />
+            </>
           ))}
         </div>
       </div>
