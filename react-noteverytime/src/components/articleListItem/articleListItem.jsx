@@ -1,5 +1,6 @@
 import React from 'react';
 import './articleListItem.scss';
+import moment from 'moment';
 
 export const ArticleListItem = ({
   article,
@@ -8,6 +9,7 @@ export const ArticleListItem = ({
     title,
     content,
     createdAt,
+    modifiedAt,
     userId,
     likeCount,
     isImage,
@@ -25,7 +27,7 @@ export const ArticleListItem = ({
         </div>
         <div className='article-data'>
           <div className='article-created-at'>
-            {createdAt}
+            {modifiedAt && moment.isMoment(modifiedAt) ? modifiedAt.fromNow() : ''}
           </div>
           <div className='article-writer'>
             {userId}

@@ -8,6 +8,8 @@ import { getLectureByIdApi, getLectureByIdApiPaging, loginApi, searchArticles } 
 import { DUMMY } from '../../utils/constants';
 import './lecture.scss';
 import { CategoryButtonBox } from '../../components/categoryButtonBox/categoryButtonBox';
+import moment from 'moment';
+import 'moment/locale/ko';
 
 // TODO 페이지 사이즈 결정 필요
 const PAGE_SIZE = Math.ceil(window.innerHeight / 150);
@@ -16,7 +18,6 @@ const OFFSET = 20;
 const debounce = (callback, limit) => {
   let timeout;
   return (...args) => {
-    console.log('call debounce');
     clearTimeout(timeout);
     timeout = setTimeout(() => {
       callback.apply(this, args);
@@ -93,11 +94,22 @@ export const Lecture = () => {
         professor: response.data.lecture.lectureProfessor,
         semester: response.data.lectureDetail.lectureSemester,
         times: response.data.lectureDetail.lectureTime,
-        articles: response.data.articles,
       };
   
+      console.log(
+        response.data.articles.map(article => ({
+          ...article,
+          createAt: moment(article.createdAt),
+          modifiedAt: moment(article.modifiedAt),
+        }))
+      );
+
       setLecture(newLecture);
-      setArticleList(newLecture.articles);
+      setArticleList(response.data.articles.map(article => ({
+        ...article,
+        createAt: moment(article.createdAt),
+        modifiedAt: moment(article.modifiedAt),
+      })));
       setNextPage(!response.data?.last);
     } catch(err) {
       console.log(err);
@@ -122,7 +134,11 @@ export const Lecture = () => {
       console.log(response);
   
       console.log([...articleList, ...response.data.articles]);
-      setArticleList([...articleList, ...response.data.articles]);
+      setArticleList([...articleList, ...response.data.articles.map(article => ({
+        ...article,
+        createAt: moment(article.createdAt),
+        modifiedAt: moment(article.modifiedAt),
+      }))]);
       setPage(page+1);
       setFetching(false);
       setNextPage(!response.data?.last);
