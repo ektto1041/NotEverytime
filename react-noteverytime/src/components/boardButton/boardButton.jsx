@@ -1,16 +1,22 @@
 import React from 'react';
+import { CATEGORIES } from '../../utils/constants';
 import './boardButton.scss';
 
 export const BoardButton = ({
-  boardId,
-  selectedBoardId,
-  setBoardId,
+  categoryId,
+  selectedCategoryId,
+  setSelectedCategoryId,
   children,
 }) => {
   return (
-    <button
-      className={`board-button ${boardId === selectedBoardId ? 'selected' : ''}`}
-      onClick={() => setBoardId(boardId)}
-    >{children}</button>
+    <>
+      {CATEGORIES?.map((category, i) => i === 0 ? (<></>) : (
+        <button
+          className={`category-button ${categoryId === selectedCategoryId ? 'selected' : ''}`}
+          onClick={() => setSelectedCategoryId(categoryId)}
+        >category</button>
+      ))}
+    </>
+    
   );
 };

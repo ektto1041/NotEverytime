@@ -1,59 +1,71 @@
 @import '../../styles/variables.scss';
 
-.post-item-container {
+.article-item-container {
   width: 42em;
-  height: 7.75em;
+  height: 8.5em;
   margin-left: 1em;
   margin-right: 1em;
   padding-top: 1em;
   padding-bottom: 1em;
   border-bottom: 1px solid $grey-border;
   display: flex;
+  column-gap: 1em;
+  cursor: pointer;
+  user-select: none;
 
-  .post-info {
+  &:hover {
+    background-color: $background-second;
+  }
+
+  .article-info {
     width: 100%;
-    height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
 
-    .post-title {
+    .article-title {
       width: 100%;
+      height: 1.5em;
       font-size: 1em;
-      color: $text-dark;
+      line-height: 1.5em;
+      color: black;
       text-align: start;
     }
 
-    .post-preview {
+    .article-preview {
       width: 100%;
-      font-size: 1em;
+      font-size: .95em;
+      line-height: 1.25em;
       height: 2.5em;
-      color: $text-dark;
+      color: $text-grey;
       text-align: start;
+      max-lines: 2;
       overflow: hidden;
     }
 
-    .post-data {
+    .article-data {
       width: 100%;
       height: 1.5em;
+      margin-top: 1em;
       display: flex;
       position: relative;
 
-      .post-created-at {
+      .article-created-at {
         height: 100%;
-        line-height: 1.5em;
+        line-height: 1em;
         font-size: 0.8em;
+        margin-right: 1em;
         color: $text-grey;
       }
 
-      .post-writer {
+      .article-writer {
         height: 100%;
-        line-height: 1.5em;
+        line-height: 1em;
         font-size: .8em;
         color: $text-grey;
       }
 
-      .post-icons {
+      .article-icons {
         display: flex;
         height: 1.5em;
         position: absolute;
@@ -61,7 +73,7 @@
         top: 0;
 
         img {
-          margin-right: 5px;
+          margin-right: .5em;
         }
         
         .comments {
@@ -70,6 +82,7 @@
           font-size: 0.8em;
           color: $ajou-sky;
           display: flex;
+          align-items: center;
         }
 
         .images {
@@ -78,20 +91,15 @@
           font-size: 0.8em;
           color: $ajou-gold;
           display: flex;
+          align-items: center;
           margin-left: 1em;
         }
       }
     }
   }
 
-  .with-thumbnail {
-    width: calc(100% - 9.25em);
-  }
-
   .thumbnail {
-    width: 7.75em;
-    height: 7.75em;
-    margin-left: 1.5em;
+    width: 8em;
     background-color: $text-grey;
     border-radius: 12px;
   }
