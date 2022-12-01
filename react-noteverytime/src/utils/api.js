@@ -36,6 +36,10 @@ const fetchUserByIdInComponents = async (userId) => {
  */
 export const loginApi = (loginData) => ax.post('/login', loginData);
 
+export const getMyPageApi = () => ax.get('/mypage');
+
+export const updateUsernameApi = (username) => ax.post(`/mypage/edit`, {username});
+
 /**
  * 특정 강의의 특정 게시판 글들을 가져오는 API
  * @param {String} lectureId 가져오려는 강의의 id
