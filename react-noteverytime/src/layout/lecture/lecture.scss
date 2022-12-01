@@ -4,7 +4,6 @@
   width: 60em;
   display: flex;
   margin: 0 auto;
-  margin-top: 4em;
 
   .info-box {
     width: 15em;
@@ -22,7 +21,7 @@
       color: $text-dark;
     }
     
-    .semester-box {
+    .user-semester-box {
       border: 1px solid $grey-border;
       border-radius: 12px;
       padding: 1em;

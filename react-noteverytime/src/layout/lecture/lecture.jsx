@@ -4,8 +4,7 @@ import { useEffect } from 'react';
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { ArticleListItem } from '../../components/articleListItem/articleListItem';
-import { getLectureByIdApi, getLectureByIdApiPaging, loginApi, searchArticles } from '../../utils/api';
-import { DUMMY } from '../../utils/constants';
+import { getArticlesApiPaging, getLectureApi, } from '../../utils/api';
 import './lecture.scss';
 import { CategoryButtonBox } from '../../components/categoryButtonBox/categoryButtonBox';
 import moment from 'moment';
@@ -25,13 +24,25 @@ const debounce = (callback, limit) => {
   }
 };
 
+/**
+ * 1. lecture 정보 가져옴 - lecture가 아직 없으면 다른 useEffect 발생하지 않음
+ * 2. lecture 가져오는 데 성공하면 need articles
+ * 3. need articles 상태가 되면 키워드 없이 first api 호출
+ * 4. 게시판 바꾸면 need articles -> 3.
+ * 5. 검색 누르면 fixedKeyword 설정하고 직접 first api 호출
+ * 6. 스크롤 시 fixedKeyword 참조해서 paging api 호출
+ */
+
 export const Lecture = () => {
-  const params = useParams();
+  const {lectureId} = useParams();
 
   const [lecture, setLecture] = useState({});                 // 강의에 대한 정보
+  const hasLecture = Object.keys(lecture).length > 0;
   const [selectedCategoryId, setSelectedCategoryId] = useState(1);  // 선택한 카테고리
+  const [isNeedArticles, setNeedArticles] = useState(false);
   const [articleList, setArticleList] = useState([]);         // 선택한 카테고리에 속한 글 리스트
-  const [searchText, setSearchText] = useState('');           // 검색어
+  const [keyword, setKeyword] = useState('');                 // 검색어 입력하는 input의 value
+  const [fixedKeyword, setFixedKeyword] = useState('');       // 쿼리에 포함될 검색어
 
   const [page, setPage] = useState(1);                // 무한 스크롤에서 현재 페이지
   // 무한 스크롤에서 현재 데이터를 가져오고 있는 지 여부
@@ -39,17 +50,10 @@ export const Lecture = () => {
   const [isFetching, setFetching] = useState(false);
   const [hasNextPage, setNextPage] = useState(true);  // 무한 스크롤에서 다음 페이지가 존재하는 지 여부
 
-  const getLectureById = useCallback(async (tab, page = 0, size = PAGE_SIZE,) => {
-    // TODO 임시 로그인
-    const login = await loginApi({accountId: "mcodnjs", password: "aaaa"});
-
-    console.log(login);
-
-    // TODO 실제 데이터 추가
+  const getLecture = useCallback(async () => {
     try {
-      const response = await getLectureByIdApi('637f14045732f3b44bc163a2', tab);
-
-      console.log('# 강의/게시판 가져온 결과');
+      const response = await getLectureApi(lectureId);
+      console.log('# 강의 정보');
       console.log(response);
 
       const newLecture = {
@@ -58,83 +62,48 @@ export const Lecture = () => {
         code: response.data.lectureDetail.lectureCode,
         name: response.data.lecture.lectureName,
         professor: response.data.lecture.lectureProfessor,
-        semester: response.data.lectureDetail.lectureSemester,
+        // 학기가 null 이면 미수강생
+        semester: response.data.userLectureDetail?.lectureSemester,
         times: response.data.lectureDetail.lectureTime,
-        articles: response.data.articles,
       };
-  
+
       setLecture(newLecture);
-      setArticleList(newLecture.articles);
-    } catch(err) {
+      setNeedArticles(true);
+    } catch (err) {
       console.log(err);
-
-      setLecture(DUMMY.lectureList[0]);
-      setArticleList(DUMMY.lectureList[0].articles);
+      setLecture({a: 'b'});
+      setNeedArticles(true);
     }
-  }, []);
+  }, [lectureId]);
   
-  const getLectureByIdFirst = useCallback(async (tab) => {
-    // TODO 임시 로그인
-    const login = await loginApi({accountId: "mcodnjs", password: "aaaa"});
-
-    console.log(login);
-
+  const getArticlesFirst = useCallback(async (keyword, tab) => {
     // TODO 실제 데이터 추가
     try {
-      const response = await getLectureByIdApiPaging('637f14045732f3b44bc163a2', tab, 1, OFFSET, 0);
+      const response = await getArticlesApiPaging('637f14045732f3b44bc163a2', keyword, tab, 1, OFFSET, 0);
 
       console.log('# 강의/게시판 가져온 결과');
       console.log(response);
 
-      const newLecture = {
-        id: response.data.lecture._id,
-        subjectId: response.data.lecture.lectureSubjectId,
-        code: response.data.lectureDetail.lectureCode,
-        name: response.data.lecture.lectureName,
-        professor: response.data.lecture.lectureProfessor,
-        semester: response.data.lectureDetail.lectureSemester,
-        times: response.data.lectureDetail.lectureTime,
-      };
-  
-      console.log(
-        response.data.articles.map(article => ({
-          ...article,
-          createAt: moment(article.createdAt),
-          modifiedAt: moment(article.modifiedAt),
-        }))
-      );
-
-      setLecture(newLecture);
-      setArticleList(response.data.articles.map(article => ({
+      setArticleList(response.data?.map(article => ({
         ...article,
         createAt: moment(article.createdAt),
         modifiedAt: moment(article.modifiedAt),
       })));
       setNextPage(!response.data?.last);
+      setNeedArticles(false);
     } catch(err) {
       console.log(err);
-
-      setLecture(DUMMY.lectureList[0]);
-      setArticleList(DUMMY.lectureList[0].articles);
-      setNextPage(true);
+      setNeedArticles(false);
     }
   }, []);
 
-  const getLectureByIdPaging = useCallback(async (tab, page, size, offset) => {
-    // TODO 임시 로그인
-    const login = await loginApi({accountId: "mcodnjs", password: "aaaa"});
-
-    console.log(login);
-
-    // TODO 실제 데이터 추가
+  const getArticles = useCallback(async () => {
     try {
-      const response = await getLectureByIdApiPaging('637f14045732f3b44bc163a2', tab, page, size, offset);
-
+      const response = await getArticlesApiPaging('637f14045732f3b44bc163a2', fixedKeyword, selectedCategoryId, page, PAGE_SIZE, OFFSET);
       console.log('# 강의/게시판 가져온 결과');
       console.log(response);
   
-      console.log([...articleList, ...response.data.articles]);
-      setArticleList([...articleList, ...response.data.articles.map(article => ({
+      setArticleList([...articleList, ...response.data?.map(article => ({
         ...article,
         createAt: moment(article.createdAt),
         modifiedAt: moment(article.modifiedAt),
@@ -144,11 +113,6 @@ export const Lecture = () => {
       setNextPage(!response.data?.last);
     } catch(err) {
       console.log(err);
-
-      setArticleList(DUMMY.lectureList[0].articles);
-      setPage(page+1);
-      setFetching(false);
-      setNextPage(true);
     }
   }, [articleList]);
 
@@ -157,8 +121,6 @@ export const Lecture = () => {
     const handleScroll = debounce(() => {
       const { scrollTop, offsetHeight } = document.documentElement;
       if(window.innerHeight + scrollTop >= offsetHeight - 2) {
-        console.log(window.innerHeight + scrollTop);
-        console.log(offsetHeight);
         setFetching(true);
       }
     }, 100);
@@ -169,22 +131,49 @@ export const Lecture = () => {
     }
   }, []);
 
+  // 최초 페이지 접근 시 강의 정보
+  useEffect(() => {
+    getLecture();
+  }, []);
+
   // 무한 스크롤 시 데이터 가져오기
   useEffect(() => {
+    console.log("hasLecture: " + hasLecture);
+    if(!hasLecture) return;
+
     console.log("scroll!")
 
     if(isFetching && hasNextPage) {
-      getLectureByIdPaging(selectedCategoryId, page, PAGE_SIZE, OFFSET);
-
+      getArticles();
     } else if(!hasNextPage) setFetching(false);
+    
   // eslint-disable-next-line
   }, [isFetching]);
+
+  useEffect(() => {
+    // 아직 강의 정보가 로딩되지 않았으면 실행되지 않음
+    console.log('hasLecture:' + hasLecture);
+    console.log('isNeedArticles: ' + isNeedArticles)
+    if(!hasLecture) return;
+    if(!isNeedArticles) return;
+    getArticlesFirst('', selectedCategoryId);
+  }, [isNeedArticles]);
 
   /**
    * 선택한 게시판이 바뀌면 articleList 가 변함
    */
   useEffect(() => {
-    getLectureByIdFirst(selectedCategoryId);
+    // 아직 강의 정보가 로딩되지 않았으면 실행되지 않음
+    console.log('게시판 눌렀을 떄 hasLecture: ' + hasLecture);
+    if(!hasLecture) return;
+
+    // 검색어 초기화
+    setKeyword('');
+    setFixedKeyword('');
+
+    // 게시글 가져오기
+    setNeedArticles(true);
+    console.log('setNeedArticles(true)')
   // eslint-disable-next-line
   }, [selectedCategoryId]);
 
@@ -194,21 +183,22 @@ export const Lecture = () => {
   const handleSearchClick = useCallback(async (e) => {
     e.preventDefault();
 
-    const response = await searchArticles(lecture.id, searchText);
+    // 검색한 검색어를 저장 (페이징에 이용)
+    setFixedKeyword(keyword);
 
-    console.log("# 글 검색 결과")
-    console.log(response);
+    // 검색어를 이용해 최초 페이징 조회
+    getArticlesFirst(keyword, selectedCategoryId);
+  }, [keyword, getArticlesFirst, selectedCategoryId]);
 
-    // TODO 검색 처리
-  }, [lecture, searchText]);
+  console.log('render');
 
   return (
     <div className='lecture-container'>
       <div className='info-box'>
-        <div className='semester-box'>
+        <div className='user-semester-box'>
           <div className='info-item'>
             <div className='info-title'>인증학기</div>
-            <div className='info-content'>{`${lecture.semester}학기`}</div>
+            <div className='info-content'>{lecture.semester ? `${lecture.semester}학기` : '미수강생' }</div>
           </div>
         </div>
         <div className='detail-info'>
@@ -233,7 +223,7 @@ export const Lecture = () => {
       <div className='board'>
         <div className='board-menu'>
           <form onSubmit={handleSearchClick}>
-            <input type='text' placeholder='게시물 검색' value={searchText} onChange={(e) => setSearchText(e.target.value)} />
+            <input type='text' placeholder='게시물 검색' value={keyword} onChange={(e) => setKeyword(e.target.value)} />
           </form>
           <button className='write-button' ><img src="/images/pen.svg" alt="pen" /></button>
         </div>
