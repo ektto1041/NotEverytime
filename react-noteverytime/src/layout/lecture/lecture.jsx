@@ -2,17 +2,17 @@ import React from 'react';
 import { useCallback } from 'react';
 import { useEffect } from 'react';
 import { useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { ArticleListItem } from '../../components/articleListItem/articleListItem';
 import { getArticlesApiPaging, getLectureApi, } from '../../utils/api';
 import './lecture.scss';
 import { CategoryButtonBox } from '../../components/categoryButtonBox/categoryButtonBox';
 import moment from 'moment';
 import 'moment/locale/ko';
+import { CATEGORIES, getCategoryAuthority, getUserStatus, USER_STATUS } from '../../utils/constants';
 
 // TODO 페이지 사이즈 결정 필요
-const PAGE_SIZE = Math.ceil(window.innerHeight / 150);
-const OFFSET = 20;
+const PAGE_SIZE = 5;
 
 const debounce = (callback, limit) => {
   let timeout;
@@ -35,20 +35,22 @@ const debounce = (callback, limit) => {
 
 export const Lecture = () => {
   const {lectureId} = useParams();
+  const navigate = useNavigate();
 
   const [lecture, setLecture] = useState({});                 // 강의에 대한 정보
   const hasLecture = Object.keys(lecture).length > 0;
+  const userStatus = getUserStatus(lecture.semester, lecture.userSemester);
   const [selectedCategoryId, setSelectedCategoryId] = useState(1);  // 선택한 카테고리
   const [isNeedArticles, setNeedArticles] = useState(false);
   const [articleList, setArticleList] = useState([]);         // 선택한 카테고리에 속한 글 리스트
   const [keyword, setKeyword] = useState('');                 // 검색어 입력하는 input의 value
   const [fixedKeyword, setFixedKeyword] = useState('');       // 쿼리에 포함될 검색어
 
-  const [page, setPage] = useState(1);                // 무한 스크롤에서 현재 페이지
+  const [cursor, setCursor] = useState('0');                // 무한 스크롤에서 현재 커서
   // 무한 스크롤에서 현재 데이터를 가져오고 있는 지 여부
   // true라면 데이터를 가져오지 않음
   const [isFetching, setFetching] = useState(false);
-  const [hasNextPage, setNextPage] = useState(true);  // 무한 스크롤에서 다음 페이지가 존재하는 지 여부
+  const [hasNextPage, setNextPage] = useState(false);  // 무한 스크롤에서 다음 페이지가 존재하는 지 여부
 
   const getLecture = useCallback(async () => {
     try {
@@ -62,8 +64,10 @@ export const Lecture = () => {
         code: response.data.lectureDetail.lectureCode,
         name: response.data.lecture.lectureName,
         professor: response.data.lecture.lectureProfessor,
-        // 학기가 null 이면 미수강생
-        semester: response.data.userLectureDetail?.lectureSemester,
+        semester: response.data.lectureDetail?.lectureSemester,
+        // 유저의 학기가 null 이면 미수강생
+        // userSemester: response.data.userLectureDetail?.lectureSemester,
+        // userSemester: '20',
         times: response.data.lectureDetail.lectureTime,
       };
 
@@ -71,15 +75,13 @@ export const Lecture = () => {
       setNeedArticles(true);
     } catch (err) {
       console.log(err);
-      setLecture({a: 'b'});
-      setNeedArticles(true);
     }
   }, [lectureId]);
   
   const getArticlesFirst = useCallback(async (keyword, tab) => {
     // TODO 실제 데이터 추가
     try {
-      const response = await getArticlesApiPaging('637f14045732f3b44bc163a2', keyword, tab, 1, OFFSET, 0);
+      const response = await getArticlesApiPaging(lectureId, keyword, tab, PAGE_SIZE);
 
       console.log('# 강의/게시판 가져온 결과');
       console.log(response);
@@ -89,17 +91,17 @@ export const Lecture = () => {
         createAt: moment(article.createdAt),
         modifiedAt: moment(article.modifiedAt),
       })));
-      setNextPage(!response.data?.last);
+      setCursor(response.data[response.data.length-1]?._id);
       setNeedArticles(false);
+      setNextPage(response.data.length > 0);
     } catch(err) {
       console.log(err);
-      setNeedArticles(false);
     }
-  }, []);
+  }, [lectureId]);
 
   const getArticles = useCallback(async () => {
     try {
-      const response = await getArticlesApiPaging('637f14045732f3b44bc163a2', fixedKeyword, selectedCategoryId, page, PAGE_SIZE, OFFSET);
+      const response = await getArticlesApiPaging(lectureId, fixedKeyword, selectedCategoryId, PAGE_SIZE, cursor);
       console.log('# 강의/게시판 가져온 결과');
       console.log(response);
   
@@ -108,13 +110,13 @@ export const Lecture = () => {
         createAt: moment(article.createdAt),
         modifiedAt: moment(article.modifiedAt),
       }))]);
-      setPage(page+1);
+      setCursor(response.data[response.data.length-1]?._id);
       setFetching(false);
-      setNextPage(!response.data?.last);
+      setNextPage(response.data.length > 0);
     } catch(err) {
       console.log(err);
     }
-  }, [articleList]);
+  }, [lectureId, fixedKeyword, cursor, articleList]);
 
   // 무한 스크롤 이벤트 등록
   useEffect(() => {
@@ -138,11 +140,7 @@ export const Lecture = () => {
 
   // 무한 스크롤 시 데이터 가져오기
   useEffect(() => {
-    console.log("hasLecture: " + hasLecture);
     if(!hasLecture) return;
-
-    console.log("scroll!")
-
     if(isFetching && hasNextPage) {
       getArticles();
     } else if(!hasNextPage) setFetching(false);
@@ -178,6 +176,18 @@ export const Lecture = () => {
   }, [selectedCategoryId]);
 
   /**
+   * 게시판 선택 시
+   */
+  const handleCategoryClick = useCallback((categoryId) => {
+    if(getCategoryAuthority(categoryId, userStatus).read) {
+        setSelectedCategoryId(categoryId);
+    } else {
+      // TODO 올바른 피드백
+      alert("접근 권한이 없습니다.");
+    }
+  }, [userStatus]);
+
+  /**
    * Article 검색
    */
   const handleSearchClick = useCallback(async (e) => {
@@ -192,13 +202,25 @@ export const Lecture = () => {
 
   console.log('render');
 
+  /**
+   * 글쓰기 클릭 시
+   */
+  const handlePostClick = useCallback(() => {
+    if(getCategoryAuthority(selectedCategoryId, userStatus).write) {
+      navigate(`/post`);
+    } else {
+      // TODO 올바른 피드백
+      alert("접근 권한이 없습니다.");
+    }
+  }, [selectedCategoryId, userStatus]);
+
   return (
     <div className='lecture-container'>
       <div className='info-box'>
         <div className='user-semester-box'>
           <div className='info-item'>
             <div className='info-title'>인증학기</div>
-            <div className='info-content'>{lecture.semester ? `${lecture.semester}학기` : '미수강생' }</div>
+            <div className='info-content'>{USER_STATUS.getStr(userStatus)}</div>
           </div>
         </div>
         <div className='detail-info'>
@@ -218,31 +240,19 @@ export const Lecture = () => {
             ))}
           </div>
         </div>
-        <CategoryButtonBox selectedCategoryId={selectedCategoryId} setSelectedCategoryId={setSelectedCategoryId} />
+        <CategoryButtonBox selectedCategoryId={selectedCategoryId} onCategoryClick={handleCategoryClick} />
       </div>
       <div className='board'>
         <div className='board-menu'>
           <form onSubmit={handleSearchClick}>
             <input type='text' placeholder='게시물 검색' value={keyword} onChange={(e) => setKeyword(e.target.value)} />
           </form>
-          <button className='write-button' ><img src="/images/pen.svg" alt="pen" /></button>
+          <button className='write-button' onClick={handlePostClick} ><img src="/images/pen.svg" alt="pen" /></button>
         </div>
         <div className='article-list'>
           {articleList?.map(article => (
             <>
-              <ArticleListItem key={article.id} article={article} />
-            <ArticleListItem key={article.id} article={article} />
-            <ArticleListItem key={article.id} article={article} />
-            <ArticleListItem key={article.id} article={article} />
-            <ArticleListItem key={article.id} article={article} />
-            <ArticleListItem key={article.id} article={article} />
-            <ArticleListItem key={article.id} article={article} />
-            <ArticleListItem key={article.id} article={article} />
-            <ArticleListItem key={article.id} article={article} />
-            <ArticleListItem key={article.id} article={article} />
-            <ArticleListItem key={article.id} article={article} />
-            <ArticleListItem key={article.id} article={article} />
-            <ArticleListItem key={article.id} article={article} />
+              <ArticleListItem key={article._id} article={article} />
             </>
           ))}
         </div>

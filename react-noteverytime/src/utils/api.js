@@ -49,4 +49,4 @@ export const getLectureApi = (lectureId) => ax.get(`/lecture/${lectureId}`);
  * @param {Number} page 페이지 번호
  * @param {Number} size 페이지 사이즈
  */
- export const getArticlesApiPaging = (lectureId, keyword, tab, page, size, offset) => ax.get(`/lecture/${lectureId}/articles?${keyword ? `keyword=${keyword}&` : ''}tab=${tab}&page=${page}&size=${size}&offset=${offset}`);
+ export const getArticlesApiPaging = (lectureId, keyword, tab, size, id) => ax.get(`/lecture/${lectureId}/articles?${keyword ? `keyword=${keyword}&` : ''}tab=${tab}&${id ? `id=${id}&` : ''}size=${size}`);

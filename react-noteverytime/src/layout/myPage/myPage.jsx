@@ -10,7 +10,7 @@ export const MyPage = () => {
 
   useEffect(() => {
     // TODO GET API
-    setUser(DUMMY.userList[0]);
+
   }, []);
 
   return (

@@ -1,11 +1,13 @@
 import React from 'react';
 import './articleListItem.scss';
 import moment from 'moment';
+import { useNavigate } from 'react-router-dom';
 
 export const ArticleListItem = ({
   article,
 }) => {
   const {
+    _id,
     title,
     content,
     createdAt,
@@ -15,8 +17,10 @@ export const ArticleListItem = ({
     isImage,
   } = article;
 
+  const navigate = useNavigate();
+
   return (
-    <div className='article-item-container'>
+    <div className='article-item-container' onClick={() => navigate(`/article/${_id}`)}>
       <div className={`article-info`}>
         <div className='article-title'>
           {title}
