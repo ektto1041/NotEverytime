@@ -1,7 +1,7 @@
 import React from "react";
 import "./globalComponent.scss";
 
-export const InputContainer = ({type, placeholder, value, onChange}) => {
+export const InputContainer = ({ type, placeholder, value, onChange }) => {
   return (
     <input
       className="p3 input"
@@ -13,8 +13,13 @@ export const InputContainer = ({type, placeholder, value, onChange}) => {
   );
 };
 
-export const FulledButton = ({variant, text}) => {
+export const FulledButton = ({ variant, text, onClick }) => {
   return (
-    <button className={`p3 FulledButton ${ variant === 'yellow' ? '' : 'grey' }`}>{text}</button>
+    <button
+      className={`p3 FulledButton ${variant === "yellow" ? "" : "grey"}`}
+      onClick={onClick}
+    >
+      {text}
+    </button>
   );
 };
