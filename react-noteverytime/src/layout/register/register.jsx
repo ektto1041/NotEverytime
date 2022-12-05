@@ -1,6 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import "./register.scss";
+import { registerUser } from "../../utils/api";
 
 export const Register = () => {
   const [name, setName] = useState("");
@@ -23,6 +24,45 @@ export const Register = () => {
   };
   const handlePasswordConfirmChange = (e) => {
     setPasswordConfirm(e.target.value);
+  };
+
+  const handleRegister = async () => {
+    const newUser = {
+      accountId: id,
+      password: password,
+      username: name,
+      email: email,
+    };
+    try {
+      await registerUser(newUser);
+      setName("");
+      setId("");
+      setEmail("");
+      setPassword("");
+      setPasswordConfirm("");
+    } catch (err) {
+      switch (err.response.data) {
+        case "please input username":
+          alert("닉네임을 입력하세요");
+          break;
+        case "please input id":
+          alert("id를 입력하세요");
+          break;
+        case "please input email":
+          alert("email을 입력하세요");
+          break;
+        case "id already exists":
+          alert("이미 존재하는 아이디입니다.");
+          break;
+        case "username already exists":
+          alert("이미 존재하는 닉네임입니다.");
+          break;
+        case "email already exists":
+          alert("이미 존재하는 이메일입니다.");
+          break;
+      }
+      console.log(err.response.data);
+    }
   };
 
   return (
@@ -80,7 +120,9 @@ export const Register = () => {
             onChange={handlePasswordConfirmChange}
           />
         </div>
-        <button className="register-button">회원가입</button>
+        <button className="register-button" onClick={handleRegister}>
+          회원가입
+        </button>
         <button className="cancle-button">취소</button>
       </div>
     </div>
