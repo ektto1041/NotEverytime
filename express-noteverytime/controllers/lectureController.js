@@ -22,13 +22,10 @@ const getBoard = async (req, res) => {
 };
 
 const getLecture = async (req, res) => {
-  /* TODO: session 확인
   if (!req.session.user) {
     return res.status(400).send("세션 없음");
   }
   const userId = req.session.user._id;
-  */
-  const userId = "637f14045732f3b44bc163a1";
   const { lectureId } = req.params;
   try {
     // 강의 정보
