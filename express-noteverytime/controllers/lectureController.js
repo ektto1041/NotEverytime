@@ -4,6 +4,8 @@ const Article = require("../models/article/article");
 const User = require("../models/user/user");
 const UserLecture = require("../models/user/userLecture");
 
+const currentSemester = "2022-2";
+
 const getBoard = async (req, res) => {
   const { lectureId } = req.params;
   const tab = req.query.tab || 1;
@@ -17,37 +19,60 @@ const getBoard = async (req, res) => {
   }
 }
 
-const getLecture = async (lectureId) => {
-  // lectureId 통해서는 강의 정보를 가져옴
-  const lecture = await Lecture.findById({ _id: lectureId });
-  if (!lecture) {
-    throw new Error("Lecture not found.");
+const getLecture = async (req, res) => {
+  /* TODO: session 확인
+  if (!req.session.user) {
+    return res.status(400).send("세션 없음");
   }
-  return lecture;
+  const userId = req.session.user._id;
+  */
+  const userId = "637f14045732f3b44bc163a1"
+  const { lectureId } = req.params;
+  try {
+
+    // 강의 정보
+    const lecture = await Lecture.findById({ _id: lectureId });
+    if (!lecture) {
+      throw new Error("Lecture not found.");
+    }
+
+    // 강의 세부 정보
+    let lectureDetail;
+    lectureDetail = await getLectureDetail(lectureId);
+    if (!lectureDetail) {
+      throw new Error("개설된 강의 세부 정보가 없음")      
+    }
+    if (lectureDetail.lectureSemester !== currentSemester) {
+      lectureDetail = undefined;
+    }
+
+    // 유저 강의 정보
+    let userLectureDetail;
+    userLectureDetail = await getUserLectureDetail(userId, lectureId);
+    return res.status(200).send({lecture, lectureDetail, userLectureDetail})
+  } catch (error) {
+    return res.status(400).send(error.message);
+  }
 };
 
-const getLectureDetail = async (lectureId) => {
-  // userId 통해서는 강의 세부 정보를 불러옴
-  const user = await User.findOne({ account_id: "mcodnjs" });
-  if (!user) {
-    throw new Error("User not found.");
-  }
-  const userLecture = await UserLecture.findOne({user_id: user._id}).populate('lectureDetailId');
+const getUserLectureDetail = async (userId, lectureId) => {
+  const userLecture = await UserLecture.findOne({userId}).populate('lectureDetailId').sort({lectureSemester: -1});
   if (!userLecture) {
     throw new Error("User's lecture not found.");
   }
   const lectures = userLecture.lectureDetailId;
-  let lectureDetail;
+  let userLectureDetail;
   lectures.map((lecture) => {
-    lecture.lectureId.equals(lectureId) ? lectureDetail = lecture : ""
+    lecture.lectureId.equals(lectureId) ? userLectureDetail = lecture : null
   });
-  return lectureDetail
+  return userLectureDetail;
 }
 
-const getArticles = async (lectureId, tab) => {
-  // lectureId와 tab을 통해서 게시글 가져옴
-  const articles = await Article.find({lectureId, category: tab});
-  return articles;
+const getLectureDetail = async (lectureId) => {
+  return await LectureDetail.findOne({lectureId}).sort({lectureSemester: -1}) || undefined;
+}
+
+const getArticles = async (req, res) => {
 }
 
 const getArticle = async (req, res) => {
@@ -63,7 +88,8 @@ const postEdit = async (req, res) => {
 }
 
 module.exports = {
-  getBoard,
+  getLecture,
+  getArticles,
   getArticle,
   postEdit
 };
