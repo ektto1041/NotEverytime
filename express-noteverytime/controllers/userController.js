@@ -136,6 +136,26 @@ const editMypage = async (req, res) => {
   }
 };
 
+const editMypageProfile = async (req, res) => {
+  if (!req.session.user) {
+    return res.status(400).send("세션 없음");
+  }
+  const userId = req.session.user._id;
+  try {
+    const updatedUser = await User.findOneAndUpdate(
+      { _id: userId },
+      {
+        $set: { profileImage: req.file.location},
+      },
+      { new: true }
+    ).exec();
+    req.session.user = updatedUser;
+    return res.status(200).send(updatedUser);
+  } catch (error) {
+    return res.status(400).send(error.message);
+  }
+};
+
 module.exports = {
   postJoin,
   getLogin,
@@ -143,4 +163,5 @@ module.exports = {
   getLogout,
   getMypage,
   editMypage,
+  editMypageProfile,
 };
