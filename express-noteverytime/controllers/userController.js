@@ -1,18 +1,22 @@
+/** @format */
+
 const User = require("../models/user/user");
 
-const isDuplicated = async (db, field) => {
-  const existField = await db.exists({ field });
-  if (existField !== null) {
+const isDuplicated = async (db, value, field) => {
+  const existField = await db.exists({ accountId: value });
+  console.log(existField);
+  if (existField) {
     console.log(`${field} already exists`);
     return true;
   }
   return false;
-}
+};
 
-const isEmpty = (field) => field === '' || field === undefined;
+const isEmpty = (field) => field === "" || field === undefined;
 
 const postJoin = async (req, res) => {
-  const { accountId, password, username, email, isAuth, profileImage } = req.body;
+  const { accountId, password, username, email, isAuth, profileImage } =
+    req.body;
     
   if (isEmpty(accountId)) {
     return res.status(409).send("please input id");
@@ -24,16 +28,16 @@ const postJoin = async (req, res) => {
     return res.status(409).send("please input email");
   }
 
-  if (await isDuplicated(User, accountId)) {
+  if (await User.exists({ accountId })) {
     return res.status(409).send("id already exists");
-  } else if (await isDuplicated(User, username)) {
+  } else if (await User.exists({ username })) {
     return res.status(409).send("username already exists");
-  } else if (await isDuplicated(User, email)) {
+  } else if (await User.exists({ email })) {
     return res.status(409).send("email already exists");
   }
 
   try {
-    await User.create({
+    let user = await User.create({
       accountId,
       password,
       username,
@@ -41,7 +45,7 @@ const postJoin = async (req, res) => {
       isAuth,
       profileImage,
     });
-    return res.redirect('/');
+    return res.status(200).send(user);
   } catch (error) {
     console.error(error);
     return res.status(400).send(error.message);
@@ -61,7 +65,7 @@ const postLogin = async (req, res) => {
     if (isEmpty(password)) {
       throw new Error("비밀번호를 입력해주세요.");
     }
-    const user = await User.findOne({accountId, password});
+    const user = await User.findOne({ accountId, password });
     if (!user) {
       return res.status(400).send("등록되지 않은 ID 또는 PW입니다.");
     }
@@ -87,17 +91,17 @@ const getMypage = async (req, res) => {
     return res.status(400).send("세션 없음");
   }
   const userId = req.session.user._id;
-  const user = await User.findOne({userId});
+  const user = await User.findOne({ userId });
   if (!user) {
     return res.status(400).send("등록되지 않은 ID 또는 PW입니다.");
   }
   return res.status(200).send({
-    "_id": user._id,
-    "accountId": user.accountId,
-    "username": user.username,
-    "email": user.email,
-    "isAuth": user.isAuth,
-    "profileImage": user.profileImage
+    _id: user._id,
+    accountId: user.accountId,
+    username: user.username,
+    email: user.email,
+    isAuth: user.isAuth,
+    profileImage: user.profileImage,
   });
 };
 
@@ -108,9 +112,13 @@ const editMypage = async (req, res) => {
   const userId = req.session.user._id;
   const userUpdateInfo = req.body;
   try {
-    const updatedUser = await User.findOneAndUpdate({_id: userId}, {
-      $set: userUpdateInfo,
-    }, { new: true }).exec();
+    const updatedUser = await User.findOneAndUpdate(
+      { _id: userId },
+      {
+        $set: userUpdateInfo,
+      },
+      { new: true }
+    ).exec();
     req.session.user = updatedUser;
     return res.status(200).send(updatedUser);
   } catch (error) {
@@ -124,5 +132,5 @@ module.exports = {
   postLogin,
   getLogout,
   getMypage,
-  editMypage
+  editMypage,
 };
