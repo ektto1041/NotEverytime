@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from "react";
-import "./classItem.scss";
-import "../../styles/fontStyle.scss";
-import "../../styles/globals.scss";
+import "./lectureThumbnail.scss";
 import { getArticles } from "../../utils/api";
 import { Link } from "react-router-dom";
 
-export const ClassItem = ({ lectureName, lectureId }) => {
+export const LectureThumbnail = ({ lectureName, lectureId }) => {
   const [articles, setArticles] = useState([]);
 
   useEffect(() => {

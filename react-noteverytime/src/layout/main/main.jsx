@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
-import { ClassItem } from "../../components/classItem/classItem";
+import { LectureThumbnail } from "../../components/lectureThumbnail/lectureThumbnail";
 import { getUserLecturesBySemester } from "../../utils/api";
 import "./main.scss";
 
@@ -40,7 +40,7 @@ export const Main = () => {
         {userLectures.map((userLecture) => {
           console.dir(userLecture);
           return (
-            <ClassItem
+            <LectureThumbnail
               lectureName={userLecture.lecture.lectureName}
               lectureId={userLecture.lecture._id}
             />
