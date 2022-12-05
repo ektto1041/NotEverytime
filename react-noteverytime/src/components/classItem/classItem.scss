@@ -6,23 +6,30 @@
 
   @include containerBorderStyle();
 
-  padding: 1.50em 0;
+  padding: 1.5em 0;
   margin-bottom: 1.25em;
-  
+
   .class-item-title {
     display: flex;
     justify-content: space-between;
     column-gap: 16px;
 
-    padding: 0 1.50em;
+    padding: 0 1.5em;
     margin: 0 auto;
-    
+
     cursor: pointer;
 
+    .link-lecture {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      text-decoration: none;
+      color: $text-dark;
+    }
     .title-name {
-      overflow:hidden;
-      text-overflow:ellipsis;
-      white-space:nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
 
     .Icon_RightArrow {
@@ -38,22 +45,22 @@
     justify-content: space-around;
 
     .class-item-preview {
-      height: 2.50em;
+      height: 2.5em;
       color: $text-grey;
-      
+
       display: flex;
       justify-content: space-between;
-      align-items:center;
+      align-items: center;
       column-gap: 16px;
-      
-      padding: 0.50em 1.50em;
+
+      padding: 0.5em 1.5em;
 
       cursor: pointer;
 
       .preview-title {
-        overflow:hidden;
-        text-overflow:ellipsis;
-        white-space:nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
       }
 
       .preview-createdAt {
