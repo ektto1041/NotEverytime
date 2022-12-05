@@ -6,14 +6,13 @@
   height: 60px;
 
   border-bottom: 1px solid $grey-border;
-  margin-bottom: 60px;
 
   .header-Container {
     width: $column-size;
     height: 100%;
     display: flex;
     justify-content: space-between;
-    
+
     margin: 0 3em;
     @include tablet {
       margin: 0 1.5em;
@@ -21,16 +20,14 @@
 
     padding: 0 3em;
 
-
-
     .header-centerContainer {
       @include flexCenter();
       height: 100%;
     }
-    
+
     .search-bar {
       width: 100%;
-    
+
       input {
         width: 60%;
         height: 2.5em;
@@ -39,20 +36,16 @@
         background-image: url("../../../public/images/search_icon.png");
         background-repeat: no-repeat;
         background-position: 1.5em center;
-    
+
         border: none;
         border-radius: 20px;
-    
+
         padding-left: 4em;
       }
 
       input::placeholder {
         color: $text-grey;
       }
-
     }
   }
 }
-
-
-
