@@ -17,7 +17,7 @@ const getBoard = async (req, res) => {
     const articles = await getArticles(lectureId, tab);
     return res.status(200).send({ lecture, lectureDetail, articles });
   } catch (error) {
-    return res.status(400).send(error.message);
+    return res.status(500).send(error.message);
   }
 };
 
@@ -52,7 +52,7 @@ const getLecture = async (req, res) => {
     userLectureDetail = await getUserLectureDetail(userId, lectureId);
     return res.status(200).send({ lecture, lectureDetail, userLectureDetail });
   } catch (error) {
-    return res.status(400).send(error.message);
+    return res.status(500).send(error.message);
   }
 };
 
@@ -86,30 +86,33 @@ const getArticles = async (req, res) => {
   const lastLoadedId = req.query.id;
   const size = req.query.size || 5;
 
-  let query;
-  const searchQuery = keyword.length > 0 ? { $text: { $search: keyword } } : {};
-  if (lastLoadedId) {
-    query = Object.assign(
-      {
-        lectureId,
-        category: tab,
-        _id: { $lt: lastLoadedId },
-      },
-      searchQuery
-    );
-  } else {
-    query = Object.assign(
-      {
-        lectureId,
-        category: tab,
-      },
-      searchQuery
-    );
+  try {
+    let query;
+    const searchQuery = keyword.length > 0 ? { $text: { $search: keyword } } : {};
+    if (lastLoadedId) {
+      query = Object.assign(
+        {
+          lectureId,
+          category: tab,
+          _id: { $lt: lastLoadedId },
+        },
+        searchQuery
+      );
+    } else {
+      query = Object.assign(
+        {
+          lectureId,
+          category: tab,
+        },
+        searchQuery
+      );
+    }
+    const articles = await Article.find(query).sort({ _id: -1 }).limit(size);
+    // 리턴값이 오름차순 정렬이므로 내림차순으로 정렬 필요
+    return res.status(200).send(articles.sort((a, b) => b - a));
+  } catch (error) {
+    return res.status(400).send(error.message);
   }
-  console.log(query);
-  const articles = await Article.find(query).sort({ _id: -1 }).limit(size);
-  // 리턴값이 오름차순 정렬이므로 내림차순으로 정렬 필요
-  return res.status(200).send(articles.sort((a, b) => b - a));
 };
 
 const getArticle = async (req, res) => {
