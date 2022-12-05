@@ -1,19 +1,11 @@
 /** @format */
 
 const User = require("../models/user/user");
-
-const isDuplicated = async (db, value, field) => {
-  const existField = await db.exists({ accountId: value });
-  console.log(existField);
-  if (existField) {
-    console.log(`${field} already exists`);
-    return true;
-  }
-  return false;
-};
+const UserLecture = require("../models/user/userLecture");
+const Lecture = require("../models/lecture/lecture");
+const LectureDetail = require("../models/lecture/lectureDetail");
 
 const isEmpty = (field) => field === "" || field === undefined;
-
 const postJoin = async (req, res) => {
   const { accountId, password, username, email, isAuth, profileImage } =
     req.body;
@@ -91,18 +83,36 @@ const getMypage = async (req, res) => {
     return res.status(400).send("세션 없음");
   }
   const userId = req.session.user._id;
-  const user = await User.findOne({ userId });
-  if (!user) {
-    return res.status(400).send("등록되지 않은 ID 또는 PW입니다.");
+  try {
+    const user = await User.findById(userId);
+    if (!user) {
+      throw new Error("등록되지 않은 ID 또는 PW입니다.");
+    }
+    let userResult = {
+      _id: user._id,
+      accountId: user.accountId,
+      username: user.username,
+      email: user.email,
+      isAuth: user.isAuth,
+      profileImage: user.profileImage,
+    }
+    let userLecture = await UserLecture.findOne({ userId });
+    if (!userLecture) {
+      return res.status(200).send({userResult});
+    }
+    let lectures = [];
+    for (let lectureDetail of userLecture.lectureDetailId) {
+      let lecture = await LectureDetail.findById(lectureDetail).populate("lectureId");
+      if (!lecture) {
+        throw new Error("해당하는 lectureDetail 정보가 없습니다.");
+      } else {
+        lectures.push(lecture);
+      }
+    }
+    return res.status(200).send({userResult, lectures});
+  } catch (error) {
+    return res.status(400).send(error.message);
   }
-  return res.status(200).send({
-    _id: user._id,
-    accountId: user.accountId,
-    username: user.username,
-    email: user.email,
-    isAuth: user.isAuth,
-    profileImage: user.profileImage,
-  });
 };
 
 const editMypage = async (req, res) => {
