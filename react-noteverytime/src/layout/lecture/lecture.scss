@@ -1,13 +1,14 @@
-@import '../../styles/variables.scss';
+@import "../../styles/variables.scss";
 
 .lecture-container {
   width: 60em;
   display: flex;
   margin: 0 auto;
+  margin-top: 2em;
 
   .info-box {
     width: 15em;
-    
+
     .info-item {
       width: 100%;
     }
@@ -16,11 +17,11 @@
       color: $text-grey;
       margin-bottom: 0.5em;
     }
-    
+
     .info-content {
       color: $text-dark;
     }
-    
+
     .user-semester-box {
       border: 1px solid $grey-border;
       border-radius: 12px;
@@ -93,8 +94,8 @@
 
     .article-list {
       width: 100%;
-      padding-top: .5em;
-      padding-bottom: .5em;
+      padding-top: 0.5em;
+      padding-bottom: 0.5em;
       border: 1px solid $grey-border;
       border-radius: 12px;
     }
