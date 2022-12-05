@@ -1,59 +1,31 @@
-const newArticle = (() => {
-  let id = 0;
-  return (lectureId, category = 1, isImage = false, isAnonymous = true) => {
-    const article = {
-      id: id,
-      lectureId,
-      userId: '637f14045732f3b44bc163a1',
-      title: `제목 ${id}`,
-      content: Array.from({length: 40}, i => `내용 ${id} `).join(''),
-      category,
-      likeCount: id,
-      isImage,
-      isAnonymous,
-      createdAt: '2022-11-20T14:10:30.000Z',
-      modifiedAt: '2022-11-20T14:10:30.000Z',
-    };
-    id++;
-    return article;
-  };
-})();
+export const USER_STATUS = {
+  none: Symbol(),
+  prev: Symbol(),
+  current: Symbol(),
+  getStr: function(userStatus) {
+    if(userStatus === this.none) return '미수강생';
+    if(userStatus === this.prev) return '이전 학기 수강생';
+    if(userStatus === this.current) return '현재 학기 수강생';
+  },
+};
 
-const newLecture = (() => {
-  let id = 0;
-  return () => {
-    const lecture = {
-      id: id,
-      subjectId: `SCE${id}`,
-      code: `F065-${id}`,
-      name: '웹시스템설계',
-      professor: '오상윤',
-      semester: '2022-2',
-      times: [
-        '월 09:00~10:30',
-      ],
-      articles: [
-        newArticle(id),
-        newArticle(id),
-        newArticle(id, 1, true),
-        newArticle(id),
-      ],
-    };
-    id++;
-    return lecture;
-  }
-})();
-
-export const DUMMY = {
-  lectureList: [
-    newLecture(),
-  ],
+export const getUserStatus = (lectureSemester, userSemester) => {
+  return userSemester ? ( userSemester === lectureSemester ? USER_STATUS.current : USER_STATUS.prev ) : USER_STATUS.none;
 };
 
 export const CATEGORIES = [
   '0은 묵음',
-  '자유게시판',
-  '선배의 팁 게시판',
-  '과제 Q&A 게시판',
-  '팀원 모집 게시판',
-]
+  { name: '자유게시판', [USER_STATUS.none]: 0b11, [USER_STATUS.prev]: 0b11, [USER_STATUS.current]: 0b11 },
+  { name: '선배의 팁 게시판', [USER_STATUS.none]: 0b01, [USER_STATUS.prev]: 0b11, [USER_STATUS.current]: 0b01},
+  { name: '과제 Q&A 게시판', [USER_STATUS.none]: 0b00, [USER_STATUS.prev]: 0b01, [USER_STATUS.current]: 0b11},
+  { name: '팀원 모집 게시판', [USER_STATUS.none]: 0b00, [USER_STATUS.prev]: 0b00, [USER_STATUS.current]: 0b11},
+];
+
+export const getCategoryAuthority = (categoryId, userStatus) => {
+  console.log(categoryId);
+  console.log(userStatus);
+  console.log(CATEGORIES[categoryId][userStatus] & 0b10);
+  const write = (CATEGORIES[categoryId][userStatus] & 0b10) === 0b10;
+  const read = (CATEGORIES[categoryId][userStatus] & 0b01) === 0b01;
+  return {write, read};
+}
