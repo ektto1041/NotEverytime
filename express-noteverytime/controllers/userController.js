@@ -120,35 +120,6 @@ const getMypage = async (req, res) => {
   }
 };
 
-const getUserLecture = async (req, res) => {
-  if (!req.session.user) {
-    return res.status(400).send("세션 없음");
-  }
-  const userId = req.session.user._id;
-  try {
-    let userLecture = await UserLecture.findOne({ userId });
-    if (!userLecture) {
-      return res.status(200).send({ userResult });
-    }
-    let lectures = [];
-    for (let lectureDetail of userLecture.lectureDetailId) {
-      let lecture = await LectureDetail.findById(lectureDetail).populate(
-        "lectureId"
-      );
-      if (!lecture) {
-        throw new Error("해당하는 lectureDetail 정보가 없습니다.");
-      } else {
-        lecture = lecture.toObject();
-        lecture["lecture"] = lecture["lectureId"];
-        delete lecture["lectureId"];
-        lectures.push(lecture);
-      }
-    }
-    return res.status(200).send(lectures);
-  } catch (error) {
-    return res.status(400).send(error.message);
-  }
-};
 
 const editMypage = async (req, res) => {
   if (!req.session.user) {
@@ -199,5 +170,4 @@ module.exports = {
   getMypage,
   editMypage,
   editMypageProfile,
-  getUserLecture,
 };
