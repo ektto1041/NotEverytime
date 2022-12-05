@@ -11,6 +11,9 @@ const ax = axios.create({
 });
 
 export const registerUser = (userInfo) => ax.post("/join", userInfo);
+
+export const getUserLecturesBySemester = (semester) =>
+  ax.get(`/lecture/semesters/${semester}`);
 /**
  * FOR TEST,
  * 유저 아이디를 통해 유저 정보를 가져오는 API 예시

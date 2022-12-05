@@ -6,6 +6,8 @@
 
   @include flexCenter();
   flex-direction: column;
+
+  margin-top: 2em;
 }
 
 .menu {
@@ -23,7 +25,7 @@
     color: $ajou-blue;
 
     display: flex;
-    align-items:center;
+    align-items: center;
   }
 
   .controll-box {
@@ -39,15 +41,15 @@
       height: 100%;
 
       @include containerBorderStyle();
-      
-      padding-left: 1.50em;
-      padding-right: 1.00em;
+
+      padding-left: 1.5em;
+      padding-right: 1em;
       color: $text-grey;
 
-      background-image: url('../../../public/images/Icon_DownArrow.svg');
+      background-image: url("../../../public/images/Icon_DownArrow.svg");
       background-repeat: no-repeat;
       background-position: calc(100% - 16px) center;
-      
+
       cursor: pointer;
     }
   }
