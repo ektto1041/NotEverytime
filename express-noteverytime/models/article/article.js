@@ -13,5 +13,7 @@ const articleSchema = new mongoose.Schema({
   modifiedAt: { type: Date }, 
 });
 
+articleSchema.index({ title: 'text', content: 'text' });
 const article = mongoose.model('Article', articleSchema);
+article.createIndexes();
 module.exports = article;
