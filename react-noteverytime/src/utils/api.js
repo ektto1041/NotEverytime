@@ -38,6 +38,8 @@ export const loginApi = (loginData) => ax.post('/login', loginData);
 
 export const getMyPageApi = () => ax.get('/mypage');
 
+export const updateProfileImageApi = (formData) => ax.post('/mypage/profile/edit', formData, { headers: { "Content-Type": "multipart/form-data" }});
+
 export const updateUsernameApi = (username) => ax.post(`/mypage/edit`, {username});
 
 /**

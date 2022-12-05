@@ -2,7 +2,7 @@ import React from 'react';
 import { useEffect } from 'react';
 import { useCallback } from 'react';
 import { useState } from 'react';
-import { updateUsernameApi } from '../../utils/api';
+import { updateProfileImageApi, updateUsernameApi } from '../../utils/api';
 import './profileBox.scss';
 import { ProfileContentItem } from './profileContentItem/profileContentItem';
 
@@ -14,7 +14,22 @@ export const ProfileBox = ({
 
   const [isUsernameEdit, setUsernameEdit] = useState(false);
   const [inputUsername, setInputUsername] = useState(username);
+  const [uploadImage, setUploadImage] = useState('');
 
+  const handleProfileImageChange = useCallback(async (e) => {
+    const formData = new FormData();
+    formData.append('image', e.target.files[0]);
+
+    const response = await updateProfileImageApi(formData);
+    console.log(response);
+
+  }, []);
+
+  /**
+   * 닉네임 편집을 눌렀을 때,
+   * edit 모드가 아닐 때 -> input 이 보여지게 함
+   * edit 모드일 때 -> 닉네임 수정 api 호출
+   */
   const handleEditUsernameClick = useCallback(async () => {
     if(!isUsernameEdit) setUsernameEdit(true);
     else {
@@ -38,7 +53,15 @@ export const ProfileBox = ({
           <img src={profileImage} alt="account" width='100%' />
         </div>
         <div className='camera-img-box'>
-          <img src="/images/Icon_Camera.svg" alt="camera" />
+          <label htmlFor='photo'>
+            <img src="/images/Icon_Camera.svg" alt="camera" />
+          </label>
+          <input
+            type="file"
+            id="photo"
+            accept="image/*"
+            onChange={handleProfileImageChange}
+          />
         </div>
       </div>
       <div className='profile-content'>
