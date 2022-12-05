@@ -39,9 +39,11 @@ app.use(express.urlencoded( {extended : false } ));
 
 const rootRouter = require('./routers/rootRouter');
 const lectureRouter = require('./routers/lectureRouter');
+const articleRouter = require("./routers/articleRouter");
 
 app.use('/', rootRouter);
 app.use('/lecture', lectureRouter);
+app.use('/articles', articleRouter);
 
 app.listen(4000, () => {
   console.log("Hello! Node.js!");

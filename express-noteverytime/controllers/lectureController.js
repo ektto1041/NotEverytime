@@ -146,12 +146,6 @@ const getArticles = async (req, res) => {
   }
 };
 
-const getArticle = async (req, res) => {
-  const articleId = req.params.articleId;
-  const article = await Article.findOne({ _id: articleId });
-  return res.status(200).send(article);
-};
-
 const postEdit = async (req, res) => {
   // const articleId = req.params.articleId;
   // const article = await Article.findOne({ _id: articleId});
@@ -162,6 +156,5 @@ module.exports = {
   getUserLecture,
   getLecture,
   getArticles,
-  getArticle,
   postEdit,
 };
