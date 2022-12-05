@@ -7,8 +7,8 @@ lectureRouter.get("/", (req, res, next) => {
   res.send("lectureRouter");
 });
 
+lectureRouter.get("/semesters/:semester?", getUserLecture);
 lectureRouter.get("/:lectureId", getLecture);
-lectureRouter.get("/semesters/:semester", getUserLecture);
 lectureRouter.get("/:lectureId/articles", getArticles);
 // lectureRouter.get("/:lectureId/articles/:articleId", getArticle);
 // lectureRouter.post("/:lectureId/articles/edit", articleUpload.single('articleImage'), postEdit);

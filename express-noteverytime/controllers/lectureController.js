@@ -81,8 +81,7 @@ const getUserLecture = async (req, res) => {
     return res.status(400).send("세션 없음");
   }
   const userId = req.session.user._id;
-  const semester = req.params.semester;
-  console.log(semester);
+  const semester = req.params.semester || "";
 
   try {
     let userLecture = await UserLecture.findOne({ userId });
@@ -101,10 +100,13 @@ const getUserLecture = async (req, res) => {
         lecture["lecture"] = lecture["lectureId"];
         delete lecture["lectureId"];
         lectures.push(lecture);
-        console.log(lectures);
       }
     }
-    return res.status(200).send(lectures.filter((lecture) => lecture.lectureSemester === semester));
+    if (semester) {
+      return res.status(200).send(lectures.filter((lecture) => lecture.lectureSemester === semester));
+    } else {
+      return res.status(200).send(lectures);
+    }
   } catch (error) {
     return res.status(400).send(error.message);
   }
