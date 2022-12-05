@@ -73,3 +73,6 @@ export const getLectureByIdApiPaging = (lectureId, tab, page, size, offset) =>
  */
 export const searchArticles = (lectureId, keyword) =>
   ax.get(`/lecture/${lectureId}/articles/search?keyword=${keyword}`);
+
+export const getArticles = (lectureId) =>
+  ax.get(`/lecture/${lectureId}/articles?tab=1`);
