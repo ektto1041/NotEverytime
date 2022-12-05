@@ -2,12 +2,12 @@
 
 .auth-semester-content-item {
   width: 100%;
-  height: 3em;
+  min-height: 3em;
   display: flex;
   border-bottom: .2px solid $grey-border; 
 
   .auth-semester-content-column {
-    height: 3em;
+    min-height: 3em;
     line-height: 3em;
     text-align: start;
     color: $text-dark;
