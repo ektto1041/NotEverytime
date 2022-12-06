@@ -4,6 +4,7 @@ const commentSchema = new mongoose.Schema({
   articleId: { type: mongoose.Schema.Types.ObjectId, ref: "Article" },
   userId: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
   groupId: { type: mongoose.Schema.Types.ObjectId, ref: "Comment" },
+  content: { type: String, required: true, trim: true },
   depth: { type: Number, required: true, default: 0 },
   order: { type: Number, required: true },
   isAnonymous: { type: Boolean, required: true, default: false },

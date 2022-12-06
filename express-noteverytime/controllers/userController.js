@@ -227,7 +227,7 @@ const postAuthLecture = async (req, res) => {
       });
     } else {
       updateUserLecture = await UserLecture.findByIdAndUpdate(
-        { _id: userLecture._id },
+        userLecture._id,
         {
           $push: { lectureDetailId: lectureDetails },
           userAuthSemeter: currentSemester,
