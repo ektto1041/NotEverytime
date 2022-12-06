@@ -1,7 +1,5 @@
 @import '../../styles/variables.scss';
 
-
-
 .login-Container {
   @include widthContainer();
   max-width: 35.25rem;
@@ -9,40 +7,48 @@
   margin-top: 7.5rem;
   margin-bottom: 3.75rem;
 
-  @include flexCenter();
-  flex-direction: column;
-  row-gap: 1.25rem;
+  & > div + div {
+    margin-top: 1.25rem;
+  }
 
-  overflow: hidden;
-}
+  .login-Box {
+    width: 100%;
+    @include flexCenter();
+    flex-direction: column;
+  
+    @include containerBorderStyle();
+    padding: 3rem 1.5rem;
 
-.logo {
-  height: 4.5rem;
-  margin-bottom: 4.0rem;
-}
+    .logo {
+      width: 100%;
+      max-width: 22.5rem;
+      margin-bottom: 4rem;
+    }
 
-.login-Box {
-  width: 100%;
-  @include flexCenter();
-  flex-direction: column;
+    .input-Box {
+      width: 100%;
+      margin-bottom: 3rem;
+    
+      & > div + div {
+        margin-top: 2.5rem;
+      }
+    }
+  }
 
-  @include containerBorderStyle();
-  padding: 3rem 1.5rem;
-}
-
-.register-Box {
-  width: 100%;
-  @include flexCenter();
-
-  color: $text-grey;
-
-  @include containerBorderStyle();
-  padding: 1.5rem 0;
-  column-gap: 0.63rem;
-
-  a {
-    font-weight: 500;
-    color: $ajou-blue;
-    text-decoration: none;
+  .login-registerBox {
+    width: 100%;
+    @include flexCenter();
+  
+    color: $text-grey;
+  
+    @include containerBorderStyle();
+    padding: 1.5rem 0;
+    column-gap: 0.63rem;
+  
+    & > a {
+      font-weight: 500;
+      color: $ajou-blue;
+      text-decoration: none;
+    }
   }
 }

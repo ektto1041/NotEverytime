@@ -1,10 +1,9 @@
 import React from "react";
 import { useState } from "react";
 import "./login.scss";
-import "../../styles/variables.scss";
 import {
   InputContainer,
-  FulledButton,
+  Button,
 } from "../../components/globalComponents/globalComponent.jsx";
 import { loginApi } from "../../utils/api";
 import { useNavigate } from "react-router-dom";
@@ -40,7 +39,7 @@ export const Login = () => {
       <div className="login-Box">
         <img className="logo" src="/images/Logo.svg" />
 
-        <div className="">
+        <div className='input-Box'>
           <InputContainer
             type="text"
             placeholder="아이디"
@@ -53,11 +52,11 @@ export const Login = () => {
             value={password}
             onChange={handlePasswordChange}
           />
-          <FulledButton variant="yellow" text="로그인" onClick={handleLogin} />
         </div>
+        <Button color="" size="full" text="로그인"  onClick={handleLogin} />
       </div>
 
-      <div className="p3 register-Box">
+      <div className="p3 login-registerBox">
         계정이 없으신가요?{" "}
         <a className="p3" href="/register">
           회원가입
