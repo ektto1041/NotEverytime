@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
 import { useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { getCategoryAuthority, USER_STATUS } from "../../utils/constants";
 import "./post.scss";
 import SunEditor from 'suneditor-react';
@@ -10,6 +10,7 @@ import { createPostApi } from "../../utils/api";
 
 export const Post = () => {
   const location = useLocation();
+  const navigate = useNavigate();
 
   const [lectureId, setLectureId] = useState('');
   const [userStatus, setUserStatus] = useState('');
@@ -45,16 +46,18 @@ export const Post = () => {
     formData.append('title', title);
     formData.append('content', editorRef.current.getContents());
     formData.append('category', category);
-    formData.append('isImage', images.length === 0);
+    formData.append('isImage', images.length > 0);
     formData.append('isAnonymous', isAnonymous);
     images.forEach(img => {
-      formData.append('images', img.file);
+      formData.append('articleImage', img.file);
     })
 
     try {
       const response = await createPostApi(formData);
       console.log('# 글 작성 결과');
       console.log(response);
+
+      navigate(`/lecture/${lectureId}`);
     } catch(err) {
       console.log(err);
     }
