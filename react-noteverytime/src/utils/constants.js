@@ -7,6 +7,11 @@ export const USER_STATUS = {
     if(userStatus === this.prev) return '이전 학기 수강생';
     if(userStatus === this.current) return '현재 학기 수강생';
   },
+  getSymbol: function(userStatusStr) {
+    if(userStatusStr === '미수강생') return this.none;
+    if(userStatusStr === '이전 학기 수강생') return this.prev;
+    if(userStatusStr === '현재 학기 수강생') return this.current;
+  }
 };
 
 export const getUserStatus = (lectureSemester, userSemester) => {
@@ -22,9 +27,6 @@ export const CATEGORIES = [
 ];
 
 export const getCategoryAuthority = (categoryId, userStatus) => {
-  console.log(categoryId);
-  console.log(userStatus);
-  console.log(CATEGORIES[categoryId][userStatus] & 0b10);
   const write = (CATEGORIES[categoryId][userStatus] & 0b10) === 0b10;
   const read = (CATEGORIES[categoryId][userStatus] & 0b01) === 0b01;
   return {write, read};

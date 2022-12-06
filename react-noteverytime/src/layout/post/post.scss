@@ -3,6 +3,7 @@
 .post-container {
   width: 100%;
   padding: 3em 5em;
+  text-align: start;
 
   .top {
     width: 100%;
@@ -74,16 +75,64 @@
     padding: 1em;
   }
 
+  .post-editor-box {
+    margin-top: 1em;
+  }
+
   .photo-container {
     display: flex;
     justify-content: flex-start;
     margin-top: 1em;
+    gap: 1em;
+
+    .photo-item {
+      position: relative;
+      width: 8em;
+      height: 8em;
+      box-shadow: 0 0 4px $grey-border;
+      cursor: pointer;
+
+      .photo-item-image {
+        width: 8em;
+        height: 8em;
+        object-fit: cover;
+      }
+
+      .photo-item-delete-message {
+        background-color: rgba(black, 0);
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        background-image: url(../../../public/images/Icon_Cancel_white.svg);
+        background-repeat: no-repeat;
+        background-position: center;
+        background-size: 0;
+        transition: .25s ease all;
+
+        &:hover {
+          background-color: rgba(black, .5);
+          background-size: 5em;
+        }
+      }
+    }
 
     .photo-add {
-      width: 10em;
-      height: 10em;
+      width: 8em;
+      height: 8em;
       border: 1px solid $grey-border;
+      background-color: $background-first;
       border-radius: 12px;
+      font-size: 1em;
+      padding: 0;
+      cursor: pointer;
+      transition: .25s all ease;
+
+      &:hover{
+        background-color: $ajou-blue;
+        color: white;
+      }
     }
   }
   .reply-section {

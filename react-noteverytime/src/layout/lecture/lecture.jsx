@@ -2,7 +2,7 @@ import React from 'react';
 import { useCallback } from 'react';
 import { useEffect } from 'react';
 import { useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { ArticleListItem } from '../../components/articleListItem/articleListItem';
 import { getArticlesApiPaging, getLectureApi, loginApi, } from '../../utils/api';
 import './lecture.scss';
@@ -71,7 +71,7 @@ export const Lecture = () => {
         professor: response.data.lecture.lectureProfessor,
         semester: response.data.lectureDetail?.lectureSemester,
         // 유저의 학기가 null 이면 미수강생
-        // userSemester: response.data.userLectureDetail?.lectureSemester,
+        userSemester: response.data.userLectureDetail?.lectureSemester,
         // userSemester: '20',
         times: response.data.lectureDetail.lectureTime,
       };
@@ -205,20 +205,6 @@ export const Lecture = () => {
     getArticlesFirst(keyword, selectedCategoryId);
   }, [keyword, getArticlesFirst, selectedCategoryId]);
 
-  console.log('render');
-
-  /**
-   * 글쓰기 클릭 시
-   */
-  const handlePostClick = useCallback(() => {
-    if(getCategoryAuthority(selectedCategoryId, userStatus).write) {
-      navigate(`/post`);
-    } else {
-      // TODO 올바른 피드백
-      alert("접근 권한이 없습니다.");
-    }
-  }, [selectedCategoryId, userStatus]);
-
   return (
     <div className='lecture-container'>
       <div className='info-box'>
@@ -252,7 +238,10 @@ export const Lecture = () => {
           <form onSubmit={handleSearchClick}>
             <input type='text' placeholder='게시물 검색' value={keyword} onChange={(e) => setKeyword(e.target.value)} />
           </form>
-          <button className='write-button' onClick={handlePostClick} ><img src="/images/pen.svg" alt="pen" /></button>
+          <Link to='/post' state={{ userStatus: USER_STATUS.getStr(userStatus), lectureId }}>
+            <button className='write-button' ><img src="/images/pen.svg" alt="pen" /></button>
+          </Link>
+          
         </div>
         <div className='article-list'>
           {articleList?.map(article => (

@@ -105,3 +105,5 @@ export const searchArticles = (lectureId, keyword) =>
 
 export const getArticles = (lectureId) =>
   ax.get(`/lecture/${lectureId}/articles?tab=1`);
+
+export const createPostApi = (formData) => ax.post('/articles/edit', formData);
