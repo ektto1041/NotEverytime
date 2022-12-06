@@ -10,6 +10,6 @@ articleRouter.get("/", (req, res, next) => {
 articleRouter.get("/:articleId", getArticle);
 articleRouter.post("/edit", articleUpload.array('articleImage', 10), editArticle);
 articleRouter.post("/comments/edit", editComment);
-// articleRouter.get("/:article_id/comments", getComment);
+articleRouter.get("/:articleId/comments", getComment);
 
 module.exports = articleRouter;

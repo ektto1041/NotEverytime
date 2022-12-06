@@ -90,7 +90,7 @@ const editComment = async (req, res) => {
   try {
     const article = await Article.findById(articleId);
     if (!article) {
-      throw new Error("해당하는 상위 게시글이 article db에 없습니다.");
+      throw new Error("해당하는 게시글이 article db에 없습니다.");
     }
 
     let comment;
@@ -98,7 +98,7 @@ const editComment = async (req, res) => {
 
     if (groupId) {
       /* 대댓글인 경우 */
-      order = await Comment.countDocuments({ groupId, depth: 1 }) + 1;
+      order = (await Comment.countDocuments({ groupId, depth: 1 })) + 1;
       comment = await Comment.create({
         articleId,
         userId,
@@ -112,7 +112,7 @@ const editComment = async (req, res) => {
       });
     } else {
       /* 댓글인 경우: create 후 얻은 commentId값을 본인의 groupId에 업데이트  */
-      order = await Comment.countDocuments({ articleId, depth: 0 }) + 1;
+      order = (await Comment.countDocuments({ articleId, depth: 0 })) + 1;
       comment = await Comment.create({
         articleId,
         userId,
@@ -132,8 +132,6 @@ const editComment = async (req, res) => {
   } catch (error) {
     return res.status(400).send(error.message);
   }
-
-  return res.status(200).send(commentId);
 };
 
 const getComment = async (req, res) => {
@@ -141,6 +139,41 @@ const getComment = async (req, res) => {
     return res.status(400).send("세션 없음");
   }
   const userId = req.session.user._id;
+  const articleId = req.params.articleId;
+  if (!articleId) {
+    return res.status(400).send("게시글 id가 없습니다.");
+  }
+  try {
+    const article = await Article.findById(articleId);
+    if (!article) {
+      throw new Error("해당하는 게시글이 article db에 없습니다.");
+    }
+    let comments = await Comment.find({ articleId }).populate("userId");
+    let newComments = [];
+    let users = new Set();
+    let userIndex = 0;
+    for (let comment of comments) {
+      comment = comment.toObject();
+      if (comment.userId._id.equals(article.userId) ) {
+        comment["username"] = "작성자";
+      } else {
+        users.add(comment.userId._id.toString());
+        userIndex = Array.from(users).indexOf(comment.userId._id.toString());
+        console.log(users); // DEBUG
+        console.log(userIndex); // DEBUG
+        comment["username"] = comment.isAnonymous
+        ? `익명${userIndex+1}`
+        : comment["userId"].username;
+      }
+      comment["isIdentify"] = comment.userId._id.equals(userId) ? true : false;
+      
+      delete comment["userId"];
+      newComments.push(comment);
+    }
+    return res.status(200).send(newComments);
+  } catch (error) {
+    return res.status(400).send(error.message);
+  }
 };
 
 module.exports = {
