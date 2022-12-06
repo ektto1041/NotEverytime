@@ -62,7 +62,7 @@ export const authenticateLectureApi = () => ax.get('/authenticate/lecture');
 /**
  * 가져온 목업데이터를 서버로 보내 db에 insert 하는 API
  */
-export const updateAuthenticatedLectureApi = () => ax.post('/authenticate/lecture');
+export const updateAuthenticatedLectureApi = (lectures) => ax.post('/authenticate/lecture', lectures);
 
 /**
  * 특정 강의의 정보를 가져오는 API

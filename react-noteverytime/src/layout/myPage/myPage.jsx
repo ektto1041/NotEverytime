@@ -14,7 +14,7 @@ export const MyPage = () => {
 
   const getUser = useCallback(async () => {
     // TODO 임시 로그인
-    const login = await loginApi({ accountId: "mcodnjs", password: "aaaa" });
+    const login = await loginApi({ accountId: "mockup", password: "bbbb" });
     console.log('# 로그인 결과');
     console.log(login);
 
