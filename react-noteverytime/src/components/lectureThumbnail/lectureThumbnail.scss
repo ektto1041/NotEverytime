@@ -2,7 +2,6 @@
 
 .class-item-container {
   width: 100%;
-  height: 17.25em;
 
   @include containerBorderStyle();
 
@@ -68,4 +67,8 @@
       }
     }
   }
+}
+
+.semester-box {
+  @include semester-box();
 }
