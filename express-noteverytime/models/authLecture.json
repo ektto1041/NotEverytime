@@ -56,7 +56,7 @@
     "lectureCode": "F049"
   },
   {
-    "lectureSubjectId": "MOCK008",
+    "lectureSubjectId": "SCE331",
     "lectureName": "오픈소스SW입문",
     "lectureProfessor": "이환용",
     "lectureSemester": "2022-1",
@@ -64,7 +64,7 @@
     "lectureCode": "F044"
   },
   {
-    "lectureSubjectId": "MOCK009",
+    "lectureSubjectId": "MOCK008",
     "lectureName": "운영체제",
     "lectureProfessor": "안정섭",
     "lectureSemester": "2022-1",
@@ -72,7 +72,7 @@
     "lectureCode": "F042"
   },
   {
-    "lectureSubjectId": "MOCK011",
+    "lectureSubjectId": "MOCK009",
     "lectureName": "이공계열 취업역량개발",
     "lectureProfessor": "정광식",
     "lectureSemester": "2022-1",
@@ -80,7 +80,7 @@
     "lectureCode": "X592"
   },
   {
-    "lectureSubjectId": "MOCK011",
+    "lectureSubjectId": "MOCK010",
     "lectureName": "자기이해와 진로탐색",
     "lectureProfessor": "김은하",
     "lectureSemester": "2022-1",
@@ -88,7 +88,7 @@
     "lectureCode": "X590"
   },
   {
-    "lectureSubjectId": "MOCK012",
+    "lectureSubjectId": "MOCK011",
     "lectureName": "컴퓨터그래픽스",
     "lectureProfessor": "이환용",
     "lectureSemester": "2022-1",
@@ -96,7 +96,7 @@
     "lectureCode": "F013"
   },
   {
-    "lectureSubjectId": "MOCK013",
+    "lectureSubjectId": "MOCK012",
     "lectureName": "현대인의 정신건강",
     "lectureProfessor": "김현준",
     "lectureSemester": "2022-1",
@@ -104,7 +104,7 @@
     "lectureCode": "X004"
   },
   {
-    "lectureSubjectId": "MOCK014",
+    "lectureSubjectId": "MOCK013",
     "lectureName": "기계학습",
     "lectureProfessor": "손경아",
     "lectureSemester": "2022-2",
@@ -112,7 +112,7 @@
     "lectureCode": "F086"
   },
   {
-    "lectureSubjectId": "MOCK015",
+    "lectureSubjectId": "MOCK014",
     "lectureName": "서양고전철학",
     "lectureProfessor": "신호재",
     "lectureSemester": "2022-2",
@@ -120,7 +120,7 @@
     "lectureCode": "X553"
   },
   {
-    "lectureSubjectId": "MOCK016",
+    "lectureSubjectId": "SCE338",
     "lectureName": "웹시스템설계",
     "lectureProfessor": "오상윤",
     "lectureSemester": "2022-2",
@@ -128,7 +128,7 @@
     "lectureCode": "F065"
   },
   {
-    "lectureSubjectId": "MOCK017",
+    "lectureSubjectId": "MOCK015",
     "lectureName": "인공지능",
     "lectureProfessor": "김민구",
     "lectureSemester": "2022-2",
@@ -136,7 +136,7 @@
     "lectureCode": "F060"
   },
   {
-    "lectureSubjectId": "MOCK018",
+    "lectureSubjectId": "MOCK016",
     "lectureName": "컴파일러",
     "lectureProfessor": "류기열",
     "lectureSemester": "2022-2",
@@ -144,7 +144,7 @@
     "lectureCode": "F053"
   },
   {
-    "lectureSubjectId": "MOCK019",
+    "lectureSubjectId": "MOCK017",
     "lectureName": "통일 한국의 이해",
     "lectureProfessor": "백인주",
     "lectureSemester": "2022-2",

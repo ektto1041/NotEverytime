@@ -6,6 +6,7 @@ const Lecture = require("../models/lecture/lecture");
 const LectureDetail = require("../models/lecture/lectureDetail");
 const authLecture = require("../models/authLecture.json");
 
+const currentSemester = "2022-2";
 const isEmpty = (field) => field === "" || field === undefined;
 const postJoin = async (req, res) => {
   const { accountId, password, username, email, isAuth, profileImage } =
@@ -169,6 +170,68 @@ const getAuthLecture = async (req, res) => {
   return res.status(200).send(authLecture);
 };
 
+const postAuthLecture = async (req, res) => {
+  if (!req.session.user) {
+    return res.status(400).send("세션 없음");
+  }
+  const userId = req.session.user._id;
+  let authLectureData = req.body;
+  if (!authLectureData) {
+    return res.status(400).send("인증할 수강정보가 없습니다.");
+  }
+  try {
+    /**
+     * 1. 유저의 인증학기로 받은 데이터 필터링
+     * 2. 받은 데이터의 강의+교수님이 lecutre에 있는지 확인 (원래 서비스라면, 가지고 있어야함)
+     * 3. 받은 데이터의 학기+과목코드+강의시간이 lectureDetail에 있는지 확인 (원래 서비스라면, 가지고 있어야함)
+     * 4. userLecture에 lectuerDetailId를 추가
+     */
+
+    let userLecture = await UserLecture.findOne({ userId }).select(
+      "userAuthSemeter"
+    );
+    if (userLecture) {
+      if (userLecture.userAuthSemeter === currentSemester) {
+        return res.status(400).send("이미 수강인증되었습니다.");
+      }
+      authLectureData = authLectureData.filter(
+        (lecture) => lecture.lectureSemester > userLecture.userAuthSemeter
+      );
+    }
+
+    let lectureDetails = [];
+    for (let data of authLectureData) {
+      let lectureId = await Lecture.find({
+        lectureName: data.lectureName,
+        lectureProfessor: data.lectureProfessor,
+      });
+      let lectureDetail = await LectureDetail.findOne({
+        lectureId,
+        lectureSemester: data.lectureSemester,
+        lectureCode: data.lectureCode,
+        lectureTime: data.lectureTime,
+      });
+      if (!lectureDetail) {
+        return res.status(500).send("강의 정보가 DB에 없습니다.");
+      } else {
+        lectureDetails.push(lectureDetail._id);
+      }
+    }
+
+    const updateUserLecture = await UserLecture.findByIdAndUpdate(
+      { _id: userLecture._id },
+      {
+        $push: { lectureDetailId: lectureDetails },
+        userAuthSemeter: currentSemester
+      },
+      { new: true }
+    ).exec();
+    return res.status(200).send(updateUserLecture);
+  } catch (error) {
+    return res.status(400).send(error.message);
+  }
+};
+
 module.exports = {
   postJoin,
   getLogin,
@@ -178,4 +241,5 @@ module.exports = {
   editMypage,
   editMypageProfile,
   getAuthLecture,
+  postAuthLecture,
 };
