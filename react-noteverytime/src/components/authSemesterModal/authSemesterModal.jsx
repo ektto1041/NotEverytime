@@ -59,7 +59,7 @@ export const AuthSemesterModal = ({
       console.log("# 모달에서 수강 인증하기 누른 결과");
       console.log(response);
 
-      navigate('0');
+      navigate(0);
     } catch(err) {
       alert(err.response.data);
     }
