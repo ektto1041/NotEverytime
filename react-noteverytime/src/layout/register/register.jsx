@@ -1,7 +1,9 @@
 import React from "react";
 import { useState } from "react";
+import { useNavigate } from 'react-router-dom';
 import "./register.scss";
 import { registerUser } from "../../utils/api";
+import { Button, InputContainer } from "../../components/globalComponents/globalComponent";
 
 export const Register = () => {
   const [name, setName] = useState("");
@@ -9,6 +11,7 @@ export const Register = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordConfirm, setPasswordConfirm] = useState("");
+  const navigate = useNavigate();
 
   const handleNameChange = (e) => {
     setName(e.target.value);
@@ -25,6 +28,10 @@ export const Register = () => {
   const handlePasswordConfirmChange = (e) => {
     setPasswordConfirm(e.target.value);
   };
+
+  const handleCancel = () => {
+    navigate("/login")
+  }
 
   const handleRegister = async () => {
     const newUser = {
@@ -66,64 +73,51 @@ export const Register = () => {
   };
 
   return (
-    <div className="register-container">
-      <div className="wrapper">
-        <h1 className="title">회원가입</h1>
-        <div className="separator" />
-        <div className="input-container">
-          <p className="label">닉네임</p>
-          <input
-            className="input"
+    <div className="register-Container">
+      <div className="register-Box">
+        <div className="h3">회원가입</div>
+        <div className="semester-box"></div>
+        <div className="register-inputBox">
+          <InputContainer
+            label="아이디"
+            type="text"
+            placeholder="아이디 입력"
+            value={id}
+            onChange={handleIdChange}
+          />
+          <InputContainer
+            label="이메일"
+            type="email"
+            placeholder="이메일 입력"
+            value={email}
+            onChange={handleEmailChange}
+          />
+          <InputContainer
+            label="비밀번호"
+            type="password"
+            placeholder="비밀번호 입력"
+            value={password}
+            onChange={handlePasswordChange}
+          />
+          <InputContainer
+            label="비밀번호 확인"
+            type="password"
+            placeholder="비밀번호 재입력"
+            value={passwordConfirm}
+            onChange={handlePasswordConfirmChange}
+          />
+          <InputContainer
+            label="닉네임"
             type="text"
             placeholder="닉네임 입력"
             value={name}
             onChange={handleNameChange}
           />
         </div>
-        <div className="input-container">
-          <p className="label">아이디</p>
-          <input
-            className="input"
-            type="text"
-            placeholder="아이디 입력"
-            value={id}
-            onChange={handleIdChange}
-          />
+        <div className="resgiter-buttonBox">
+          <Button size="full" text="회원가입" onClick={handleRegister}/>
+          <Button color="grey" size="full" text="취소" onClick={handleCancel}/>
         </div>
-        <div className="input-container">
-          <p className="label">이메일</p>
-          <input
-            className="input"
-            type="email"
-            placeholder="이메일 입력"
-            value={email}
-            onChange={handleEmailChange}
-          />
-        </div>
-        <div className="input-container">
-          <p className="label">비밀번호</p>
-          <input
-            className="input"
-            type="password"
-            placeholder="비밀번호 입력"
-            value={password}
-            onChange={handlePasswordChange}
-          />
-        </div>
-        <div className="input-container">
-          <p className="label">비밀번호 확인</p>
-          <input
-            className="input"
-            type="password"
-            placeholder="비밀번호 재입력"
-            value={passwordConfirm}
-            onChange={handlePasswordConfirmChange}
-          />
-        </div>
-        <button className="register-button" onClick={handleRegister}>
-          회원가입
-        </button>
-        <button className="cancle-button">취소</button>
       </div>
     </div>
   );
