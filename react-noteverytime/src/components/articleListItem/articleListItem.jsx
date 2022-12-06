@@ -12,9 +12,10 @@ export const ArticleListItem = ({
     content,
     createdAt,
     modifiedAt,
-    userId,
+    username,
     likeCount,
     isImage,
+    articleImages,
   } = article;
 
   const navigate = useNavigate();
@@ -34,7 +35,7 @@ export const ArticleListItem = ({
             {modifiedAt && moment.isMoment(modifiedAt) ? modifiedAt.fromNow() : ''}
           </div>
           <div className='article-writer'>
-            {userId}
+            {username}
           </div>
           <div className='article-icons'>
             <div className='comments'>
@@ -49,9 +50,7 @@ export const ArticleListItem = ({
         </div>
       </div>
       {isImage ? (
-        <div className='thumbnail'>
-          {/* mr 24, 124*124 */}
-        </div>
+        <img className='thumbnail' src={articleImages[0]?.articleImageLink} alt="Thumbnail" />
       ) : (<></>)} 
     </div>
   );

@@ -99,8 +99,10 @@
   }
 
   .thumbnail {
-    width: 8em;
+    width: 6.5em;
+    height: 6.5em;
     background-color: $text-grey;
     border-radius: 12px;
+    object-fit: cover;
   }
 }
