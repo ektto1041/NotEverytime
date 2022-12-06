@@ -3,6 +3,7 @@
 const Lecture = require("../models/lecture/lecture");
 const LectureDetail = require("../models/lecture/lectureDetail");
 const Article = require("../models/article/article");
+const ArticleImage = require("../models/article/articleImage");
 const User = require("../models/user/user");
 const UserLecture = require("../models/user/userLecture");
 
@@ -103,7 +104,11 @@ const getUserLecture = async (req, res) => {
       }
     }
     if (semester) {
-      return res.status(200).send(lectures.filter((lecture) => lecture.lectureSemester === semester));
+      return res
+        .status(200)
+        .send(
+          lectures.filter((lecture) => lecture.lectureSemester === semester)
+        );
     } else {
       return res.status(200).send(lectures);
     }
@@ -118,10 +123,15 @@ const getArticles = async (req, res) => {
   const tab = req.query.tab || 1;
   const lastLoadedId = req.query.id;
   const size = req.query.size || 5;
+  if (!req.session.user) {
+    return res.status(400).send("세션 없음");
+  }
+  const userId = req.session.user._id;
 
   try {
     let query;
-    const searchQuery = keyword.length > 0 ? { $text: { $search: keyword } } : {};
+    const searchQuery =
+      keyword.length > 0 ? { $text: { $search: keyword } } : {};
     if (lastLoadedId) {
       query = Object.assign(
         {
@@ -140,9 +150,27 @@ const getArticles = async (req, res) => {
         searchQuery
       );
     }
-    const articles = await Article.find(query).sort({ _id: -1 }).limit(size);
+    let articles = await Article.find(query)
+      .sort({ _id: -1 })
+      .limit(size)
+      .populate("userId");
+    
+    let newArticles = []; // 게시글 익명/유저 네임/이미지링크 반환
+    for (let article of articles) {
+      article = article.toObject();
+      if (article.isImage) {
+        let articleImage = await ArticleImage.find({articleId: article._id}).select("articleImageLink articleImageOrder");
+        article["articleImages"] = articleImage;
+      }
+      article["isIdentify"] = article.userId._id.equals(userId) ? true : false;
+      article["username"] = article.isAnonymous
+        ? "익명"
+        : article["userId"].username;
+      delete article["userId"];
+      newArticles.push(article);
+    }
     // 리턴값이 오름차순 정렬이므로 내림차순으로 정렬 필요
-    return res.status(200).send(articles.sort((a, b) => b - a));
+    return res.status(200).send(newArticles.sort((a, b) => b - a));
   } catch (error) {
     return res.status(400).send(error.message);
   }
