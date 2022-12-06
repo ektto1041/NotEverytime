@@ -190,7 +190,7 @@ const postAuthLecture = async (req, res) => {
     let userLecture = await UserLecture.findOne({ userId }).select(
       "userAuthSemeter"
     );
-    if (userLecture) {
+    if (userLecture && userLecture.userAuthSemeter) { // 이미 수강인증한 학기가 있는 경우
       if (userLecture.userAuthSemeter === currentSemester) {
         return res.status(400).send("이미 수강인증되었습니다.");
       }
@@ -218,14 +218,24 @@ const postAuthLecture = async (req, res) => {
       }
     }
 
-    const updateUserLecture = await UserLecture.findByIdAndUpdate(
-      { _id: userLecture._id },
-      {
-        $push: { lectureDetailId: lectureDetails },
-        userAuthSemeter: currentSemester
-      },
-      { new: true }
-    ).exec();
+    let updateUserLecture = {};
+    if (!userLecture) { // 수강 인증한 학기가 아예 없는 경우 userLecture document 새로 생성
+      updateUserLecture = await UserLecture.create({
+        userId,
+        lectureDetailId: lectureDetails,
+        userAuthSemeter: currentSemester,
+      });
+    } else {
+      updateUserLecture = await UserLecture.findByIdAndUpdate(
+        { _id: userLecture._id },
+        {
+          $push: { lectureDetailId: lectureDetails },
+          userAuthSemeter: currentSemester,
+        },
+        { new: true }
+      ).exec();
+    }
+
     return res.status(200).send(updateUserLecture);
   } catch (error) {
     return res.status(400).send(error.message);
