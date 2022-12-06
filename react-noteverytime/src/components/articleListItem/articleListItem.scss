@@ -26,6 +26,7 @@
     flex-grow: 1;
     display: flex;
     flex-direction: column;
+    
 
     .article-title {
       height: 1.63rem;
@@ -38,6 +39,7 @@
     .article-preview {
       color: $text-grey;
       text-align: start;
+      height: 3rem;
 
       display: -webkit-box;
       overflow: hidden;
