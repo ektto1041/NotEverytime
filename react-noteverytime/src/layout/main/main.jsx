@@ -31,22 +31,35 @@ export const Main = () => {
             onChange={handleSelectSemester}
           >
             <option value="2022-2">2022-2학기</option>
+            <option value="2022-1">2022-1학기</option>
             <option value="2021-2">2021-2학기</option>
             <option value="2021-1">2021-1학기</option>
+            <option value="2020-2">2020-2학기</option>
+            <option value="2020-1">2020-1학기</option>
           </select>
         </div>
       </div>
+      {userLectures.length === 0 ? (
+        <div className="grid-EmptyBox">
+          <div className="p2">현재 해당 학기에 인증된 과목이 없습니다.</div>
+          <div className="grid-certify">
+            <div className="h6">수강 인증하기</div>
+            <div className="Icon_RightArrow"></div>
+          </div>
+        </div>
+      ) : (
       <div className="grid-box">
-        {userLectures.map((userLecture) => {
-          console.dir(userLecture);
-          return (
-            <LectureThumbnail
-              lectureName={userLecture.lecture.lectureName}
-              lectureId={userLecture.lecture._id}
-            />
-          );
-        })}
+      {userLectures.map((userLecture) => {
+        console.dir(userLecture);
+        return (
+          <LectureThumbnail
+            lectureName={userLecture.lecture.lectureName}
+            lectureId={userLecture.lecture._id}
+          />
+        );
+      })}
       </div>
+    )}
     </div>
   );
 };

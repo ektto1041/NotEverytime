@@ -7,7 +7,7 @@
   @include flexCenter();
   flex-direction: column;
 
-  margin-top: 2em;
+  margin-top: 3.75em;
 }
 
 .menu {
@@ -57,14 +57,44 @@
 
 .grid-box {
   width: 100%;
-  column-gap: 1.25em;
-  columns: 3;
 
-  @include tablet {
-    columns: 2;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(370px, 1fr));
+
+  column-gap: 1.25em;
+}
+
+.grid-EmptyBox {
+  width: 100%;
+  height: 35.75rem;
+  @include containerBorderStyle();
+  @include flexCenter();
+  flex-direction: column;
+
+  & > .p2 {
+    color: $text-grey;
+    height: 1.75rem;
+    margin-bottom: 0.63rem;
   }
 
-  @include mobile {
-    columns: 1;
+  .grid-certify {
+    display: flex;
+    align-items: center;
+    column-gap: 0.5rem;
+
+    & > .h6 {
+      color: $ajou-blue;
+      height: 1.63rem;
+      display: flex;
+      align-items: flex-end;
+    }
+
+    & > .Icon_RightArrow {
+      width: 1.5rem;
+      height: 1.5rem;
+      background-color: $ajou-blue;
+      -webkit-mask: url("../../../public/images/Icon_RightArrow(24).svg") no-repeat center;
+      mask: url("../../../public/images/Icon_RightArrow(24).svg") no-repeat center;
+    }
   }
 }
