@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 import { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { ArticleListItem } from '../../components/articleListItem/articleListItem';
-import { getArticlesApiPaging, getLectureApi, } from '../../utils/api';
+import { getArticlesApiPaging, getLectureApi, loginApi, } from '../../utils/api';
 import './lecture.scss';
 import { CategoryButtonBox } from '../../components/categoryButtonBox/categoryButtonBox';
 import moment from 'moment';
@@ -53,6 +53,11 @@ export const Lecture = () => {
   const [hasNextPage, setNextPage] = useState(false);  // 무한 스크롤에서 다음 페이지가 존재하는 지 여부
 
   const getLecture = useCallback(async () => {
+    // TODO 임시 로그인
+    const login = await loginApi({ accountId: "mcodnjs", password: "aaaa" });
+    console.log('# 로그인 결과');
+    console.log(login);
+
     try {
       const response = await getLectureApi(lectureId);
       console.log('# 강의 정보');

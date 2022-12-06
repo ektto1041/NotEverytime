@@ -41,6 +41,34 @@ const fetchUserByIdInComponents = async (userId) => {
 export const loginApi = (loginData) => ax.post("/login", loginData);
 
 /**
+ * 마이페이지에 필요한 정보를 가져오는 API
+ */
+export const getMyPageApi = () => ax.get('/mypage');
+
+/**
+ * 프로필 이미지 수정 API
+ * @param {FormData} formData profileIamge: File
+ */
+export const updateProfileImageApi = (formData) => ax.post('/mypage/profile/edit', formData, { headers: { "Content-Type": "multipart/form-data" }});
+
+/**
+ * username 변경 API
+ * @param {String} username 변경하려는 username
+ */
+export const updateUsernameApi = (username) => ax.post(`/mypage/edit`, {username});
+
+/**
+ * 마이페이지에서 수강과목 인증을 누르면 호출되는 API
+ * 목업데이터를 가져온다.
+ */
+export const authenticateLectureApi = () => ax.get('/authenticate/lecture');
+
+/**
+ * 가져온 목업데이터를 서버로 보내 db에 insert 하는 API
+ */
+export const updateAuthenticatedLectureApi = () => ax.post('/authenticate/lecture');
+
+/**
  * 특정 강의의 정보를 가져오는 API
  * @param {String} lectureId 가져오려는 강의의 id
  */
@@ -51,9 +79,10 @@ export const getLectureByIdApi = (lectureId, tab) =>
 /**
  * 특정 게시판 글들을 가져오는 API with Paging
  * @param {String} lectureId 가져오려는 강의의 id
+ * @param {String} keyword 검색어
  * @param {Number} tab 가져오려는 게시판 카테고리 id
- * @param {Number} page 페이지 번호
- * @param {Number} size 페이지 사이즈
+ * @param {Number} size 가져오려는 글 수
+ * @param {String} id 마지막으로 가져온 글의 아이디
  */
 export const getArticlesApiPaging = (lectureId, keyword, tab, size, id) =>
   ax.get(

@@ -4,6 +4,8 @@ import './profileContentItem.scss';
 export const ProfileContentItem = ({
   label,
   value,
+  inputValue,
+  setInputValue,
 }) => {
   return (
     <div className='profile-content-item-container'>
@@ -11,7 +13,7 @@ export const ProfileContentItem = ({
         {label}
       </div>
       <div className='profile-content-item-value'>
-        {value}
+        {value ? value : <input type='text' value={inputValue} onChange={(e) => setInputValue(e.target.value)} />}
       </div>
     </div>
   );

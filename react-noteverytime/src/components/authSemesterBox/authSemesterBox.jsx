@@ -3,12 +3,12 @@ import { AuthSemesterList } from '../authSemesterList/authSemesterList';
 import './authSemesterBox.scss';
 
 export const AuthSemesterBox = ({
-  semesters,
+  lecturesBySemester,
 }) => {
   return (
-    <div className='auth-semester-box-container'>
-      {semesters?.map(semester => (
-        <AuthSemesterList key={semester.name} semester={semester} />
+    <div className={`auth-semester-box-container`}>
+      {lecturesBySemester?.map((lectureBySemester) => (
+        <AuthSemesterList key={`${lectureBySemester.semester}`} lectureBySemester={lectureBySemester} />
       ))}
     </div>
   );

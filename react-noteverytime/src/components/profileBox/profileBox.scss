@@ -13,6 +13,15 @@
     margin: 0 auto;
     position: relative;
 
+    .profile-img-wrapper {
+      width: 8em;
+      height: 8em;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      border-radius: 200px;
+    }
+
     .camera-img-box {
       position: absolute;
       bottom: 0;
@@ -21,9 +30,25 @@
       height: 2.5em;
       border-radius: 2.5em;
       background-color: $ajou-silver;
-      display: flex;
-      justify-content: center;
-      align-items: center;
+      transition: .5s all ease;
+
+      label {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 100%;
+        cursor: pointer;
+      }
+
+      input {
+        width: 0;
+        height: 0;
+      }
+
+      &:hover {
+        transform: scale(1.2);
+      }
     }
   }
 
