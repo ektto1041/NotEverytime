@@ -1,0 +1,154 @@
+[
+  {
+    "lectureSubjectId": "MOCK001",
+    "lectureName": "선형대수1",
+    "lectureProfessor": "고영은",
+    "lectureSemester": "2020-2",
+    "lectureTime": ["월 9:00 ~ 10:15", "수 9:00 ~ 10:15"],
+    "lectureCode": "F127"
+  },
+  {
+    "lectureSubjectId": "MOCK002",
+    "lectureName": "알고리즘",
+    "lectureProfessor": "유종빈",
+    "lectureSemester": "2020-2",
+    "lectureTime": ["월 9:00 ~ 10:15", "수 9:00 ~ 10:15"],
+    "lectureCode": "F085"
+  },
+  {
+    "lectureSubjectId": "MOCK003",
+    "lectureName": "역사와 신화",
+    "lectureProfessor": "구수미",
+    "lectureSemester": "2020-2",
+    "lectureTime": ["금 15:00~17:50"],
+    "lectureCode": "X221"
+  },
+  {
+    "lectureSubjectId": "MOCK004",
+    "lectureName": "컴퓨터구조",
+    "lectureProfessor": "안정섭",
+    "lectureSemester": "2020-2",
+    "lectureTime": ["화 12:00 ~ 13:15", "금 12:00 ~ 13:15"],
+    "lectureCode": "F062"
+  },
+  {
+    "lectureSubjectId": "MOCK005",
+    "lectureName": "컴퓨터네트워크",
+    "lectureProfessor": "최영준",
+    "lectureSemester": "2020-2",
+    "lectureTime": ["화 16:30~17:45", "목 15:00~16:15"],
+    "lectureCode": "F060"
+  },
+  {
+    "lectureSubjectId": "MOCK006",
+    "lectureName": "화학",
+    "lectureProfessor": "곽원진",
+    "lectureSemester": "2020-2",
+    "lectureTime": ["금 15:00~17:50"],
+    "lectureCode": "X139"
+  },
+  {
+    "lectureSubjectId": "MOCK007",
+    "lectureName": "시스템프로그래밍및실습",
+    "lectureProfessor": "고영배",
+    "lectureSemester": "2022-1",
+    "lectureTime": ["월 9:00 ~ 10:15", "수 9:00 ~ 10:15"],
+    "lectureCode": "F049"
+  },
+  {
+    "lectureSubjectId": "MOCK008",
+    "lectureName": "오픈소스SW입문",
+    "lectureProfessor": "이환용",
+    "lectureSemester": "2022-1",
+    "lectureTime": ["화 12:00 ~ 13:15", "금 12:00 ~ 13:15"],
+    "lectureCode": "F044"
+  },
+  {
+    "lectureSubjectId": "MOCK009",
+    "lectureName": "운영체제",
+    "lectureProfessor": "안정섭",
+    "lectureSemester": "2022-1",
+    "lectureTime": ["화 16:30~17:45", "목 15:00~16:15"],
+    "lectureCode": "F042"
+  },
+  {
+    "lectureSubjectId": "MOCK011",
+    "lectureName": "이공계열 취업역량개발",
+    "lectureProfessor": "정광식",
+    "lectureSemester": "2022-1",
+    "lectureTime": ["금 15:00~17:50"],
+    "lectureCode": "X592"
+  },
+  {
+    "lectureSubjectId": "MOCK011",
+    "lectureName": "자기이해와 진로탐색",
+    "lectureProfessor": "김은하",
+    "lectureSemester": "2022-1",
+    "lectureTime": ["금 15:00~17:50"],
+    "lectureCode": "X590"
+  },
+  {
+    "lectureSubjectId": "MOCK012",
+    "lectureName": "컴퓨터그래픽스",
+    "lectureProfessor": "이환용",
+    "lectureSemester": "2022-1",
+    "lectureTime": ["화 16:30~17:45", "목 15:00~16:15"],
+    "lectureCode": "F013"
+  },
+  {
+    "lectureSubjectId": "MOCK013",
+    "lectureName": "현대인의 정신건강",
+    "lectureProfessor": "김현준",
+    "lectureSemester": "2022-1",
+    "lectureTime": ["금 15:00~17:50"],
+    "lectureCode": "X004"
+  },
+  {
+    "lectureSubjectId": "MOCK014",
+    "lectureName": "기계학습",
+    "lectureProfessor": "손경아",
+    "lectureSemester": "2022-2",
+    "lectureTime": ["월 9:00 ~ 10:15", "수 9:00 ~ 10:15"],
+    "lectureCode": "F086"
+  },
+  {
+    "lectureSubjectId": "MOCK015",
+    "lectureName": "서양고전철학",
+    "lectureProfessor": "신호재",
+    "lectureSemester": "2022-2",
+    "lectureTime": ["금 15:00~17:50"],
+    "lectureCode": "X553"
+  },
+  {
+    "lectureSubjectId": "MOCK016",
+    "lectureName": "웹시스템설계",
+    "lectureProfessor": "오상윤",
+    "lectureSemester": "2022-2",
+    "lectureTime": ["월 12:00~13:30", "화 9:00~10:50", "수 12:00~13:30"],
+    "lectureCode": "F065"
+  },
+  {
+    "lectureSubjectId": "MOCK017",
+    "lectureName": "인공지능",
+    "lectureProfessor": "김민구",
+    "lectureSemester": "2022-2",
+    "lectureTime": ["화 16:30~17:45", "목 15:00~16:15"],
+    "lectureCode": "F060"
+  },
+  {
+    "lectureSubjectId": "MOCK018",
+    "lectureName": "컴파일러",
+    "lectureProfessor": "류기열",
+    "lectureSemester": "2022-2",
+    "lectureTime": ["화 12:00 ~ 13:15", "금 12:00 ~ 13:15"],
+    "lectureCode": "F053"
+  },
+  {
+    "lectureSubjectId": "MOCK019",
+    "lectureName": "통일 한국의 이해",
+    "lectureProfessor": "백인주",
+    "lectureSemester": "2022-2",
+    "lectureTime": ["금 15:00~17:50"],
+    "lectureCode": "X217"
+  }
+]

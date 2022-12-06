@@ -4,6 +4,7 @@ const User = require("../models/user/user");
 const UserLecture = require("../models/user/userLecture");
 const Lecture = require("../models/lecture/lecture");
 const LectureDetail = require("../models/lecture/lectureDetail");
+const lectureAuth = require("../models/lectureAuth.json");
 
 const isEmpty = (field) => field === "" || field === undefined;
 const postJoin = async (req, res) => {
@@ -120,7 +121,6 @@ const getMypage = async (req, res) => {
   }
 };
 
-
 const editMypage = async (req, res) => {
   if (!req.session.user) {
     return res.status(400).send("세션 없음");
@@ -162,6 +162,13 @@ const editMypageProfile = async (req, res) => {
   }
 };
 
+const getLectureAuth = async (req, res) => {
+  if (!req.session.user) {
+    return res.status(400).send("세션 없음");
+  }
+  return res.status(200).send(lectureAuth);
+};
+
 module.exports = {
   postJoin,
   getLogin,
@@ -170,4 +177,5 @@ module.exports = {
   getMypage,
   editMypage,
   editMypageProfile,
+  getLectureAuth,
 };
