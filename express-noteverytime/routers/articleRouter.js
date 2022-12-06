@@ -1,14 +1,13 @@
 const express = require("express");
 const articleRouter = express.Router();
-const { getLecture, getArticles, getArticle, postEdit, getUserLecture } = require("../controllers/articleController");
+const { getArticle, editArticle } = require("../controllers/articleController");
 const { isSessionMiddleware, articleUpload } = require("../middleware");
 
 articleRouter.get("/", (req, res, next) => {
-  res.send("lectureRouter");
+  res.send("articleRouter");
 });
 
 articleRouter.get("/:articleId", getArticle);
-// articleRouter.get("/semesters/:semester", getUserLecture);
-// articleRouter.post("/:lectureId/articles/edit", articleUpload.single('articleImage'), postEdit);
+articleRouter.post("/edit", articleUpload.array('articleImage', 10), editArticle);
 
 module.exports = articleRouter;

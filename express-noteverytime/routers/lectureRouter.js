@@ -11,6 +11,5 @@ lectureRouter.get("/semesters/:semester?", getUserLecture);
 lectureRouter.get("/:lectureId", getLecture);
 lectureRouter.get("/:lectureId/articles", getArticles);
 // lectureRouter.get("/:lectureId/articles/:articleId", getArticle);
-// lectureRouter.post("/:lectureId/articles/edit", articleUpload.single('articleImage'), postEdit);
 
 module.exports = lectureRouter;
