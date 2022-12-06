@@ -2,6 +2,7 @@ import React from 'react';
 import { useState } from 'react';
 import { useCallback } from 'react';
 import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { authenticateLectureApi, getMyPageApi, updateAuthenticatedLectureApi } from '../../utils/api';
 import { AuthSemesterBoxInModal } from '../authSemesterBoxInModal/authSemesterBoxInModal';
 import './authSemesterModal.scss';
@@ -9,6 +10,9 @@ import './authSemesterModal.scss';
 export const AuthSemesterModal = ({
   onClose,
 }) => {
+  const navigate = useNavigate();
+
+  const [lectures, setLectures] = useState([]);
   const [lecturesBySemester, setLecturesBySemester] = useState({});
   const [semester, setSemester] = useState('');
 
@@ -17,6 +21,8 @@ export const AuthSemesterModal = ({
       const response = await authenticateLectureApi();
       console.log('# 학교에서 넘어온 수강 과목들');
       console.log(response);
+
+      setLectures(response.data);
 
       const newLecturesBySemesterObj = {};
       response.data.forEach(lecture => {
@@ -49,15 +55,15 @@ export const AuthSemesterModal = ({
   // 수강 인증하기 버튼 클릭 시,
   const handleAuthenticateClick = useCallback(async () => {
     try {
-      const response = await updateAuthenticatedLectureApi();
+      const response = await updateAuthenticatedLectureApi(lectures);
       console.log("# 모달에서 수강 인증하기 누른 결과");
       console.log(response);
 
-      onClose();
+      navigate(0);
     } catch(err) {
-      console.log(err);
+      alert(err.response.data);
     }
-  }, []);
+  }, [lectures]);
 
   return (
     <div className='auth-semester-modal-background' onClick={onClose}>
