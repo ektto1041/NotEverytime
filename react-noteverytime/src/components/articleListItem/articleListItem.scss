@@ -1,15 +1,19 @@
 @import '../../styles/variables.scss';
 
-.article-item-container {
-  width: 42em;
-  height: 8.5em;
-  margin-left: 1em;
-  margin-right: 1em;
-  padding-top: 1em;
-  padding-bottom: 1em;
-  border-bottom: 1px solid $grey-border;
+.article-item-container:not(:first-child)::before {
+  content: "";
   display: flex;
-  column-gap: 1em;
+  @include semester-box();
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.article-item-box {
+  padding: 1rem 1.5rem;
+
+  display: flex;
+  column-gap: 1.5rem;
+
   cursor: pointer;
   user-select: none;
 
@@ -18,89 +22,79 @@
   }
 
   .article-info {
-    width: 100%;
+    width: 0;
+    flex-grow: 1;
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
 
     .article-title {
-      width: 100%;
-      height: 1.5em;
-      font-size: 1em;
-      line-height: 1.5em;
-      color: black;
+      height: 1.63rem;
       text-align: start;
+      color: black;
+      font-weight: 500;
+      margin-bottom: 0.63rem;
     }
 
     .article-preview {
-      width: 100%;
-      font-size: .95em;
-      line-height: 1.25em;
-      height: 2.5em;
       color: $text-grey;
       text-align: start;
-      max-lines: 2;
+
+      display: -webkit-box;
       overflow: hidden;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      white-space: wrap;
+      
+      margin-bottom: 1rem;
     }
 
     .article-data {
-      width: 100%;
       height: 1.5em;
-      margin-top: 1em;
       display: flex;
-      position: relative;
+      justify-content: space-between;
 
       .article-created-at {
-        height: 100%;
-        line-height: 1em;
-        font-size: 0.8em;
-        margin-right: 1em;
         color: $text-grey;
+        display: flex;
+        align-items: center;
+        margin-right: 1rem;
       }
 
       .article-writer {
-        height: 100%;
-        line-height: 1em;
-        font-size: .8em;
         color: $text-grey;
       }
 
       .article-icons {
         display: flex;
-        height: 1.5em;
-        position: absolute;
-        right: 0;
-        top: 0;
 
         img {
-          margin-right: .5em;
+          margin-right: 0.13rem;
         }
         
-        .comments {
-          height: 1.5em;
-          line-height: 1.5em;
-          font-size: 0.8em;
-          color: $ajou-sky;
+        & > div {
           display: flex;
           align-items: center;
+
+          &.comments {
+            color: $ajou-sky;
+          }
+
+          &.images {
+            color: $ajou-gold;
+          }
         }
 
-        .images {
-          height: 1.5em;
-          line-height: 1.5em;
-          font-size: 0.8em;
-          color: $ajou-gold;
-          display: flex;
-          align-items: center;
-          margin-left: 1em;
+        div + div {
+          margin-left: 0.63rem;
         }
       }
     }
   }
 
   .thumbnail {
-    width: 8em;
-    background-color: $text-grey;
+    width: 7.75rem;
+    height: 7.75rem;
+    background-color: $ajou-silver;
     border-radius: 12px;
   }
 }
