@@ -1,104 +1,112 @@
 @import "../../styles/variables.scss";
 
-.lecture-container {
-  width: 60em;
+.info-item {
+
+  & > div + div {
+    margin-top: 0.5rem;
+  }
+
+  .info-title {
+    color: $text-grey;
+  }
+
+  .info-content {
+    height: 1.63rem;
+    color: $text-dark;
+  }
+}
+
+.lecture-Container {
+  @include widthContainer();
+  max-width: $column-size;
+
   display: flex;
-  margin: 0 auto;
-  margin-top: 2em;
+  column-gap: 1.25rem;
 
-  .info-box {
-    width: 15em;
+  margin-top: 3.75rem;
+  
+  .lecture-infoBox {
+    width: 17.06rem;
 
-    .info-item {
-      width: 100%;
+    & > div + div {
+      margin-top: 1.25rem;
     }
 
-    .info-title {
-      color: $text-grey;
-      margin-bottom: 0.5em;
+    .lecture-infoUser {
+      padding: 1.5rem;
+      @include containerBorderStyle();
     }
 
-    .info-content {
-      color: $text-dark;
-    }
-
-    .user-semester-box {
-      border: 1px solid $grey-border;
-      border-radius: 12px;
-      padding: 1em;
-    }
-
-    .detail-info {
-      margin-top: 1em;
-      padding: 1em;
-      border: 1px solid $grey-border;
-      border-radius: 12px;
+    .lecture-infoDetail {
+      @extend .lecture-infoUser;
 
       .lecture-name {
-        font-size: 1.5em;
+        height: 2.25rem;
         color: $ajou-blue;
-        font-weight: bold;
       }
 
-      .info-item {
-        margin-top: 1em;
+      & > div + div {
+        margin-top: 1.5rem;
       }
     }
   }
 
-  .board {
-    margin-left: 1em;
-    width: 44em;
+  .lecture-boardBox {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
 
-    .board-menu {
-      width: 44em;
+    .lecture-boardMenu {
+      height: 3rem;
+      
       display: flex;
-      justify-content: space-between;
-      column-gap: 1em;
-      margin-bottom: 1em;
-      font-size: 1em;
+      column-gap: 1.5rem;
+
+      margin-bottom: 1.25rem;
 
       form {
-        width: 100%;
-      }
+        display: flex;
+        flex-grow: 1;
+      
+        input {
+          width: 100%;
+          @include containerBorderStyle();
 
-      input {
-        width: 100%;
-        background-image: url("../../../public/images/Icon_Search.svg");
-        background-repeat: no-repeat;
-        background-position: 1em center;
-        background-size: 2em;
-        border-radius: 12px;
-        border: 1px solid $grey-border;
-        padding: 1em;
-        padding-left: 4em;
-        font-size: 1em;
+          padding-left: 4rem;
+
+          background: {
+            image: url("../../../public/images/Icon_Search.svg");
+            repeat: no-repeat;
+            position: 1.5rem center;
+            size: 1.5rem;
+          };
+
+          &::placeholder {
+            color: $text-grey;
+          }
+        }
       }
 
       .write-button {
-        border-radius: 12px;
-        cursor: pointer;
-        width: 7.5em;
+        width: 4.81rem;
         height: 100%;
+        
+        border-radius: 12px;
+        border: none;
         background-color: $ajou-blue;
-        border: 0;
-        display: flex;
-        justify-content: center;
-        align-items: center;
+        cursor: pointer;
 
-        img {
-          width: 2.5em;
-          height: 2.5em;
+        & > img {
+          width: 1.5rem;
+          height: 1.5rem;
         }
       }
     }
 
     .article-list {
-      width: 100%;
-      padding-top: 0.5em;
-      padding-bottom: 0.5em;
-      border: 1px solid $grey-border;
-      border-radius: 12px;
+      @include containerBorderStyle();
+      overflow: hidden;
+      flex-grow: 1;
     }
   }
 }

@@ -12,7 +12,7 @@ import 'moment/locale/ko';
 import { CATEGORIES, getCategoryAuthority, getUserStatus, USER_STATUS } from '../../utils/constants';
 
 // TODO 페이지 사이즈 결정 필요
-const PAGE_SIZE = 5;
+const PAGE_SIZE = 6;
 
 const debounce = (callback, limit) => {
   let timeout;
@@ -54,9 +54,9 @@ export const Lecture = () => {
 
   const getLecture = useCallback(async () => {
     // TODO 임시 로그인
-    const login = await loginApi({ accountId: "mcodnjs", password: "aaaa" });
-    console.log('# 로그인 결과');
-    console.log(login);
+    // const login = await loginApi({ accountId: "mcodnjs", password: "aaaa" });
+    // console.log('# 로그인 결과');
+    // console.log(login);
 
     try {
       const response = await getLectureApi(lectureId);
@@ -205,41 +205,43 @@ export const Lecture = () => {
     getArticlesFirst(keyword, selectedCategoryId);
   }, [keyword, getArticlesFirst, selectedCategoryId]);
 
+  const InfoItem = (title, content) => {
+    return (
+      <div className="info-item">
+        <div key={title} className="p3 info-title">{title}</div>
+        {Array.isArray(content)
+        ? content?.map(text => (
+          <div key={text} className='h6 info-content'>{text}</div>
+        ))
+        : <div key={content} className="h6 info-content">{content}</div>
+        }
+      </div>
+    );
+  }
+
   return (
-    <div className='lecture-container'>
-      <div className='info-box'>
-        <div className='user-semester-box'>
-          <div className='info-item'>
-            <div className='info-title'>인증학기</div>
-            <div className='info-content'>{USER_STATUS.getStr(userStatus)}</div>
-          </div>
+    <div className='lecture-Container'>
+      <div className='lecture-infoBox'>
+        <div className='lecture-infoUser'>
+          {InfoItem("인증학기", USER_STATUS.getStr(userStatus))}
         </div>
-        <div className='detail-info'>
-          <div className='lecture-name'>{lecture.name}</div>
-          <div className='info-item'>
-            <div className='info-title'>과목코드</div>
-            <div className='info-content'>{lecture.code}</div>
-          </div>
-          <div className='info-item'>
-            <div className='info-title'>교수명</div>
-            <div className='info-content'>{`${lecture.professor} 교수님`}</div>
-          </div>
-          <div className='info-item'>
-            <div className='info-title'>수업시간</div>
-            {lecture.times?.map(time => (
-              <div key={time} className='info-content'>{time}</div>
-            ))}
-          </div>
+        
+        <div className='lecture-infoDetail'>
+          <div className='h5 lecture-name'>{lecture.name}</div>
+          {InfoItem("과목코드", lecture.code)}
+          {InfoItem("교수명", `${lecture.professor} 교수님`)}
+          {InfoItem("수업시간", lecture.times)}
+
         </div>
         <CategoryButtonBox selectedCategoryId={selectedCategoryId} onCategoryClick={handleCategoryClick} />
       </div>
-      <div className='board'>
-        <div className='board-menu'>
+      <div className='lecture-boardBox'>
+        <div className='lecture-boardMenu'>
           <form onSubmit={handleSearchClick}>
-            <input type='text' placeholder='게시물 검색' value={keyword} onChange={(e) => setKeyword(e.target.value)} />
+            <input className="p3" type='text' placeholder='게시물 검색' value={keyword} onChange={(e) => setKeyword(e.target.value)} />
           </form>
           <Link to='/post' state={{ userStatus: USER_STATUS.getStr(userStatus), lectureId }}>
-            <button className='write-button' ><img src="/images/pen.svg" alt="pen" /></button>
+            <button className='write-button' ><img src="/images/Icon_Pen.svg" alt="pen" /></button>
           </Link>
           
         </div>
