@@ -25,11 +25,6 @@ const editArticle = async (req, res) => {
   const { lectureId, title, content, category, isImage, isAnonymous } =
     req.body;
   try {
-    if (isImage) {
-      const image = req.files;
-      const path = image.map((img) => img.location);
-      console.log(path);
-    }
     let article = await Article.create({
       lectureId,
       userId,
@@ -41,6 +36,23 @@ const editArticle = async (req, res) => {
       createdAt: new Date(),
       modifiedAt: new Date(),
     });
+    
+    let articleImages = [];
+    if (article && isImage) {
+      const image = req.files;
+      const path = image.map((img) => img.location);
+      let count = 0;
+      for (let imagePath of path) {
+        let articleImage = await ArticleImage.create({
+          articleId: article._id,
+          articleImageLink: imagePath,
+          articleImageOrder: count
+        });
+        count = count + 1;
+        articleImages.push(articleImage);
+      }
+      return res.status(200).send({article, articleImages});
+    }
     return res.status(200).send(article);
   } catch (error) {
     return res.status(400).send(error.message);
