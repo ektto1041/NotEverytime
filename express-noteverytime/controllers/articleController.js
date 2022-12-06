@@ -21,33 +21,27 @@ const editArticle = async (req, res) => {
   if (!req.session.user) {
     return res.status(400).send("세션 없음");
   }
-  const user = req.session.user._id;
-  const { lectureId, userId, title, content, category, isImage, isAnonymous } =
-    req.body.value;
-  const articleId = req.body.articleId || null;
-  console.log(req.body.value);
-
+  const userId = req.session.user._id;
+  const { lectureId, title, content, category, isImage, isAnonymous } =
+    req.body;
   try {
     if (isImage) {
       const image = req.files;
       const path = image.map((img) => img.location);
+      console.log(path);
     }
-    if (articleId) {
-      return res.status(200).send("업데이트해야할 article");
-    } else {
-      let article = await Article.create({
-        lectureId,
-        userId,
-        title,
-        content,
-        category,
-        isImage,
-        isAnonymous,
-        createdAt: new Date(),
-        modifiedAt: new Date()
-      });
-    }
-    return res.status(200).send(path);
+    let article = await Article.create({
+      lectureId,
+      userId,
+      title,
+      content,
+      category,
+      isImage,
+      isAnonymous,
+      createdAt: new Date(),
+      modifiedAt: new Date(),
+    });
+    return res.status(200).send(article);
   } catch (error) {
     return res.status(400).send(error.message);
   }
