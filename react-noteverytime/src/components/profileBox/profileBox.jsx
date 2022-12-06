@@ -18,11 +18,12 @@ export const ProfileBox = ({
 
   const handleProfileImageChange = useCallback(async (e) => {
     const formData = new FormData();
-    formData.append('image', e.target.files[0]);
-
+    formData.append('profileImage', e.target.files[0]);
     const response = await updateProfileImageApi(formData);
+    console.log('# 프로필 이미지 변경');
     console.log(response);
 
+    setUser(response.data);
   }, []);
 
   /**
@@ -50,7 +51,7 @@ export const ProfileBox = ({
     <div className='profile-box-container'>
       <div className='profile-img-box'>
         <div className='profile-img-wrapper'>
-          <img src={profileImage} alt="account" width='100%' />
+          <img src={profileImage} alt="account" width='100%' height='100%' style={{ objectFit: 'cover', }} />
         </div>
         <div className='camera-img-box'>
           <label htmlFor='photo'>
