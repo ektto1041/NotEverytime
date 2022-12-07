@@ -1,34 +1,40 @@
 @import '../../styles/variables.scss';
 
 .category-button-box-container {
-  width: 15em;
-  border-radius: 12px;
+  @include containerBorderStyle();
   overflow: hidden;
-  margin-top: 1em;
-  border: 1px solid $grey-border;
-}
 
-.selected {
-  border: 0;
-  background-color: $ajou-yellow;
-  color: white;
-}
+  .category-button {
+    width: 100%;
+    height: 3.5rem;
 
-.category-button-box-container .category-button {
-  width: 100%;
-  height: 3em;
-  padding: 1em;
-  border: 0;
-  background-color: white;
-  color: $text-dark;
-  cursor: pointer;
+    background-color: white;
+    color: $ajou-silver;
+    padding: 1rem 1.5rem;
+    border: none;
 
-  &:hover {
-    background-color: rgba($ajou-yellow, .5) ;
+    cursor: pointer;
+  
+    &:not(.selected):hover {
+      background-color: rgba($ajou-yellow, 0.5) ;
+    }
   }
-}
 
-.category-button-box-container .selected {
-  background-color: $ajou-yellow;
-  color: white;
+  & > div:not(:first-child)::before {
+    content: "";
+    display: flex;
+    @include semester-box();
+
+    margin: 0 1.5rem;
+  }
+
+  button.selected {
+    background-color: $ajou-yellow;
+    color: white;
+    font-weight: 500;
+  }
+
+  div.selected::before, div.selected + div::before {
+    content: none;
+  }
 }

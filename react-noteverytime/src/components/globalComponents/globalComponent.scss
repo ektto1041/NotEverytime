@@ -1,19 +1,30 @@
 @import "../../styles/variables.scss";
 
-.input {
-  width: 100%;
-  height: 3.5rem;
+.input-Container {
+  .input {
+    width: 100%;
+    height: 3.5rem;
+  
+    background-color: $background-first;
+    @include containerBorderStyle();
 
-  padding: 1rem 1.5rem;
-  margin-bottom: 2.5rem;
+    padding: 1rem 1.5rem;
+  }
 
-  @include containerBorderStyle();
+  div.p3 {
+    width: 100%;
+    text-align: left;
+    color: $text-grey;
 
-  background-color: $background-first;
+    padding: 0 0.63rem;
+    margin-bottom: 0.63rem;
+  }
 }
 
-.FulledButton {
-  width: 100%;
+
+
+.button {
+  width: 10.94rem;
   height: 3rem;
 
   border: none;
@@ -23,11 +34,25 @@
   background-color: $ajou-yellow;
 
   padding: 0.75rem 1.5rem;
-  margin-top: 0.5rem;
+  text-align: center;
 
   cursor: pointer;
 
+  &.white {
+    @include containerBorderStyle();
+    color: $text-grey;
+    background-color: white;
+  }
   &.grey {
     background-color: $ajou-silver;
+  }
+
+  &.small {
+    width: 8.75rem;
+    height: 2.75rem;
+    padding: 0.63rem 1.5rem;
+  }
+  &.full {
+    width: 100%;
   }
 }

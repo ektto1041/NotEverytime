@@ -45,3 +45,12 @@ $tablet: 1024px;
         @content;
     }
 }
+
+@mixin semester-box {
+    height: 1px;
+    background-color: $grey-border;
+    border-radius: 0.75em;
+    margin: 1.00em 1.50em;
+}
+
+
