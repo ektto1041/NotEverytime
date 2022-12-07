@@ -64,10 +64,13 @@ export const Post = () => {
   }, [lectureId, title, editorRef, category, images, isAnonymous]);
 
   useEffect(() => {
-    console.log('# 글 쓰기 - 유저의 수강 상태')
-    console.log(location.state.userStatus);
-    setLectureId(location.state.lectureId);
-    setUserStatus(USER_STATUS.getSymbol(location.state.userStatus));
+    if(!location.state) {
+      alert('비정상적인 접근입니다.');
+      navigate('/login');
+    } else {
+      setLectureId(location.state.lectureId);
+      setUserStatus(USER_STATUS.getSymbol(location.state.userStatus));
+    }
   }, [location]);
 
   return (
