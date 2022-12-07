@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import { Header } from "../../components/header/header.jsx";
 import { Article } from "../article/article.jsx";
 import { Lecture } from "../lecture/lecture.jsx";
+import LectureResult from "../lectureResult/lectureResult.jsx";
 import { Login } from "../login/login.jsx";
 import { Main } from "../main/main.jsx";
 import { MyPage } from "../myPage/myPage.jsx";
@@ -27,6 +28,7 @@ export const Frame = () => {
         <Route path="/post" element={<Post />} />
         <Route path="/mypage" element={<MyPage />} />
         <Route path="/article/:articleID" element={<Article />} />
+        <Route path="/search" element={<LectureResult />} />
       </Routes>
     </>
   );

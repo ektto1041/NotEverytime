@@ -1,0 +1,47 @@
+@import '../../styles/variables.scss';
+
+.lecture-result-item-container {
+  width: 100%;
+  margin-top: 1em;
+  border: 1px solid $grey-border;
+  border-radius: 12px;
+  padding: 1em;
+  background-color: white;
+  cursor: pointer;
+
+  &:hover {
+    background-color: $background-first;
+  }
+
+  .lecture-result-item-header {
+    width: 100%;
+    text-align: start;
+    text-indent: 1em;
+    padding-bottom: 1em;
+    border-bottom: 1px solid $grey-border;
+
+    .lecture-result-item-title {
+      font-size: 1.5em;
+      background-image: url(../../../public/images/Icon_RightArrow.svg);
+      background-repeat: no-repeat;
+      background-position-x: right;
+      background-size: 1.5em;
+    }
+  }
+
+  .lecture-result-item-body {
+    width: 100%;
+    display: flex;
+    text-align: start;
+    text-indent: 1em;
+
+    .lecture-result-item-column {
+
+      .lecture-result-item-thead {
+        color: $text-grey;
+        margin-top: 1em;
+        margin-bottom: 1em;
+      }
+    }
+  }
+}
