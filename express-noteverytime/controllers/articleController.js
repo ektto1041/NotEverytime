@@ -91,12 +91,16 @@ const deleteArticle = async (req, res) => {
     if (!article) {
       throw new Error("해당하는 게시글이 article db에 없습니다.");
     }
-    let deleteArticle = await Article.deleteOne({_id: articleId}).exec();
-    return res.status(200).send(deleteArticle);
+    if (article.userId.equals(userId)) {
+      let deleteArticle = await Article.deleteOne({ _id: articleId }).exec();
+      return res.status(200).send(deleteArticle);
+    } else {
+      throw new Error("삭제 권한이 없습니다.");
+    }
   } catch (error) {
     return res.status(400).send(error.message);
   }
-}
+};
 
 const editComment = async (req, res) => {
   if (!req.session.user) {
@@ -176,17 +180,17 @@ const getComment = async (req, res) => {
     let userIndex = 0;
     for (let comment of comments) {
       comment = comment.toObject();
-      if (comment.userId._id.equals(article.userId) ) {
+      if (comment.userId._id.equals(article.userId)) {
         comment["username"] = comment.isAnonymous
-        ? "작성자"
-        : `${comment["userId"].username}(작성자)`;
+          ? "작성자"
+          : `${comment["userId"].username}(작성자)`;
       } else {
         users.add(comment.userId._id.toString());
         userIndex = Array.from(users).indexOf(comment.userId._id.toString());
         console.log(users); // DEBUG
         comment["username"] = comment.isAnonymous
-        ? `익명${userIndex+1}`
-        : comment["userId"].username;
+          ? `익명${userIndex + 1}`
+          : comment["userId"].username;
       }
       comment["isIdentify"] = comment.userId._id.equals(userId) ? true : false;
       delete comment["userId"];
@@ -197,7 +201,6 @@ const getComment = async (req, res) => {
     return res.status(400).send(error.message);
   }
 };
-
 
 module.exports = {
   getArticle,
