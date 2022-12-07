@@ -82,6 +82,7 @@
   .photo-container {
     display: flex;
     justify-content: flex-start;
+    flex-wrap: wrap;
     margin-top: 1em;
     gap: 1em;
 

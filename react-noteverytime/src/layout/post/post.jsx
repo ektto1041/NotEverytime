@@ -8,6 +8,13 @@ import 'suneditor/dist/css/suneditor.min.css';
 import { useCallback } from "react";
 import { createPostApi } from "../../utils/api";
 
+const newId = (() => {
+  let id = 0;
+  return () => {
+    return id++;
+  };
+})();
+
 export const Post = () => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -32,12 +39,18 @@ export const Post = () => {
   }, [userStatus]);
 
   const handleAddImage = useCallback((e) => {
+    console.log(images.length);
+    // 이미지 최대 갯수
+    if(images.length === 10) {
+      alert('최대 10개의 이미지까지 등록할 수 있습니다.');
+      return;
+    } 
     const imageUrl = URL.createObjectURL(e.target.files[0]);
-    setImages([...images, {preview: imageUrl, file: e.target.files[0]}]);
+    setImages([...images, {id: newId(), preview: imageUrl, file: e.target.files[0]}]);
   }, [images]);
 
   const handleClickDeleteImage = useCallback((image) => {
-    setImages(images.filter(img => img.preview !== image.preview));
+    setImages(images.filter(img => img.id !== image.id));
   }, [images]);
 
   const handleClickPost = useCallback(async() => {
@@ -54,8 +67,6 @@ export const Post = () => {
 
     try {
       const response = await createPostApi(formData);
-      console.log('# 글 작성 결과');
-      console.log(response);
 
       navigate(`/lecture/${lectureId}`);
     } catch(err) {
@@ -119,7 +130,7 @@ export const Post = () => {
         />
       </div>
       <div className="photo-container">
-        <input type='file' style={{ display: 'none' }} ref={imageInputRef} onChange={handleAddImage} />
+        <input type='file' style={{ display: 'none' }} ref={imageInputRef} value='' onChange={handleAddImage} />
         {images?.map((image, i) => (
           <div key={`${i}_image`} className="photo-item" onClick={() => handleClickDeleteImage(image)}>
             <img className="photo-item-image" src={image.preview} alt='photo-item'/>
