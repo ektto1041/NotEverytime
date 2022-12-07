@@ -25,7 +25,7 @@ export const LectureThumbnail = ({ lectureName, lectureId }) => {
       </div>
       <div className="semester-box"></div>
       <div className="class-item-preview-list">
-        {articles.map((article) => (
+        {articles.slice(0, 5).map((article) => (
           <div className="class-item-preview">
             <div className="p4 preview-title">{article.title}</div>
             <div className="p4 preview-createdAt">
