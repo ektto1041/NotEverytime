@@ -53,11 +53,6 @@ export const Lecture = () => {
   const [hasNextPage, setNextPage] = useState(false);  // 무한 스크롤에서 다음 페이지가 존재하는 지 여부
 
   const getLecture = useCallback(async () => {
-    // TODO 임시 로그인
-    const login = await loginApi({ accountId: "mcodnjs", password: "aaaa" });
-    console.log('# 로그인 결과');
-    console.log(login);
-
     try {
       const response = await getLectureApi(lectureId);
       console.log('# 강의 정보');
@@ -79,7 +74,12 @@ export const Lecture = () => {
       setLecture(newLecture);
       setNeedArticles(true);
     } catch (err) {
-      console.log(err);
+      if(err.response.data === '세션 없음') {
+        alert('로그인이 필요한 서비스입니다.');
+        navigate('/login');
+      } else {
+        console.log(err);
+      }
     }
   }, [lectureId]);
   

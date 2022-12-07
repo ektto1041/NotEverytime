@@ -39,6 +39,8 @@ export const MyPage = () => {
       if(err.response.data === '세션 없음') {
         alert('로그인이 필요한 서비스입니다.');
         navigate('/login');
+      } else {
+        console.log(err);
       }
     }
   }, []);
