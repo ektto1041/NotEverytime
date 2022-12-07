@@ -4,6 +4,7 @@ const Lecture = require("../models/lecture/lecture");
 const LectureDetail = require("../models/lecture/lectureDetail");
 const Article = require("../models/article/article");
 const ArticleImage = require("../models/article/articleImage");
+const Comment = require("../models/article/comment");
 const User = require("../models/user/user");
 const UserLecture = require("../models/user/userLecture");
 
@@ -122,7 +123,7 @@ const getArticles = async (req, res) => {
   const keyword = req.query.keyword || "";
   const tab = req.query.tab || 1;
   const lastLoadedId = req.query.id;
-  const size = req.query.size || 5;
+  const size = req.query.size || 10;
   if (!req.session.user) {
     return res.status(400).send("세션 없음");
   }
@@ -162,6 +163,8 @@ const getArticles = async (req, res) => {
         let articleImage = await ArticleImage.find({articleId: article._id}).select("articleImageLink articleImageOrder");
         article["articleImages"] = articleImage;
       }
+      let commentCount = await Comment.countDocuments({ articleId: article._id });
+      article["commentCount"] = commentCount;
       article["isIdentify"] = article.userId._id.equals(userId) ? true : false;
       article["username"] = article.isAnonymous
         ? "익명"
