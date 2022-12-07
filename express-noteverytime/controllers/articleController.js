@@ -93,7 +93,8 @@ const deleteArticle = async (req, res) => {
     }
     if (article.userId.equals(userId)) {
       let deleteArticle = await Article.deleteOne({ _id: articleId }).exec();
-      return res.status(200).send(deleteArticle);
+      let deleteComments = await Comment.deleteMany({ articleId });
+      return res.status(200).send({deleteArticle, deleteComments});
     } else {
       throw new Error("삭제 권한이 없습니다.");
     }
