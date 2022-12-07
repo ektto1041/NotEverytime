@@ -10,12 +10,11 @@ export const ArticleListItem = ({
     _id,
     title,
     content,
-    createdAt,
     modifiedAt,
     username,
-    likeCount,
     isImage,
     articleImages,
+    commentCount,
   } = article;
 
   const navigate = useNavigate();
@@ -40,12 +39,12 @@ export const ArticleListItem = ({
             </div>
             <div className='article-icons'>
               <div className='p4 comments'>
-                <img src="/images/Icon_Thumb_up.svg" width='24px' height='24px' alt='comment' />
-                3
+                <img src="/images/Icon_Image.svg" width='24px' height='24px' alt='comment' />
+                {articleImages ? articleImages.length : 0}
               </div>
               <div className='p4 images'>
                 <img src="/images/Icon_Chat.svg" width='24px' height='24px' alt='image' />
-                {likeCount}
+                {commentCount || 0}
               </div>
             </div>
           </div>

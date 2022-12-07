@@ -227,11 +227,10 @@ export const Lecture = () => {
         </div>
         
         <div className='lecture-infoDetail'>
-          <div className='h5 lecture-name'>{lecture.name}</div>
+          <div className='h5 lecture-name'>{lecture.name || ''}</div>
           {InfoItem("과목코드", lecture.code)}
-          {InfoItem("교수명", `${lecture.professor} 교수님`)}
+          {InfoItem("교수명", `${lecture.professor || ''} 교수님`)}
           {InfoItem("수업시간", lecture.times)}
-
         </div>
         <CategoryButtonBox selectedCategoryId={selectedCategoryId} onCategoryClick={handleCategoryClick} />
       </div>
