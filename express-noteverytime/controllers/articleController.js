@@ -202,10 +202,50 @@ const getComment = async (req, res) => {
   }
 };
 
+const deleteComment = async (req, res) => {
+  if (!req.session.user) {
+    return res.status(400).send("세션 없음");
+  }
+  const userId = req.session.user._id;
+  const { articleId, commentId } = req.params;
+
+  if (!articleId) {
+    return res.status(400).send("게시글 id가 없습니다.");
+  }
+  if (!commentId) {
+    return res.status(400).send("댓글 id가 없습니다.");
+  }
+
+  try {
+    const article = await Article.findById(articleId);
+    if (!article) {
+      throw new Error("해당하는 게시글이 article db에 없습니다.");
+    }
+    const comment = await Comment.findOne({ _id: commentId, articleId });
+    if (!comment) {
+      throw new Error("해당하는 댓글이 comment db에 없습니다.");
+    }
+
+    if (comment.userId.equals(userId)) {
+      const deleteComment = await Comment.findByIdAndUpdate(
+        comment._id,
+        { $set: { isDeleted: true, modifiedAt: new Date() } },
+        { new: true }
+      );
+      return res.status(200).send(deleteComment);
+    } else {
+      throw new Error("삭제 권한이 없습니다.");
+    }
+  } catch (error) {
+    return res.status(400).send(error.message);
+  }
+};
+
 module.exports = {
   getArticle,
   editArticle,
   deleteArticle,
   getComment,
   editComment,
+  deleteComment,
 };

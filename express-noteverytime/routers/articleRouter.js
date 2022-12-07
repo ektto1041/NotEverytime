@@ -1,6 +1,6 @@
 const express = require("express");
 const articleRouter = express.Router();
-const { getArticle, editArticle, deleteArticle, getComment, editComment } = require("../controllers/articleController");
+const { getArticle, editArticle, deleteArticle, getComment, editComment, deleteComment } = require("../controllers/articleController");
 const { isSessionMiddleware, articleUpload } = require("../middleware");
 
 articleRouter.get("/", (req, res, next) => {
@@ -13,5 +13,6 @@ articleRouter.delete("/:articleId", deleteArticle);
 
 articleRouter.get("/:articleId/comments", getComment);
 articleRouter.post("/comments/edit", editComment);
+articleRouter.delete("/:articleId/comments/:commentId", deleteComment);
 
 module.exports = articleRouter;

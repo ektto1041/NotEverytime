@@ -7,7 +7,8 @@ const commentSchema = new mongoose.Schema({
   content: { type: String, required: true, trim: true },
   depth: { type: Number, required: true, default: 0 },
   order: { type: Number, required: true },
-  isAnonymous: { type: Boolean, required: true, default: false },
+  isDeleted: { type: Boolean, required: true, default: false },
+  isAnonymous: { type: Boolean, required: true },
   createdAt: { type: Date },
   modifiedAt: { type: Date },
 });
