@@ -179,8 +179,35 @@ const getArticles = async (req, res) => {
   }
 };
 
+const searchLecture = async (req, res) => {
+  if (!req.session.user) {
+    return res.status(400).send("세션 없음");
+  }
+  const userId = req.session.user._id;
+  const keyword = req.query.keyword || null;
+  if (!keyword) {
+    return res.status(400).send("강의 검색 키워드가 비어있습니다.");
+  }
+  try {
+    let lectures = await Lecture.find({ $text: { $search: keyword } });
+    if (lectures.length === 0) {
+      return res.status(200).send("해당하는 강의가 없습니다.");
+    }
+    let searchLectures = [];
+    for (let lecture of lectures) {
+      let lectureId = lecture._id;
+      let lectureDetail = await LectureDetail.findOne({lectureId}).sort({ lectureSemester: -1 }); // 최신 강의 detail 정보
+      searchLectures.push({lecture, lectureDetail});
+    }
+    return res.status(200).send(searchLectures);
+  } catch (error) {
+    return res.status(400).send(error.message);
+  }
+}
+
 module.exports = {
   getUserLecture,
   getLecture,
   getArticles,
+  searchLecture
 };

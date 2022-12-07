@@ -6,5 +6,7 @@ const lectureSchema = new mongoose.Schema({
   lectureProfessor: { type: String, required: true, trim: true}
 });
 
+lectureSchema.index({ lectureName: 'text', lectureProfessor: 'text' });
 const lecture = mongoose.model('Lecture', lectureSchema);
+lecture.createIndexes();
 module.exports = lecture;
