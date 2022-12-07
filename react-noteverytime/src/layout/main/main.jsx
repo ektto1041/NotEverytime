@@ -1,17 +1,27 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
 import { LectureThumbnail } from "../../components/lectureThumbnail/lectureThumbnail";
-import { getUserLecturesBySemester } from "../../utils/api";
+import { getUserLectures, getUserLecturesBySemester } from "../../utils/api";
 import "./main.scss";
 
 export const Main = () => {
+  const [semesterList, setSemesterList] = useState([]);
   const [semester, setSemester] = useState("2022-2"); // 학기 정보
   const [userLectures, setUserLectures] = useState([]);
 
   useEffect(() => {
     (async () => {
+      const lectures = await getUserLectures();
+      const semesters = new Set();
+      for (const lecture of lectures.data)
+        semesters.add(lecture.lectureSemester);
+      setSemesterList(Array.from(semesters));
+    })();
+  }, []);
+
+  useEffect(() => {
+    (async () => {
       const lectures = await getUserLecturesBySemester(semester);
-      console.dir(lectures.data);
       setUserLectures(lectures.data);
     })();
   }, [semester]);
@@ -30,12 +40,9 @@ export const Main = () => {
             value={semester}
             onChange={handleSelectSemester}
           >
-            <option value="2022-2">2022-2학기</option>
-            <option value="2022-1">2022-1학기</option>
-            <option value="2021-2">2021-2학기</option>
-            <option value="2021-1">2021-1학기</option>
-            <option value="2020-2">2020-2학기</option>
-            <option value="2020-1">2020-1학기</option>
+            {semesterList.map((semester) => {
+              return <option value={semester}>{semester} 학기</option>;
+            })}
           </select>
         </div>
       </div>
@@ -48,18 +55,17 @@ export const Main = () => {
           </div>
         </div>
       ) : (
-      <div className="grid-box">
-      {userLectures.map((userLecture) => {
-        console.dir(userLecture);
-        return (
-          <LectureThumbnail
-            lectureName={userLecture.lecture.lectureName}
-            lectureId={userLecture.lecture._id}
-          />
-        );
-      })}
-      </div>
-    )}
+        <div className="grid-box">
+          {userLectures.map((userLecture) => {
+            return (
+              <LectureThumbnail
+                lectureName={userLecture.lecture.lectureName}
+                lectureId={userLecture.lecture._id}
+              />
+            );
+          })}
+        </div>
+      )}
     </div>
   );
 };

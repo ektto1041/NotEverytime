@@ -12,6 +12,8 @@ const ax = axios.create({
 
 export const registerUser = (userInfo) => ax.post("/join", userInfo);
 
+export const getUserLectures = () => ax.get("/lecture/semesters");
+
 export const getUserLecturesBySemester = (semester) =>
   ax.get(`/lecture/semesters/${semester}`);
 /**
@@ -43,35 +45,40 @@ export const loginApi = (loginData) => ax.post("/login", loginData);
 /**
  * 로그아웃 API
  */
-export const logoutApi = () => ax.get('/logout');
+export const logoutApi = () => ax.get("/logout");
 
 /**
  * 마이페이지에 필요한 정보를 가져오는 API
  */
-export const getMyPageApi = () => ax.get('/mypage');
+export const getMyPageApi = () => ax.get("/mypage");
 
 /**
  * 프로필 이미지 수정 API
  * @param {FormData} formData profileIamge: File
  */
-export const updateProfileImageApi = (formData) => ax.post('/mypage/profile/edit', formData, { headers: { "Content-Type": "multipart/form-data" }});
+export const updateProfileImageApi = (formData) =>
+  ax.post("/mypage/profile/edit", formData, {
+    headers: { "Content-Type": "multipart/form-data" },
+  });
 
 /**
  * username 변경 API
  * @param {String} username 변경하려는 username
  */
-export const updateUsernameApi = (username) => ax.post(`/mypage/edit`, {username});
+export const updateUsernameApi = (username) =>
+  ax.post(`/mypage/edit`, { username });
 
 /**
  * 마이페이지에서 수강과목 인증을 누르면 호출되는 API
  * 목업데이터를 가져온다.
  */
-export const authenticateLectureApi = () => ax.get('/authenticate/lecture');
+export const authenticateLectureApi = () => ax.get("/authenticate/lecture");
 
 /**
  * 가져온 목업데이터를 서버로 보내 db에 insert 하는 API
  */
-export const updateAuthenticatedLectureApi = (lectures) => ax.post('/authenticate/lecture', lectures);
+export const updateAuthenticatedLectureApi = (lectures) =>
+  ax.post("/authenticate/lecture", lectures);
 
 /**
  * 특정 강의의 정보를 가져오는 API
@@ -111,4 +118,4 @@ export const searchArticles = (lectureId, keyword) =>
 export const getArticles = (lectureId) =>
   ax.get(`/lecture/${lectureId}/articles?tab=1`);
 
-export const createPostApi = (formData) => ax.post('/articles/edit', formData);
+export const createPostApi = (formData) => ax.post("/articles/edit", formData);
