@@ -12,7 +12,7 @@ import 'moment/locale/ko';
 import { CATEGORIES, getCategoryAuthority, getUserStatus, USER_STATUS } from '../../utils/constants';
 
 // TODO 페이지 사이즈 결정 필요
-const PAGE_SIZE = 6;
+const PAGE_SIZE = 10;
 
 const debounce = (callback, limit) => {
   let timeout;
