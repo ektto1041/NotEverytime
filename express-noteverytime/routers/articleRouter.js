@@ -1,6 +1,6 @@
 const express = require("express");
 const articleRouter = express.Router();
-const { getArticle, editArticle, editComment, getComment } = require("../controllers/articleController");
+const { getArticle, editArticle, deleteArticle, getComment, editComment } = require("../controllers/articleController");
 const { isSessionMiddleware, articleUpload } = require("../middleware");
 
 articleRouter.get("/", (req, res, next) => {
@@ -9,7 +9,9 @@ articleRouter.get("/", (req, res, next) => {
 
 articleRouter.get("/:articleId", getArticle);
 articleRouter.post("/edit", articleUpload.array('articleImage', 10), editArticle);
-articleRouter.post("/comments/edit", editComment);
+articleRouter.delete("/:articleId", deleteArticle);
+
 articleRouter.get("/:articleId/comments", getComment);
+articleRouter.post("/comments/edit", editComment);
 
 module.exports = articleRouter;

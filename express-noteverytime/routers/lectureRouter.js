@@ -10,6 +10,5 @@ lectureRouter.get("/", (req, res, next) => {
 lectureRouter.get("/semesters/:semester?", getUserLecture);
 lectureRouter.get("/:lectureId", getLecture);
 lectureRouter.get("/:lectureId/articles", getArticles);
-// lectureRouter.get("/:lectureId/articles/:articleId", getArticle);
 
 module.exports = lectureRouter;
