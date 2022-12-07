@@ -1,9 +1,12 @@
 import React from "react";
 import { useState } from "react";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 import "./register.scss";
 import { registerUser } from "../../utils/api";
-import { Button, InputContainer } from "../../components/globalComponents/globalComponent";
+import {
+  Button,
+  InputContainer,
+} from "../../components/globalComponents/globalComponent";
 
 export const Register = () => {
   const [name, setName] = useState("");
@@ -30,10 +33,15 @@ export const Register = () => {
   };
 
   const handleCancel = () => {
-    navigate("/login")
-  }
+    navigate("/login");
+  };
 
   const handleRegister = async () => {
+    if (password != passwordConfirm) {
+      //FIXME
+      alert("비밀번호를 확인해주세요.");
+      return;
+    }
     const newUser = {
       accountId: id,
       password: password,
@@ -47,6 +55,8 @@ export const Register = () => {
       setEmail("");
       setPassword("");
       setPasswordConfirm("");
+      alert("인증 메일을 확인해주세요");
+      navigate("/login");
     } catch (err) {
       switch (err.response.data) {
         case "please input username":
@@ -68,7 +78,6 @@ export const Register = () => {
           alert("이미 존재하는 이메일입니다.");
           break;
       }
-      console.log(err.response.data);
     }
   };
 
@@ -115,8 +124,8 @@ export const Register = () => {
           />
         </div>
         <div className="resgiter-buttonBox">
-          <Button size="full" text="회원가입" onClick={handleRegister}/>
-          <Button color="grey" size="full" text="취소" onClick={handleCancel}/>
+          <Button size="full" text="회원가입" onClick={handleRegister} />
+          <Button color="grey" size="full" text="취소" onClick={handleCancel} />
         </div>
       </div>
     </div>
