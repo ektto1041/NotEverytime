@@ -1,6 +1,7 @@
 const express = require("express");
 const rootRouter = express.Router();
 const { postJoin, getLogin, postLogin, getLogout, getMypage, editMypage, editMypageProfile, getAuthLecture, postAuthLecture } = require("../controllers/userController");
+const { postEmail } = require("../controllers/emailController");
 const { isSessionMiddleware, profileUpload } = require("../middleware");
 
 rootRouter.get("/", isSessionMiddleware, (req, res) => {
@@ -15,5 +16,6 @@ rootRouter.post("/mypage/profile/edit", profileUpload.single('profileImage'), ed
 rootRouter.post("/mypage/edit", editMypage);
 rootRouter.get("/authenticate/lecture", getAuthLecture);
 rootRouter.post("/authenticate/lecture", postAuthLecture);
+rootRouter.post("/eauthenticate/email", postEmail);
 
 module.exports = rootRouter;
