@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import "./lectureThumbnail.scss";
 import { getArticles } from "../../utils/api";
 import { Link } from "react-router-dom";
+import moment from "moment";
 
 export const LectureThumbnail = ({ lectureName, lectureId }) => {
   const [articles, setArticles] = useState([]);
@@ -27,7 +28,9 @@ export const LectureThumbnail = ({ lectureName, lectureId }) => {
         {articles.map((article) => (
           <div className="class-item-preview">
             <div className="p4 preview-title">{article.title}</div>
-            <div className="p4 preview-createdAt">{article.createdAt}</div>
+            <div className="p4 preview-createdAt">
+              {moment(article.createdAt).format("YY-MM-DD")}
+            </div>
           </div>
         ))}
       </div>
