@@ -41,6 +41,11 @@ const fetchUserByIdInComponents = async (userId) => {
 export const loginApi = (loginData) => ax.post("/login", loginData);
 
 /**
+ * 로그아웃 API
+ */
+export const logoutApi = () => ax.get('/logout');
+
+/**
  * 마이페이지에 필요한 정보를 가져오는 API
  */
 export const getMyPageApi = () => ax.get('/mypage');
