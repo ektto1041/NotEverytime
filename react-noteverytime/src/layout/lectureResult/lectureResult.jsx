@@ -1,7 +1,7 @@
 import React from 'react';
 import { useState } from 'react';
 import { useEffect } from 'react';
-import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import LectureResultItem from '../../components/lectureResultItem/lectureResultItem';
 import { searchLecturesApi } from '../../utils/api';
 import './lectureResult.scss';
@@ -13,46 +13,54 @@ const LectureResult = () => {
   const [lectures, setLectures] = useState([]);
 
   const searchLectures = async (keyword) => {
-    const data = [
-      {
-        lectureId: 'asdfasdfasdf',
-        lectureName: '수학1',
-        lectureCode: 'X253',
-        lectureProfessor: '황성임 교수님',
-        lectureTime: ['월 09:00 ~ 10:30', '화 09:00 ~ 10:30'],
+    // const data = [
+    //   {
+    //     lectureId: 'asdfasdfasdf',
+    //     lectureName: '수학1',
+    //     lectureCode: 'X253',
+    //     lectureProfessor: '황성임 교수님',
+    //     lectureTime: ['월 09:00 ~ 10:30', '화 09:00 ~ 10:30'],
+    //     lectureSemester: ['2022-2학기', '2022-1학기', '2021-2학기', '2021-1학기'],
+    //   },
+    //   {
+    //     lectureId: 'bvcbsdfbsdfb',
+    //     lectureName: '수학2',
+    //     lectureCode: 'X255',
+    //     lectureProfessor: '박상연 교수님',
+    //     lectureTime: ['수 09:00 ~ 10:30', '목 09:00 ~ 10:30'],
+    //     lectureSemester: ['2022-2학기'],
+    //   },
+    // ];
+
+    // setLectures(data);
+
+    try {
+      const response = await searchLecturesApi(keyword);
+
+      const newLectures = response.data?.map(item => ({
+        lectureId: item.lecture._id,
+        lectureName: item.lecture.lectureName,
+        lectureCode: item.lectureDetail.lectureCode,
+        lectureProfessor: item.lecture.lectureProfessor,
+        lectureTime: item.lectureDetail.lectureTime,
+        // lectureSemester:
         lectureSemester: ['2022-2학기', '2022-1학기', '2021-2학기', '2021-1학기'],
-      },
-      {
-        lectureId: 'bvcbsdfbsdfb',
-        lectureName: '수학2',
-        lectureCode: 'X255',
-        lectureProfessor: '박상연 교수님',
-        lectureTime: ['수 09:00 ~ 10:30', '목 09:00 ~ 10:30'],
-        lectureSemester: ['2022-2학기'],
-      },
-    ];
+      }));
 
-    setLectures(data);
-
-    // try {
-    //   const response = await searchLecturesApi(keyword);
-    // } catch(err) {
-    //   if(err.response.data === '세션 없음') {
-    //     alert('로그인이 필요한 서비스입니다.');
-    //     navigate('/login');
-    //   } else {
-    //     console.log(err);
-    //   }
-    // }
+      setLectures(newLectures);
+    } catch(err) {
+      if(err.response.data === '세션 없음') {
+        alert('로그인이 필요한 서비스입니다.');
+        navigate('/login');
+      } else {
+        console.log(err);
+      }
+    }
   }
 
   useEffect(() => {
-    const keyword = searchParams.get('keyword');
-    if(keyword) searchLectures(keyword);
-    else {
-      alert('잘못된 접근입니다.');
-      navigate('/login');
-    }
+    const keyword = searchParams.get('keyword') || '';
+    searchLectures(keyword);
   }, [searchParams]);
 
   // 뒤로가기

@@ -77,7 +77,7 @@ export const updateAuthenticatedLectureApi = (lectures) => ax.post('/authenticat
  * 강의 검색 API
  * @param {String} keyword 검색어
  */
-export const searchLecturesApi = (keyword) => ax.get(`/search?keyword=${keyword}`);
+export const searchLecturesApi = (keyword) => ax.get(`/lecture/search?keyword=${keyword}`);
 
 /**
  * 특정 강의의 정보를 가져오는 API
