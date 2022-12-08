@@ -84,7 +84,8 @@ export const updateAuthenticatedLectureApi = (lectures) =>
  * 강의 검색 API
  * @param {String} keyword 검색어
  */
-export const searchLecturesApi = (keyword) => ax.get(`/lecture/search?keyword=${keyword}`);
+export const searchLecturesApi = (keyword) =>
+  ax.get(`/lecture/search?keyword=${keyword}`);
 
 /**
  * 특정 강의의 정보를 가져오는 API
@@ -125,3 +126,5 @@ export const getArticles = (lectureId) =>
   ax.get(`/lecture/${lectureId}/articles?tab=1`);
 
 export const createPostApi = (formData) => ax.post("/articles/edit", formData);
+
+export const getArticle = (articleId) => ax.get(`/articles/${articleId}`);
