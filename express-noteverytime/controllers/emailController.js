@@ -7,6 +7,7 @@ const UserEmailAuth = require("../models/user/userEmailAuth");
 const postEmail = (req, res) => {
   const EMAIL = process.env.EMAIL;
   const EMAIL_PW = process.env.EMAIL_PW;
+  const HOST = process.env.HOST;
   let transport = nodemailer.createTransport({
     service: "gmail",
     auth: {
@@ -22,7 +23,7 @@ const postEmail = (req, res) => {
     subject: "[noteverytime] 이메일 인증 확인 메일입니다.",
     html:
       "<p>이메일 인증을 위해서는 아래 링크를 클릭하여 주세요.</p>" +
-      `http://localhost:4000/authenticate/email?email=${req.email}&token=${req.token}`,
+      `http://${HOST}/authenticate/email?email=${req.email}&token=${req.token}`,
   };
 
   // email 전송
@@ -41,17 +42,17 @@ const confirmEmail = async (req, res, next) => {
   let token = await UserEmailAuth.findOne({ token: req.query.token });
   if (!token) {
     req.message =
-      "expire token 토큰 정보가 만료되었습니다. 이메일 인증 요청을 다시 보내주세요.";
+      "expired token";
     next();
   } else {
     User.findOne(
       { _id: token.userId, email: req.query.email },
       (error, user) => {
         if (!user) {
-          req.message = "cannot find user info 유저 정보를 찾을 수 없습니다.";
+          req.message = "cannot find user info";
           next(message, res);
         } else if (user.isAuth) {
-          req.message = "already auth user 이미 인증된 유저입니다.";
+          req.message = "already auth user";
           console.log(req.message);
           next();
         } else {
@@ -59,7 +60,7 @@ const confirmEmail = async (req, res, next) => {
           user.save((error) => {
             error
               ? (req.message = error.message)
-              : (req.message = "success 이메일 인증에 성공했습니다.");
+              : (req.message = "auth success");
             next();
           });
         }
