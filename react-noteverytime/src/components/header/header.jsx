@@ -6,14 +6,17 @@ import { useState } from "react";
 
 export const Header = () => {
   const navigate = useNavigate();
-  
-  const [keyword, setKeyword] = useState('');
 
-  const handleSearch = useCallback((e) => {
-    e.preventDefault();
+  const [keyword, setKeyword] = useState("");
 
-    navigate(`/search?keyword=${keyword}`);
-  }, [keyword]);
+  const handleSearch = useCallback(
+    (e) => {
+      e.preventDefault();
+
+      navigate(`/search?keyword=${keyword}`);
+    },
+    [keyword]
+  );
 
   return (
     <header className="header">
@@ -25,11 +28,22 @@ export const Header = () => {
         </div>
 
         <div className="header-centerContainer search-bar">
-          <form className="p3" onSubmit={handleSearch} >
-            <input className="p3" type="text" placeholder="커뮤니티 검색" value={keyword} onChange={(e) => setKeyword(e.target.value)}></input>
+          <form className="p3" onSubmit={handleSearch}>
+            <input
+              className="p3"
+              type="text"
+              placeholder="커뮤니티 검색"
+              value={keyword}
+              onChange={(e) => setKeyword(e.target.value)}
+            ></input>
           </form>
         </div>
-        <div className="header-centerContainer">
+        <div
+          className="header-centerContainer"
+          onClick={() => {
+            navigate("/mypage");
+          }}
+        >
           <img src="/images/account-circle.svg" height="44px" />
         </div>
       </div>
