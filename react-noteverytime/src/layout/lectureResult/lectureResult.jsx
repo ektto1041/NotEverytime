@@ -40,11 +40,10 @@ const LectureResult = () => {
       const newLectures = response.data?.map(item => ({
         lectureId: item.lecture._id,
         lectureName: item.lecture.lectureName,
-        lectureCode: item.lectureDetail.lectureCode,
+        lectureCode: item.lectureCode,
         lectureProfessor: item.lecture.lectureProfessor,
-        lectureTime: item.lectureDetail.lectureTime,
-        // lectureSemester:
-        lectureSemester: ['2022-2학기', '2022-1학기', '2021-2학기', '2021-1학기'],
+        lectureTime: item.lectureTime,
+        lectureSemester: item.lectureSemester,
       }));
 
       setLectures(newLectures);
