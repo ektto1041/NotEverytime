@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Reply } from "../../components/reply/reply";
 import { ReplyInput } from "../../components/replyInput/replyInput";
-import { getArticle } from "../../utils/api";
+import { getArticle, getComments } from "../../utils/api";
 import { useParams } from "react-router-dom";
 import { getCategoryString } from "../../utils/globalFunction";
 import moment from "moment";
@@ -10,12 +10,15 @@ import "./article.scss";
 export const Article = () => {
   const { articleId } = useParams();
   const [article, setArticle] = useState({});
+  const [comments, setComments] = useState([]);
 
   useEffect(() => {
     (async () => {
       const article = await getArticle(articleId);
       setArticle(article.data);
-      console.dir(article);
+      const comments = await getComments(articleId);
+      setComments(comments.data);
+      console.log(comments);
     })();
   }, []);
 
@@ -72,18 +75,30 @@ export const Article = () => {
             )}
           </div>
           <div className="date">
-            {moment(article.modifiedAt).format("YY.MM.DD HH:MM")}
+            {moment(article.modifiedAt).format("YY.MM.DD HH:mm")}
           </div>
         </div>
       </div>
       <div className="reply-section">
         <h1 className="top">댓글</h1>
         <div className="reply-container">
-          <Reply />
-          <Reply />
+          {comments.map((comment) => {
+            return (
+              <Reply
+                username={comment.username}
+                content={comment.content}
+                createdAt={comment.createdAt}
+                depth={comment.depth}
+                groupId={comment.groupId}
+                isDeleted={comment.isDeleted}
+                isAnonymous={comment.isAnonymous}
+                isIdentify={comment.isIdentify}
+              />
+            );
+          })}
         </div>
       </div>
-      <ReplyInput />
+      <ReplyInput articleId={article._id} groupId={false} />
     </div>
   );
 };

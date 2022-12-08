@@ -128,3 +128,9 @@ export const getArticles = (lectureId) =>
 export const createPostApi = (formData) => ax.post("/articles/edit", formData);
 
 export const getArticle = (articleId) => ax.get(`/articles/${articleId}`);
+
+export const createComment = (commentData) =>
+  ax.post("/articles/comments/edit", commentData);
+
+export const getComments = (articleId) =>
+  ax.get(`/articles/${articleId}/comments`);

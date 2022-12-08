@@ -8,6 +8,10 @@
   align-items: center;
   margin: 1em 0;
 
+  .blue {
+    color: $ajou-blue;
+  }
+
   .reply-top {
     width: 100%;
     display: flex;
