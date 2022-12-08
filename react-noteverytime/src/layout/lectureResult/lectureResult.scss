@@ -1,0 +1,43 @@
+@import '../../styles/variables.scss';
+
+.lecture-result-container {
+  width: 72em;
+  height: 10em;
+  margin-top: 3em;
+
+  .lecture-result-header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .lecture-result-back-button {
+      width: 5em;
+      height: 3em;
+      line-height: 3em;
+      text-align: end;
+      color: $text-grey;
+      border: 0;
+      background-color: white;
+      background-image: url(../../../public/images/Icon_LeftArrow_Grey.svg);
+      background-repeat: no-repeat;
+      background-position-y: center;
+      cursor: pointer;
+    }
+
+    .lecture-result-title {
+      height: 1em;
+      line-height: 1em;
+      font-size: 1.75em;
+      color: $ajou-blue;
+      font-weight: 600;
+    }
+  }
+
+  .lecture-result-body {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    column-gap: 1em;
+  }
+}
