@@ -1,14 +1,17 @@
 /** @format */
 
+const crypto = require("crypto");
 const User = require("../models/user/user");
 const UserLecture = require("../models/user/userLecture");
+const UserEmailAuth = require("../models/user/userEmailAuth");
 const Lecture = require("../models/lecture/lecture");
 const LectureDetail = require("../models/lecture/lectureDetail");
 const authLecture = require("../models/authLecture.json");
 
 const currentSemester = "2022-2";
 const isEmpty = (field) => field === "" || field === undefined;
-const postJoin = async (req, res) => {
+
+const postJoin = async (req, res, next) => {
   const { accountId, password, username, email, isAuth, profileImage } =
     req.body;
 
@@ -39,7 +42,14 @@ const postJoin = async (req, res) => {
       isAuth,
       profileImage,
     });
-    return res.status(200).send(user);
+    
+    let userEmailAuth = await UserEmailAuth.create({
+      userId: user._id,
+      token: crypto.randomBytes(16).toString('hex'),
+    });
+    req.email = email;
+    req.token = userEmailAuth.token;
+    next();
   } catch (error) {
     console.error(error);
     return res.status(400).send(error.message);
@@ -63,10 +73,15 @@ const postLogin = async (req, res) => {
     if (!user) {
       return res.status(400).send("등록되지 않은 ID 또는 PW입니다.");
     }
-    req.session.user = user;
-    req.session.isLogined = true;
-    let session = req.session;
-    return res.status(200).send(session);
+    // TODO: 비밀번호 hash
+    else if (!user.isAuth) {
+      return res.status(401).send("'Your Email has not been verified.");
+    } else {
+      req.session.user = user;
+      req.session.isLogined = true;
+      let session = req.session;
+      return res.status(200).send(session);
+    }
   } catch (error) {
     return res.status(400).send(error.message);
   }
