@@ -155,15 +155,19 @@ const getArticles = async (req, res) => {
       .sort({ _id: -1 })
       .limit(size)
       .populate("userId");
-    
+
     let newArticles = []; // 게시글 익명/유저 네임/이미지링크 반환
     for (let article of articles) {
       article = article.toObject();
       if (article.isImage) {
-        let articleImage = await ArticleImage.find({articleId: article._id}).select("articleImageLink articleImageOrder");
+        let articleImage = await ArticleImage.find({
+          articleId: article._id,
+        }).select("articleImageLink articleImageOrder");
         article["articleImages"] = articleImage;
       }
-      let commentCount = await Comment.countDocuments({ articleId: article._id });
+      let commentCount = await Comment.countDocuments({
+        articleId: article._id,
+      });
       article["commentCount"] = commentCount;
       article["isIdentify"] = article.userId._id.equals(userId) ? true : false;
       article["username"] = article.isAnonymous
@@ -189,25 +193,36 @@ const searchLecture = async (req, res) => {
     return res.status(400).send("강의 검색 키워드가 비어있습니다.");
   }
   try {
-    let lectures = await Lecture.find({ $text: { $search: keyword } });
+    let lectures = await Lecture.find({ $text: { $search: keyword } }).sort({
+      _id: -1,
+    });
     if (lectures.length === 0) {
       return res.status(200).send("해당하는 강의가 없습니다.");
     }
     let searchLectures = [];
     for (let lecture of lectures) {
       let lectureId = lecture._id;
-      let lectureDetail = await LectureDetail.findOne({lectureId}).sort({ lectureSemester: -1 }); // 최신 강의 detail 정보
-      searchLectures.push({lecture, lectureDetail});
+      
+      let lectureDetails = await LectureDetail
+      .find({ lectureId })
+      .sort({ lectureSemester: -1 });
+      let lectureTime = lectureDetails[0].lectureTime;
+      let lectureCode = lectureDetails[0].lectureCode;
+      let lectureSemester = [];
+      for (let lectureDetail of lectureDetails) {
+        lectureSemester.push(lectureDetail.lectureSemester);
+      }
+      searchLectures.push({ lecture, lectureTime, lectureCode, lectureSemester});
     }
     return res.status(200).send(searchLectures);
   } catch (error) {
     return res.status(400).send(error.message);
   }
-}
+};
 
 module.exports = {
   getUserLecture,
   getLecture,
   getArticles,
-  searchLecture
+  searchLecture,
 };
