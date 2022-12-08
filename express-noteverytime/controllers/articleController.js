@@ -188,14 +188,18 @@ const getComment = async (req, res) => {
       } else {
         users.add(comment.userId._id.toString());
         userIndex = Array.from(users).indexOf(comment.userId._id.toString());
-        console.log(users); // DEBUG
         comment["username"] = comment.isAnonymous
           ? `익명${userIndex + 1}`
           : comment["userId"].username;
       }
       comment["isIdentify"] = comment.userId._id.equals(userId) ? true : false;
       delete comment["userId"];
-      newComments.push(comment);
+      if (comment.isDeleted) {
+        let {_id, articleId, groupId, depth, order, isDeleted} = comment;
+        newComments.push({_id, articleId, groupId, depth, order, isDeleted})
+      } else {
+        newComments.push(comment);
+      }
     }
     return res.status(200).send(newComments);
   } catch (error) {
