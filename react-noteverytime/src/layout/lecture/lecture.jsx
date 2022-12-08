@@ -242,15 +242,20 @@ export const Lecture = () => {
           <Link to='/post' state={{ userStatus: USER_STATUS.getStr(userStatus), lectureId }}>
             <button className='write-button' ><img src="/images/Icon_Pen.svg" alt="pen" /></button>
           </Link>
-          
         </div>
-        <div className='article-list'>
-          {articleList?.map(article => (
-            <>
-              <ArticleListItem key={article._id} article={article} />
-            </>
-          ))}
-        </div>
+        {articleList?.length > 0 ? (
+          <div className='article-list'>
+            {articleList?.map(article => (
+              <>
+                <ArticleListItem key={article._id} article={article} />
+              </>
+            ))}
+          </div>
+        ) : (
+          <div className='no-article-list'>
+            등록된 게시글이 없습니다.
+          </div>
+        )}
       </div>
     </div>
   );
