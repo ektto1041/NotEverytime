@@ -18,7 +18,7 @@ const postEmail = (req, res) => {
   // 전송할 email 내용 작성
   let mailOptions = {
     from: EMAIL,
-    to: receiverEmail,
+    to: req.email,
     subject: "[noteverytime] 이메일 인증 확인 메일입니다.",
     html:
       "<p>이메일 인증을 위해서는 아래 링크를 클릭하여 주세요.</p>" +
