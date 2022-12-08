@@ -1,6 +1,7 @@
 /** @format */
 
 const crypto = require("crypto");
+const bcrypt = require("bcrypt");
 const User = require("../models/user/user");
 const UserLecture = require("../models/user/userLecture");
 const UserEmailAuth = require("../models/user/userEmailAuth");
@@ -69,14 +70,16 @@ const postLogin = async (req, res) => {
     if (isEmpty(password)) {
       throw new Error("비밀번호를 입력해주세요.");
     }
-    const user = await User.findOne({ accountId, password });
-    if (!user) {
+    let user = await User.findOne({ accountId });
+    let isPasswordRight = await bcrypt.compare(password, user.password);
+    if (!user || !isPasswordRight) {
       return res.status(400).send("등록되지 않은 ID 또는 PW입니다.");
     }
-    // TODO: 비밀번호 hash
     else if (!user.isAuth) {
       return res.status(401).send("'Your Email has not been verified.");
     } else {
+      user = user.toObject();
+      delete user['password'];
       req.session.user = user;
       req.session.isLogined = true;
       let session = req.session;

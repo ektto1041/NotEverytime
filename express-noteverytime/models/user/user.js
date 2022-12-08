@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const bcrypt = require("bcrypt");
 
 const userSchema = new mongoose.Schema({
   accountId: { type: String, required : true, unique: true },
@@ -8,6 +9,12 @@ const userSchema = new mongoose.Schema({
   isAuth: { type: Boolean, default: false },
   profileImage: { type: String }
 });
+
+userSchema.pre('save', async function() {
+  if(this.isModified("password")) {
+      this.password = await bcrypt.hash(this.password, 5);
+  }
+}); 
 
 const user = mongoose.model('User', userSchema);
 module.exports = user;
