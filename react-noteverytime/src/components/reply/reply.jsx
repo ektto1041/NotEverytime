@@ -1,10 +1,13 @@
 import React from "react";
 import { ReplyInput } from "../replyInput/replyInput";
 import moment from "moment";
+import { deleteComment } from "../../utils/api";
 import "./reply.scss";
+import { useNavigate } from "react-router-dom";
 
 export const Reply = ({
   articleId,
+  commentId,
   username,
   content,
   createdAt,
@@ -15,25 +18,43 @@ export const Reply = ({
   isIdentify,
   profileImage,
 }) => {
+  const navigate = useNavigate();
+  const onDeleteComment = async () => {
+    await deleteComment(articleId, commentId);
+    navigate(0);
+  };
   return (
     <div className={depth == 0 ? "reply" : "reply re-reply"}>
       <div className="reply-top">
         <div className="info">
           <img
             className="profile"
-            src={isAnonymous ? "/images/account-circle.svg" : profileImage}
+            src={
+              isAnonymous || isDeleted
+                ? "/images/account-circle.svg"
+                : profileImage
+            }
             alt="account"
           />
           <div className={isIdentify ? "reply-writer blue" : "reply-writer"}>
-            {isAnonymous ? "익명" : username}
+            {isDeleted ? "(삭제)" : isAnonymous ? "익명" : username}
           </div>
           <div className="date">
-            {moment(createdAt).format("YY.MM.DD HH:mm")}
+            {!isDeleted && moment(createdAt).format("YY.MM.DD HH:mm")}
           </div>
         </div>
-        {depth == 0 && <div className="rereply-button">답글</div>}
+        {!isDeleted && (
+          <div className="reply-button-container">
+            {depth == 0 && <div className="rereply-button">답글</div>}
+            <div className="remove-button" onClick={onDeleteComment}>
+              삭제
+            </div>
+          </div>
+        )}
       </div>
-      <div className="reply-content">{content}</div>
+      <div className="reply-content">
+        {isDeleted ? "삭제된 댓글입니다." : content}
+      </div>
       {depth == 0 && <ReplyInput articleId={articleId} groupId={groupId} />}
     </div>
   );

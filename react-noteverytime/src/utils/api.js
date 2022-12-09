@@ -134,3 +134,6 @@ export const createComment = (commentData) =>
 
 export const getComments = (articleId) =>
   ax.get(`/articles/${articleId}/comments`);
+
+export const deleteComment = (articleId, commentId) =>
+  ax.delete(`/articles/${articleId}/comments/${commentId}`);
