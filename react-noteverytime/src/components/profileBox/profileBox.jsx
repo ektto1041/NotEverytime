@@ -69,7 +69,7 @@ export const ProfileBox = ({
         <ProfileContentItem label={'아이디'} value={accountId} />
         <ProfileContentItem label={'이메일'} value={email} />
         <ProfileContentItem label={'닉네임'} value={isUsernameEdit ? '' : username} inputValue={inputUsername} setInputValue={setInputUsername} />
-        <button className='edit-nickname-button' onClick={handleEditUsernameClick}>편집</button>
+        <button className='p3 edit-nickname-button' onClick={handleEditUsernameClick}>편집</button>
       </div>
     </div>
   );

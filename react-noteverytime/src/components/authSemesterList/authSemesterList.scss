@@ -2,16 +2,15 @@
 
 .auth-semester-list-container {
   width: 100%;
-  padding-left: 1em;
-  padding-right: 1em;
-  margin-bottom: 3em;
+  
+  & + & {
+    margin-top: 3rem;
+  }
 
   .auth-semester-title {
     text-align: start;
     color: $ajou-blue;
-    font-size: 1.4em;
-    font-weight: 400;
-    margin-bottom: 1em;
+    margin-bottom: 1rem;
   }
 
   .auth-semester-header {
@@ -26,6 +25,18 @@
       text-align: start;
       color: $text-grey;
       text-indent: 1em;
+    }
+  }
+
+  .auth-semester-content {
+    & > div:not(:last-child)::after {
+      content: "";
+      display: flex;
+      @include semester-box();
+
+      background-color: $background-first;
+  
+      margin: 0.63rem 1.5rem;
     }
   }
 }

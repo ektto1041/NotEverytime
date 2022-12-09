@@ -1,28 +1,49 @@
 @import '../../styles/variables.scss';
 
-.my-page-container {
-  width: 72em;
-  margin: 0 auto;
+.myPage-container {
+  @include widthContainer();
+  max-width: $column-size;
 
-  .part-title {
-    font-size: 1.75em;
-    color: $ajou-blue;
-    text-align: start;
-    font-weight: 500;
-    margin-bottom: .5em;
-    position: relative;
+  @include flexCenter();
+  flex-direction: column;
 
-    .part-title-button {
-      position: absolute;
-      right: 0;
-      top: 0;
-      width: 8em;
-      height: 3em;
-      border: 0;
-      border-radius: 12px;
-      background-color: $ajou_yellow;
-      color: white;
-      cursor: pointer;
+  margin-top: 3.75rem;
+  margin-bottom: 3.75rem;
+
+  .part-box {
+    width: 100%;
+
+    & + .part-box {
+      margin-top: 3rem;
+    }
+
+    .my-contents-box {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+
+      @include containerBorderStyle();
+
+      & > .semester-box {
+        @include semester-box();
+        margin-top: 0;
+        margin-bottom: 0;
+      }
     }
   }
+
+  .part-title {
+    width: 100%;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    color: $ajou-blue;
+
+    margin-bottom: 1.25rem;
+  }
+
+  
 }
+

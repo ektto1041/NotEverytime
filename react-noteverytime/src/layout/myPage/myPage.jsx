@@ -5,6 +5,8 @@ import { useNavigate } from 'react-router-dom';
 import { AuthSemesterBox } from '../../components/authSemesterBox/authSemesterBox';
 import { AuthSemesterModal } from '../../components/authSemesterModal/authSemesterModal';
 import { ProfileBox } from '../../components/profileBox/profileBox';
+import { Button } from "../../components/globalComponents/globalComponent";
+import { MyContent } from '../../components/myContent/myContent';
 import { getMyPageApi, loginApi, logoutApi } from '../../utils/api';
 import './myPage.scss';
 
@@ -70,19 +72,34 @@ export const MyPage = () => {
   }, []);
 
   return (
-    <div className='my-page-container'>
-      <div className='part-title'>
-        내 프로필
-        <button className='part-title-button' onClick={handleClickLogout}>로그아웃</button>
+    <div className='myPage-container'>
+      <div className="part-box">
+        <div className='part-title'>
+          <div className="h5">내 프로필</div>
+          <Button size="small" text="로그아웃" onClick={handleClickLogout}/>
+        </div>
+        <ProfileBox user={user} setUser={setUser} />
       </div>
-      <ProfileBox user={user} setUser={setUser} />
-      <div className='part-title'>
-        인증한 수강 과목 리스트
-        <button className='part-title-button' onClick={handleClickOpenModal}>수강과목 인증</button>
+
+      <div className="part-box">
+        <div className="part-title">
+          <div className="h5">내가 작성한 콘텐츠</div>
+        </div>
+        <div className="my-contents-box">
+          <MyContent text="내가 작성한 글" link="mypost"/>
+          <div className="semester-box"></div>
+          <MyContent text="내가 댓글단 글" link="myarticle"/>
+        </div>
       </div>
-      <AuthSemesterBox lecturesBySemester={lecturesBySemester} />
-      {isModalOpen ? (<AuthSemesterModal lecturesBySemester={lecturesBySemester} onClose={handleClickCloseModal} />) : (<></>)}
-      
+
+      <div className="part-box">
+        <div className='part-title'>
+          <div className="h5">인증한 수강 과목 리스트</div>
+          <Button size="small" text="수강과목 인증" onClick={handleClickOpenModal}/>
+        </div>
+        <AuthSemesterBox lecturesBySemester={lecturesBySemester} />
+        {isModalOpen ? (<AuthSemesterModal lecturesBySemester={lecturesBySemester} onClose={handleClickCloseModal} />) : (<></>)}
+      </div>
     </div>
   );
 };
