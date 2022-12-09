@@ -6,16 +6,18 @@ import "./main.scss";
 
 export const Main = () => {
   const [semesterList, setSemesterList] = useState([]);
-  const [semester, setSemester] = useState("2022-2"); // 학기 정보
+  const [semester, setSemester] = useState("수강 인증 필요"); // 학기 정보
   const [userLectures, setUserLectures] = useState([]);
 
   useEffect(() => {
     (async () => {
       const lectures = await getUserLectures();
+      console.log(lectures);
       const semesters = new Set();
       for (const lecture of lectures.data)
         semesters.add(lecture.lectureSemester);
-      setSemesterList(Array.from(semesters));
+      console.log(semesters);
+      semesters && setSemesterList(Array.from(semesters));
     })();
   }, []);
 
@@ -23,6 +25,7 @@ export const Main = () => {
     (async () => {
       const lectures = await getUserLecturesBySemester(semester);
       setUserLectures(lectures.data);
+      console.log(lectures.data);
     })();
   }, [semester]);
 
@@ -40,13 +43,17 @@ export const Main = () => {
             value={semester}
             onChange={handleSelectSemester}
           >
-            {semesterList.map((semester) => {
-              return <option value={semester}>{semester} 학기</option>;
-            })}
+            {semesterList.length == 0 ? (
+              <option value={semester}>{semester}</option>
+            ) : (
+              semesterList.map((semester) => {
+                return <option value={semester}>{semester} 학기</option>;
+              })
+            )}
           </select>
         </div>
       </div>
-      {userLectures.length === 0 ? (
+      {userLectures.length == 0 ? (
         <div className="grid-EmptyBox">
           <div className="p2">현재 해당 학기에 인증된 과목이 없습니다.</div>
           <div className="grid-certify">
@@ -56,14 +63,15 @@ export const Main = () => {
         </div>
       ) : (
         <div className="grid-box">
-          {userLectures.map((userLecture) => {
-            return (
-              <LectureThumbnail
-                lectureName={userLecture.lecture.lectureName}
-                lectureId={userLecture.lecture._id}
-              />
-            );
-          })}
+          {userLectures &&
+            userLectures.map((userLecture) => {
+              return (
+                <LectureThumbnail
+                  lectureName={userLecture.lecture.lectureName}
+                  lectureId={userLecture.lecture._id}
+                />
+              );
+            })}
         </div>
       )}
     </div>
