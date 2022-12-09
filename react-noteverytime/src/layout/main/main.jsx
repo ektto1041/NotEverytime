@@ -18,6 +18,7 @@ export const Main = () => {
         semesters.add(lecture.lectureSemester);
       console.log(semesters);
       semesters && setSemesterList(Array.from(semesters));
+      semesters && setSemester(Array.from(semesters).slice(-1));
     })();
   }, []);
 
@@ -65,10 +66,12 @@ export const Main = () => {
         <div className="grid-box">
           {userLectures &&
             userLectures.map((userLecture) => {
+              //TODO: 여기서 article 때서 줘 응애
               return (
                 <LectureThumbnail
                   lectureName={userLecture.lecture.lectureName}
                   lectureId={userLecture.lecture._id}
+                  semester={semester}
                 />
               );
             })}

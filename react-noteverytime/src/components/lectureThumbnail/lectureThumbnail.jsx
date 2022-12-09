@@ -4,17 +4,16 @@ import { getArticles } from "../../utils/api";
 import { Link, useNavigate } from "react-router-dom";
 import moment from "moment";
 
-export const LectureThumbnail = ({ lectureName, lectureId }) => {
+export const LectureThumbnail = ({ lectureName, lectureId, semester }) => {
   const [articles, setArticles] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
     (async () => {
       const articles = await getArticles(lectureId);
-      console.dir(articles);
       setArticles(articles.data);
     })();
-  }, []);
+  }, [lectureId]);
 
   return (
     <div className="class-item-container">
@@ -26,6 +25,7 @@ export const LectureThumbnail = ({ lectureName, lectureId }) => {
       </div>
       <div className="semester-box"></div>
       <div className="class-item-preview-list">
+<<<<<<< HEAD
         {articles?.length > 0 ? (
           articles.slice(0, 5).map((article) => (
             <div className="class-item-preview">
@@ -40,6 +40,18 @@ export const LectureThumbnail = ({ lectureName, lectureId }) => {
               <div className="p4 preview-createdAt">
                 {moment(article.createdAt).format("YY-MM-DD")}
               </div>
+=======
+        {articles?.map((article) => (
+          <div className={"class-item-preview"}>
+            {/* TODO:Article로 가기 */}
+            <div
+              className="p4 preview-title"
+              onClick={() => {
+                navigate(`/lecture/${article.lectureId}/${article._id}`);
+              }}
+            >
+              {article.title}
+>>>>>>> 075a9c6 (fix : Fix lectureThumbnail rerender bug)
             </div>
             )
           )
