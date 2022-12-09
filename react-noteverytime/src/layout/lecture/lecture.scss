@@ -111,14 +111,11 @@
 
     .no-article-list {
       @include containerBorderStyle();
+      @include flexCenter();
       overflow: hidden;
       flex-grow: 1;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-size: 2em;
-      font-weight: bold;
       color: rgba($text-grey, 0.5);
+      
     }
   }
 }

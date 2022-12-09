@@ -55,6 +55,11 @@
       display: flex;
       justify-content: space-between;
 
+      .article-info {
+        display: flex;
+        flex-direction: row;
+      }
+
       .article-created-at {
         color: $text-grey;
         display: flex;
@@ -64,6 +69,8 @@
 
       .article-writer {
         color: $text-grey;
+        display: flex;
+        align-items: center;
       }
 
       .article-icons {

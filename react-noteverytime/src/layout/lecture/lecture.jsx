@@ -252,7 +252,7 @@ export const Lecture = () => {
             ))}
           </div>
         ) : (
-          <div className='no-article-list'>
+          <div className='h6 no-article-list'>
             등록된 게시글이 없습니다.
           </div>
         )}
