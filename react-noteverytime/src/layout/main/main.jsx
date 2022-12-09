@@ -4,6 +4,7 @@ import { LectureThumbnail } from "../../components/lectureThumbnail/lectureThumb
 import { SelectSemester } from '../../components/globalComponents/globalComponent';
 import { getUserLectures, getUserLecturesBySemester } from "../../utils/api";
 import "./main.scss";
+import { Link } from 'react-router-dom';
 
 export const Main = () => {
   const [semesterList, setSemesterList] = useState([]);
@@ -58,10 +59,13 @@ export const Main = () => {
       {userLectures.length == 0 ? (
         <div className="grid-EmptyBox">
           <div className="p2">현재 해당 학기에 인증된 과목이 없습니다.</div>
-          <div className="grid-certify">
-            <div className="h6">수강 인증하기</div>
-            <div className="Icon_RightArrow"></div>
-          </div>
+          <Link className="Link" to="/mypage">
+            <div className="grid-certify">
+              <div className="h6">수강 인증하기</div>
+              <div className="Icon_RightArrow"></div>
+            </div>
+          </Link>
+          
         </div>
       ) : (
         <div className="grid-box">

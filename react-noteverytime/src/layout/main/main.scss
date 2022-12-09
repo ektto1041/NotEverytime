@@ -52,6 +52,10 @@
     margin-bottom: 0.63rem;
   }
 
+  & > .Link {
+    text-decoration: none;
+  }
+
   .grid-certify {
     display: flex;
     align-items: center;
