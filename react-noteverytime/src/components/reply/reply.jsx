@@ -4,6 +4,7 @@ import moment from "moment";
 import "./reply.scss";
 
 export const Reply = ({
+  articleId,
   username,
   content,
   createdAt,
@@ -13,9 +14,8 @@ export const Reply = ({
   isAnonymous,
   isIdentify,
 }) => {
-  //TODO: re-reply css
   return (
-    <div className="reply">
+    <div className={depth == 0 ? "reply" : "reply re-reply"}>
       <div className="reply-top">
         <div className="info">
           <img
@@ -30,10 +30,10 @@ export const Reply = ({
             {moment(createdAt).format("YY.MM.DD HH:mm")}
           </div>
         </div>
-        <div className="rereply-button">답글</div>
+        {depth == 0 && <div className="rereply-button">답글</div>}
       </div>
       <div className="reply-content">{content}</div>
-      <ReplyInput />
+      {depth == 0 && <ReplyInput articleId={articleId} groupId={groupId} />}
     </div>
   );
 };

@@ -11,14 +11,29 @@ export const Article = () => {
   const { articleId } = useParams();
   const [article, setArticle] = useState({});
   const [comments, setComments] = useState([]);
+  const [reComments, setReComments] = useState({});
 
   useEffect(() => {
     (async () => {
       const article = await getArticle(articleId);
       setArticle(article.data);
-      const comments = await getComments(articleId);
-      setComments(comments.data);
+      console.dir(article);
+      const allComments = await getComments(articleId);
+      const comments = [];
+      const reComments = {};
+      for (const comment of allComments.data) {
+        if (comment.depth == 0) {
+          comments.push(comment);
+        } else {
+          reComments[comment.groupId]
+            ? reComments[comment.groupId].push(comment)
+            : (reComments[comment.groupId] = [comment]);
+        }
+      }
+      setComments(comments);
+      setReComments(reComments);
       console.log(comments);
+      console.log(reComments);
     })();
   }, []);
 
@@ -65,7 +80,7 @@ export const Article = () => {
             </div> */}
             <div className="item icon-reply">
               <img src="/images/item-icon_Reply.svg" alt="reply" />
-              <div>3</div>
+              <div>{comments.length}</div>
             </div>
             {article.isImage && (
               <div className="item icon-image">
@@ -84,16 +99,35 @@ export const Article = () => {
         <div className="reply-container">
           {comments.map((comment) => {
             return (
-              <Reply
-                username={comment.username}
-                content={comment.content}
-                createdAt={comment.createdAt}
-                depth={comment.depth}
-                groupId={comment.groupId}
-                isDeleted={comment.isDeleted}
-                isAnonymous={comment.isAnonymous}
-                isIdentify={comment.isIdentify}
-              />
+              <>
+                <Reply
+                  articleId={article._id}
+                  username={comment.username}
+                  content={comment.content}
+                  createdAt={comment.createdAt}
+                  depth={comment.depth}
+                  groupId={comment.groupId}
+                  isDeleted={comment.isDeleted}
+                  isAnonymous={comment.isAnonymous}
+                  isIdentify={comment.isIdentify}
+                />
+                {reComments[comment._id] &&
+                  reComments[comment._id].map((comment) => {
+                    return (
+                      <Reply
+                        articleId={article._id}
+                        username={comment.username}
+                        content={comment.content}
+                        createdAt={comment.createdAt}
+                        depth={comment.depth}
+                        groupId={comment.groupId}
+                        isDeleted={comment.isDeleted}
+                        isAnonymous={comment.isAnonymous}
+                        isIdentify={comment.isIdentify}
+                      />
+                    );
+                  })}
+              </>
             );
           })}
         </div>
