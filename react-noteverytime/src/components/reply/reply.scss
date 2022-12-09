@@ -52,7 +52,8 @@
 }
 
 .re-reply {
-  padding-left: 3em;
+  width: calc(90% - 3em);
+  margin-left: 3em;
   border: 1px solid $grey-border;
   border-radius: 12px;
   background-color: $background-first;
