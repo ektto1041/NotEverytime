@@ -104,6 +104,7 @@ export const Article = () => {
               <>
                 <Reply
                   articleId={article._id}
+                  commentId={comment._id}
                   username={comment.username}
                   content={comment.content}
                   createdAt={comment.createdAt}
@@ -119,6 +120,7 @@ export const Article = () => {
                     return (
                       <Reply
                         articleId={article._id}
+                        commentId={comment._id}
                         username={comment.username}
                         content={comment.content}
                         createdAt={comment.createdAt}
