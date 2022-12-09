@@ -94,7 +94,7 @@ const deleteArticle = async (req, res) => {
     if (article.userId.equals(userId)) {
       let deleteArticle = await Article.deleteOne({ _id: articleId }).exec();
       let deleteComments = await Comment.deleteMany({ articleId });
-      return res.status(200).send({deleteArticle, deleteComments});
+      return res.status(200).send({ deleteArticle, deleteComments });
     } else {
       throw new Error("삭제 권한이 없습니다.");
     }
@@ -192,11 +192,14 @@ const getComment = async (req, res) => {
           ? `익명${userIndex + 1}`
           : comment["userId"].username;
       }
+      comment["profileImage"] = comment.isAnonymous
+        ? process.env.DEFAULT_PROFILE_IMAGE
+        : comment.userId.profileImage;
       comment["isIdentify"] = comment.userId._id.equals(userId) ? true : false;
       delete comment["userId"];
       if (comment.isDeleted) {
-        let {_id, articleId, groupId, depth, order, isDeleted} = comment;
-        newComments.push({_id, articleId, groupId, depth, order, isDeleted})
+        let { _id, articleId, groupId, depth, order, isDeleted } = comment;
+        newComments.push({ _id, articleId, groupId, depth, order, isDeleted });
       } else {
         newComments.push(comment);
       }

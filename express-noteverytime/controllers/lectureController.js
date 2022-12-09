@@ -88,7 +88,7 @@ const getUserLecture = async (req, res) => {
   try {
     let userLecture = await UserLecture.findOne({ userId });
     if (!userLecture) {
-      return res.status(200).send("수강 정보가 없습니다.");
+      return res.status(200).send([]);
     }
     let lectures = [];
     for (let lectureDetail of userLecture.lectureDetailId) {

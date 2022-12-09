@@ -13,8 +13,9 @@ const currentSemester = "2022-2";
 const isEmpty = (field) => field === "" || field === undefined;
 
 const postJoin = async (req, res, next) => {
-  const { accountId, password, username, email, isAuth, profileImage } =
-    req.body;
+  const { accountId, password, username, email } = req.body;
+  let isAuth = false;
+  let profileImage = process.env.DEFAULT_PROFILE_IMAGE;
 
   if (isEmpty(accountId)) {
     return res.status(409).send("please input id");
