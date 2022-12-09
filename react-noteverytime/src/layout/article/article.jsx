@@ -41,12 +41,14 @@ export const Article = () => {
     <div className="article-container">
       <div className="article-top">
         <div className="writer">
-          <img src="/images/account-circle.svg" alt="account" />
+          <img src={article.profileImage} alt="account" />
           <div className="writer-meta">
             <div className="writer-name">
               {article.isAnonymous ? "익명" : article.username}
             </div>
-            <div className="writer-semester">2022-2학기 수강생</div>
+            <div className="writer-semester">
+              {article.userLectureSemester} 학기 수강생
+            </div>
           </div>
         </div>
         <div className="category">{getCategoryString(article.category)}</div>
