@@ -2,22 +2,46 @@
 
 .reply-input-container {
   width: 100%;
+  @include containerBorderStyle();
+
   display: flex;
-  align-self: flex-end;
   align-items: center;
-  border: 1px solid $grey-border;
-  border-radius: 12px;
-  padding: 0.25em 1em;
-  margin: 0.5em 0em;
+
+  padding: 0.63rem 1em;
+
   .reply-input {
     width: 100%;
     border: none;
-    outline-style: none;
   }
+
   .checkbox {
-    border: 1px solid $ajou-blue;
-  }
-  .reply-submit {
+    white-space: nowrap;
+    color: $ajou-silver;
+
+    display: flex;
+    margin-right: 1rem;
+    
     cursor: pointer;
+
+    input {
+      margin-right: 0.3rem;
+    }
+  }
+
+  .reply-submit {
+    display: flex;
+    cursor: pointer;
+
+    img {
+      &.small {
+        width: 1.5rem;
+        height: 1.5rem;
+      }
+
+      &.large {
+        width: 1.75rem;
+        height: 1.75rem;
+      }
+    }
   }
 }

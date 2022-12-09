@@ -36,26 +36,26 @@ export const Reply = ({
             }
             alt="account"
           />
-          <div className={isIdentify ? "reply-writer blue" : "reply-writer"}>
+          <div className={isIdentify ? "p4 reply-writer blue" : "p4 reply-writer"}>
             {isDeleted ? "(삭제)" : isAnonymous ? "익명" : username}
           </div>
-          <div className="date">
+          <div className="label2 date">
             {!isDeleted && moment(createdAt).format("YY.MM.DD HH:mm")}
           </div>
         </div>
         {!isDeleted && (
           <div className="reply-button-container">
-            {depth == 0 && <div className="rereply-button">답글</div>}
-            <div className="remove-button" onClick={onDeleteComment}>
+            {depth == 0 && <div className="p4 rereply-button">답글</div>}
+            <div className="p4 remove-button" onClick={onDeleteComment}>
               삭제
             </div>
           </div>
         )}
       </div>
-      <div className="reply-content">
+      <div className="p4 reply-content">
         {isDeleted ? "삭제된 댓글입니다." : content}
       </div>
-      {depth == 0 && <ReplyInput articleId={articleId} groupId={groupId} />}
+      {depth == 0 && <ReplyInput articleId={articleId} groupId={groupId} font="p4" text="답글을 입력해주세요" size="small"/>}
     </div>
   );
 };

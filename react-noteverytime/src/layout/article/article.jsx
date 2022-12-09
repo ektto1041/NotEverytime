@@ -48,24 +48,24 @@ export const Article = () => {
         <div className="writer">
           <img src={article.profileImage} alt="account" />
           <div className="writer-meta">
-            <div className="writer-name">
+            <div className="p3 writer-name">
               {article.isAnonymous ? "익명" : article.username}
             </div>
-            <div className="writer-semester">
+            <div className="label2 writer-semester">
               {article.userLectureSemester} 학기 수강생
             </div>
           </div>
         </div>
-        <div className="category">{getCategoryString(article.category)}</div>
+        <div className="h6 category">{getCategoryString(article.category)}</div>
       </div>
       <div className="meta">
         <div className="title-bar">
-          <div>{article.title}</div>
+          <div className="p3">{article.title}</div>
         </div>
       </div>
       <div className="content">
         <div className="text-container">
-          <div dangerouslySetInnerHTML={{ __html: article.content }}></div>
+          <div className="p3" dangerouslySetInnerHTML={{ __html: article.content }}></div>
         </div>
         <div className="photo-container">
           {article.isImage &&
@@ -87,15 +87,15 @@ export const Article = () => {
             </div> */}
             <div className="item icon-reply">
               <img src="/images/item-icon_Reply.svg" alt="reply" />
-              <div>{comments.length}</div>
+              <div className="p4">{comments.length}</div>
             </div>
             {article.isImage && (
               <div className="item icon-image">
                 <img src="/images/item-icon_Image.svg" alt="icon" />
-                <div>{article.articleImages.length}</div>
+                <div className="p4">{article.articleImages.length}</div>
               </div>
             )}
-            <div className="delete-article" onClick={onDeleteArticle}>
+            <div className="p4 delete-article" onClick={onDeleteArticle}>
               삭제
             </div>
           </div>
@@ -106,7 +106,7 @@ export const Article = () => {
         </div>
       </div>
       <div className="reply-section">
-        <h1 className="top">댓글</h1>
+        <div className="h6 top">댓글</div>
         <div className="reply-container">
           {comments.map((comment) => {
             return (
@@ -147,7 +147,7 @@ export const Article = () => {
           })}
         </div>
       </div>
-      <ReplyInput articleId={article._id} groupId={false} />
+      <ReplyInput articleId={article._id} groupId={false} font="p3" text="댓글을 입력해주세요" size="large"/>
     </div>
   );
 };
