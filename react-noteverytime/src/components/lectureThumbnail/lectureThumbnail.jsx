@@ -25,7 +25,6 @@ export const LectureThumbnail = ({ lectureName, lectureId, semester }) => {
       </div>
       <div className="semester-box"></div>
       <div className="class-item-preview-list">
-<<<<<<< HEAD
         {articles?.length > 0 ? (
           articles.slice(0, 5).map((article) => (
             <div className="class-item-preview">
@@ -40,22 +39,8 @@ export const LectureThumbnail = ({ lectureName, lectureId, semester }) => {
               <div className="p4 preview-createdAt">
                 {moment(article.createdAt).format("YY-MM-DD")}
               </div>
-=======
-        {articles?.map((article) => (
-          <div className={"class-item-preview"}>
-            {/* TODO:Article로 가기 */}
-            <div
-              className="p4 preview-title"
-              onClick={() => {
-                navigate(`/article/${article._id}`);
-              }}
-            >
-              {article.title}
->>>>>>> 075a9c6 (fix : Fix lectureThumbnail rerender bug)
             </div>
-            )
-          )
-          
+          ))
         ) : (
           <div className="p4">등록된 게시글이 없습니다.</div>
         )}
