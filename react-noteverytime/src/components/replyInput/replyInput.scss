@@ -12,8 +12,12 @@
   .reply-input {
     width: 100%;
     border: none;
+    outline-style: none;
   }
   .checkbox {
     border: 1px solid $ajou-blue;
+  }
+  .reply-submit {
+    cursor: pointer;
   }
 }

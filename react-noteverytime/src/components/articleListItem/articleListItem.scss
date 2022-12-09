@@ -1,4 +1,4 @@
-@import '../../styles/variables.scss';
+@import "../../styles/variables.scss";
 
 .article-item-container:not(:first-child)::before {
   content: "";
@@ -6,6 +6,10 @@
   @include semester-box();
   margin-top: 0;
   margin-bottom: 0;
+}
+
+.article-item-container > a {
+  text-decoration: none;
 }
 
 .article-item-box {
@@ -26,7 +30,6 @@
     flex-grow: 1;
     display: flex;
     flex-direction: column;
-    
 
     .article-title {
       height: 1.63rem;
@@ -46,7 +49,7 @@
       -webkit-line-clamp: 2;
       -webkit-box-orient: vertical;
       white-space: wrap;
-      
+
       margin-bottom: 1rem;
     }
 
@@ -79,7 +82,7 @@
         img {
           margin-right: 0.13rem;
         }
-        
+
         & > div {
           display: flex;
           align-items: center;

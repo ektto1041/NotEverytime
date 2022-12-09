@@ -4,17 +4,16 @@ import { getArticles } from "../../utils/api";
 import { Link, useNavigate } from "react-router-dom";
 import moment from "moment";
 
-export const LectureThumbnail = ({ lectureName, lectureId }) => {
+export const LectureThumbnail = ({ lectureName, lectureId, semester }) => {
   const [articles, setArticles] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
     (async () => {
       const articles = await getArticles(lectureId);
-      console.dir(articles);
       setArticles(articles.data);
     })();
-  }, []);
+  }, [lectureId]);
 
   return (
     <div className="class-item-container">
@@ -41,9 +40,7 @@ export const LectureThumbnail = ({ lectureName, lectureId }) => {
                 {moment(article.createdAt).format("YY-MM-DD")}
               </div>
             </div>
-            )
-          )
-          
+          ))
         ) : (
           <div className="p4">등록된 게시글이 없습니다.</div>
         )}

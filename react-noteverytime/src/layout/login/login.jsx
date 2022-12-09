@@ -39,7 +39,7 @@ export const Login = () => {
       <div className="login-Box">
         <img className="logo" src="/images/Logo.svg" />
 
-        <div className='input-Box'>
+        <div className="input-Box">
           <InputContainer
             type="text"
             placeholder="아이디"
@@ -53,7 +53,7 @@ export const Login = () => {
             onChange={handlePasswordChange}
           />
         </div>
-        <Button color="" size="full" text="로그인"  onClick={handleLogin} />
+        <Button color="" size="full" text="로그인" onClick={handleLogin} />
       </div>
 
       <div className="p3 login-registerBox">

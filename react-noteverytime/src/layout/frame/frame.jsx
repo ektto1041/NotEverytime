@@ -27,7 +27,7 @@ export const Frame = () => {
         <Route path="/lecture/:lectureId" element={<Lecture />} />
         <Route path="/post" element={<Post />} />
         <Route path="/mypage" element={<MyPage />} />
-        <Route path="/article/:articleID" element={<Article />} />
+        <Route path="/article/:articleId" element={<Article />} />
         <Route path="/search" element={<LectureResult />} />
       </Routes>
     </>

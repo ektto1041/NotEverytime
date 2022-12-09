@@ -8,6 +8,10 @@
   align-items: center;
   margin: 1em 0;
 
+  .blue {
+    color: $ajou-blue;
+  }
+
   .reply-top {
     width: 100%;
     display: flex;
@@ -16,6 +20,9 @@
     margin: 0.5em 0;
     .info {
       display: flex;
+      .profile {
+        border-radius: 50%;
+      }
       .reply-writer {
         white-space: nowrap;
         align-self: center;
@@ -31,4 +38,11 @@
     text-align: left;
     width: 100%;
   }
+}
+
+.re-reply {
+  padding-left: 3em;
+  border: 1px solid $grey-border;
+  border-radius: 12px;
+  background-color: $background-first;
 }
