@@ -26,14 +26,12 @@ export const ArticleListItem = ({ article }) => {
               {content.replace(/<[^>]*>?/g, "")}
             </div>
             <div className="article-data">
-              <div className="article-data-info">
-                <div className="p4 article-created-at">
-                  {modifiedAt && moment.isMoment(modifiedAt)
-                    ? modifiedAt.fromNow()
-                    : ""}
-                </div>
-                <div className="p4 article-writer">{username}</div>
+              <div className="p4 article-created-at">
+                {modifiedAt && moment.isMoment(modifiedAt)
+                  ? modifiedAt.fromNow()
+                  : ""}
               </div>
+              <div className="p4 article-writer">{username}</div>
               <div className="article-icons">
                 <div className="p4 comments">
                   <img
