@@ -2,14 +2,19 @@
 
 .auth-semester-box-container {
   width: 100%;
-
+  min-height: 45rem;
   @include containerBorderStyle();
 
   display: flex;
+  justify-content: center;
   align-items: center;
   flex-direction: column;
 
   padding: 1.5rem 3rem;
+
+  & > .h6 {
+    color: rgba($text-grey, 0.5);
+  }
 }
 
 .in-modal {
