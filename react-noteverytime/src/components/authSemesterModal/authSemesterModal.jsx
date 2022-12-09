@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { useCallback } from 'react';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Button, SelectSemester } from '../globalComponents/globalComponent';
 import { authenticateLectureApi, getMyPageApi, updateAuthenticatedLectureApi } from '../../utils/api';
 import { AuthSemesterBoxInModal } from '../authSemesterBoxInModal/authSemesterBoxInModal';
 import './authSemesterModal.scss';
@@ -68,22 +69,19 @@ export const AuthSemesterModal = ({
   return (
     <div className='auth-semester-modal-background' onClick={onClose}>
       <div className='auth-semester-modal-container' onClick={(e) => e.stopPropagation()}>
-        <div className='auth-semester-modal-title'>
+        <div className='h6 auth-semester-modal-title'>
           수강 인증
           <div className='auth-semester-modal-cancel-button' onClick={onClose} />
         </div>
+        <div className="semester-box"></div>
         <div className='auth-semester-modal-body'>
           <div className='auth-semester-modal-select-box'>
-            <select className='auth-semester-modal-select' value={semester} onChange={(e) => setSemester(e.target.value)}>
-              {Array.from(Object.keys(lecturesBySemester))?.map(semester => (
-                <option key={semester} value={semester}>{semester}학기</option>
-              ))}
-            </select>
+            <SelectSemester value={semester} onChange={(e) => setSemester(e.target.value)} list={lecturesBySemester}/>
           </div>
           <AuthSemesterBoxInModal lectures={lecturesBySemester[semester]} />
           <div className='auth-semester-modal-button-box'>
-            <button className='auth-semester-modal-cancel-button' onClick={onClose}>취소</button>
-            <button className='auth-semester-modal-submit-button' onClick={handleAuthenticateClick} >수강 인증하기</button>
+            <Button color="white" text="취소" onClick={onClose}/>
+            <Button text="수강 인증하기" onClick={handleAuthenticateClick}/>
           </div>
         </div>
       </div>

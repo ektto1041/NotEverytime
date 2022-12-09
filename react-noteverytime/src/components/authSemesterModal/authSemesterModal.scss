@@ -13,30 +13,34 @@
   z-index: 100;
   
   .auth-semester-modal-container {
-    // width: 74em;
+    @include widthContainer();
+    max-width: $column-size;
+
     background-color: white;
     display: flex;
     flex-direction: column;
     align-items: center;
     border-radius: 12px;
 
+
+    & > .semester-box {
+      width: 100%;
+      @include semester-box();
+      margin: 0;
+    }
+
     .auth-semester-modal-title {
       width: 100%;
-      height: 3em;
-      line-height: 3em;
-      font-size: 1.2em;
-      font-weight: bold;
       text-align: start;
-      text-indent: 2em;
-      border-bottom: 1px solid $grey-border;
-      position: relative;
+      display: flex;
+      justify-content: space-between;
+
+      padding: 1.5rem 3rem;
 
       .auth-semester-modal-cancel-button {
         width: 1.5em;
         height: 1.5em;
-        position: absolute;
-        right: 2em;
-        top: calc(0.75em);
+
         cursor: pointer;
         background-image: url(../../../public/images/Icon_Cancel.svg);
         background-size: contain;
@@ -44,48 +48,32 @@
     }
 
     .auth-semester-modal-body {
-      padding: 1em;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+
+      & > div + div {
+        margin-top: 1.5rem;
+      }
+      
 
       .auth-semester-modal-select-box {
+        width: 100%;
+
         display: flex;
         justify-content: flex-end;
-        height: 3em;
-
-        .auth-semester-modal-select {
-          appearance: none;
-          -webkit-appearance: none; /* 사파리, 크롬 하위버전용 */
-          -moz-appearance: none; /* 사파리, 크롬 하위버전용 */
-    
-          width: 10em;
-          height: 2.5em;
-    
-          @include containerBorderStyle();
-          
-          padding-left: 1.50em;
-          padding-right: 1.00em;
-          color: $text-grey;
-    
-          background-image: url('../../../public/images/Icon_DownArrow.svg');
-          background-repeat: no-repeat;
-          background-position: calc(100% - 16px) center;
-          
-          cursor: pointer;
-        }
+        margin-top: 1.5rem;
+        padding-right: 3rem;
       }
 
       .auth-semester-modal-button-box {
         display: flex;
         justify-content: flex-end;
-        height: 3em;
-        margin-top: 1em;
+        margin-right: 3rem;
+        margin-bottom: 1.5rem;
 
-        button {
-          width: 10em;
-          height: 3em;
-          margin-left: 1em;
-          border: 1px solid $grey-border;
-          border-radius: 12px;
-          cursor: pointer;
+        & > .button + .button {
+          margin-left: 1.5rem;
         }
 
         .auth-semester-modal-cancel-button {

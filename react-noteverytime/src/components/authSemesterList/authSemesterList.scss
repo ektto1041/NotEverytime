@@ -13,18 +13,25 @@
     margin-bottom: 1rem;
   }
 
+  & > .semester-box {
+    width: 100%;
+    @include semester-box();
+    margin: 0;
+    margin-bottom: 1rem;
+  }
+
   .auth-semester-header {
     width: 100%;
-    height: 3em;
+    height: 3rem;
     display: flex;
-    border-bottom: 1px solid $grey-border;
+
+    padding: 0 1.5rem;
 
     .auth-semester-header-item {
-      height: 3em;
-      line-height: 3em;
       text-align: start;
+      display: flex;
+      align-items: center;
       color: $text-grey;
-      text-indent: 1em;
     }
   }
 
