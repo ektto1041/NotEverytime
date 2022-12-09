@@ -129,6 +129,8 @@ export const createPostApi = (formData) => ax.post("/articles/edit", formData);
 
 export const getArticle = (articleId) => ax.get(`/articles/${articleId}`);
 
+export const deleteArticle = (articleId) => ax.delete(`/articles/${articleId}`);
+
 export const createComment = (commentData) =>
   ax.post("/articles/comments/edit", commentData);
 

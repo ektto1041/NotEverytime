@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Reply } from "../../components/reply/reply";
 import { ReplyInput } from "../../components/replyInput/replyInput";
-import { getArticle, getComments } from "../../utils/api";
+import { getArticle, deleteArticle, getComments } from "../../utils/api";
 import { useParams } from "react-router-dom";
 import { getCategoryString } from "../../utils/globalFunction";
 import moment from "moment";
@@ -36,6 +36,11 @@ export const Article = () => {
       console.log(reComments);
     })();
   }, []);
+
+  const onDeleteArticle = async () => {
+    await deleteArticle(articleId);
+    //TODO:뒤로가기
+  };
 
   return (
     <div className="article-container">
@@ -90,7 +95,11 @@ export const Article = () => {
                 <div>{article.articleImages.length}</div>
               </div>
             )}
+            <div className="delete-article" onClick={onDeleteArticle}>
+              삭제
+            </div>
           </div>
+
           <div className="date">
             {moment(article.modifiedAt).format("YY.MM.DD HH:mm")}
           </div>

@@ -115,6 +115,11 @@
         .icon-image {
           color: $ajou-silver;
         }
+        .delete-article {
+          align-self: center;
+          margin-left: 1em;
+          cursor: pointer;
+        }
       }
       .date {
         color: $ajou-silver;
