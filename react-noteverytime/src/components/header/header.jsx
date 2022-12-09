@@ -1,13 +1,14 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import "./header.scss";
 import "../../styles/fontStyle.scss";
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { getMyPageApi } from "../../utils/api";
 
 export const Header = () => {
   const navigate = useNavigate();
 
   const [keyword, setKeyword] = useState("");
+  const [profileImage, setProfileImage] = useState("");
 
   const handleSearch = useCallback(
     (e) => {
@@ -18,6 +19,13 @@ export const Header = () => {
     [keyword]
   );
 
+  useEffect(() => {
+    (async () => {
+      const response = await getMyPageApi();
+      setProfileImage(response.data.userResult.profileImage);
+    })();
+  }, []);
+
   return (
     <header className="header">
       <div className="header-Container">
@@ -26,7 +34,6 @@ export const Header = () => {
             <img src="/images/Logo.svg" height="32px" />
           </a>
         </div>
-
         <div className="header-centerContainer search-bar">
           <form className="p3" onSubmit={handleSearch}>
             <input
@@ -44,7 +51,9 @@ export const Header = () => {
             navigate("/mypage");
           }}
         >
-          <img src="/images/account-circle.svg" height="44px" />
+          <div className="profile-img-wrapper">
+            <img src={profileImage} height="44px" />
+          </div>
         </div>
       </div>
     </header>
