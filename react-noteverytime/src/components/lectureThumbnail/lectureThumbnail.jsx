@@ -26,21 +26,27 @@ export const LectureThumbnail = ({ lectureName, lectureId }) => {
       </div>
       <div className="semester-box"></div>
       <div className="class-item-preview-list">
-        {articles.slice(0, 5).map((article) => (
-          <div className="class-item-preview">
-            <div
-              className="p4 preview-title"
-              onClick={() => {
-                navigate(`/lecture/${article.lectureId}`);
-              }}
-            >
-              {article.title}
+        {articles?.length > 0 ? (
+          articles.slice(0, 5).map((article) => (
+            <div className="class-item-preview">
+              <div
+                className="p4 preview-title"
+                onClick={() => {
+                  navigate(`/lecture/${article.lectureId}`);
+                }}
+              >
+                {article.title}
+              </div>
+              <div className="p4 preview-createdAt">
+                {moment(article.createdAt).format("YY-MM-DD")}
+              </div>
             </div>
-            <div className="p4 preview-createdAt">
-              {moment(article.createdAt).format("YY-MM-DD")}
-            </div>
-          </div>
-        ))}
+            )
+          )
+          
+        ) : (
+          <div className="p4">등록된 게시글이 없습니다.</div>
+        )}
       </div>
     </div>
   );

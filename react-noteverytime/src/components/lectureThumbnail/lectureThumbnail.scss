@@ -2,6 +2,9 @@
 
 .class-item-container {
   width: 100%;
+  height: 17.25rem;
+  display: flex;
+  flex-direction: column;
 
   @include containerBorderStyle();
 
@@ -9,6 +12,7 @@
   margin-bottom: 1.25em;
 
   .class-item-title {
+    width: 100%;
     display: flex;
     justify-content: space-between;
     column-gap: 16px;
@@ -39,6 +43,8 @@
   }
 
   .class-item-preview-list {
+    flex: auto;
+
     display: flex;
     flex-direction: column;
     justify-content: space-around;
