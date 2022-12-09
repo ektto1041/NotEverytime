@@ -14,8 +14,8 @@ const isEmpty = (field) => field === "" || field === undefined;
 
 const postJoin = async (req, res, next) => {
   const { accountId, password, username, email } = req.body;
-  let isAuth = false;
-  let profileImage = process.env.DEFAULT_PROFILE_IMAGE;
+  const isAuth = false;
+  const profileImage = process.env.DEFAULT_PROFILE_IMAGE;
 
   if (isEmpty(accountId)) {
     return res.status(409).send("please input id");
@@ -98,6 +98,23 @@ const getLogout = async (req, res) => {
   req.session.destroy();
   res.status(200).send("세션 삭제");
 };
+
+const getProfile = async (req, res) => {
+  if (!req.session.user) {
+    return res.status(400).send("세션 없음");
+  }
+  const userId = req.session.user._id;
+  try {
+    const user = await User.findById(userId);
+    if (!user) {
+      throw new Error("등록되지 않은 ID 또는 PW입니다.");
+    }
+    const profileImage = user.profileImage ? user.profileImage : process.env.DEFAULT_PROFILE_IMAGE;
+    return res.status(200).send({profileImage});
+  } catch (error) {
+    return res.status(500).send(error.message);
+  }
+}
 
 const getMypage = async (req, res) => {
   if (!req.session.user) {
@@ -266,6 +283,7 @@ module.exports = {
   getLogin,
   postLogin,
   getLogout,
+  getProfile,
   getMypage,
   editMypage,
   editMypageProfile,

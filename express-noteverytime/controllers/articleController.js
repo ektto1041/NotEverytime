@@ -3,6 +3,7 @@
 const Article = require("../models/article/article");
 const ArticleImage = require("../models/article/articleImage");
 const Comment = require("../models/article/comment");
+const UserLecture = require("../models/user/userLecture");
 
 const getArticle = async (req, res) => {
   if (!req.session.user) {
@@ -16,9 +17,24 @@ const getArticle = async (req, res) => {
   try {
     let article = await Article.findOne({ _id: articleId }).populate("userId");
     article = article.toObject();
-    let articleImage;
+
+    /* User의 과목 수강 학기 */
+    const lectureId = article.lectureId;
+    const userLectures = await UserLecture.findOne({
+      userId: article.userId._id,
+    }).populate("lectureDetailId");
+    const userLectureDetails = userLectures.lectureDetailId.sort((a, b) =>
+      sortLectureSemester(a, b)
+    );
+    for (const lectureDetail of userLectureDetails) {
+      if (lectureDetail.lectureId.equals(lectureId)) {
+        article["userLectureSemester"] = lectureDetail.lectureSemester;
+        break;
+      }
+    }
+
     if (article.isImage) {
-      articleImage = await ArticleImage.find({
+      const articleImage = await ArticleImage.find({
         articleId: article._id,
       }).select("articleImageLink articleImageOrder");
       article["articleImages"] = articleImage;
@@ -27,11 +43,21 @@ const getArticle = async (req, res) => {
     article["username"] = article.isAnonymous
       ? "익명"
       : article["userId"].username;
+    article["profileImage"] = article.isAnonymous
+      ? process.env.DEFAULT_PROFILE_IMAGE
+      : article.userId.profileImage;
     delete article["userId"];
     return res.status(200).send(article);
   } catch (error) {
     return res.status(400).send(error.message);
   }
+};
+
+const sortLectureSemester = (a, b) => {
+  if (a < b) return -1;
+  if (a > b) return 1;
+  if (a === b) return 0;
+  else return -1;
 };
 
 const editArticle = async (req, res) => {
@@ -175,12 +201,28 @@ const getComment = async (req, res) => {
     if (!article) {
       throw new Error("해당하는 게시글이 article db에 없습니다.");
     }
-    let comments = await Comment.find({ articleId }).populate("userId");
-    let newComments = [];
-    let users = new Set();
+    const comments = await Comment.find({ articleId }).populate("userId");
+    const lectureId = article.lectureId;
+    const newComments = [];
+    const users = new Set();
     let userIndex = 0;
     for (let comment of comments) {
       comment = comment.toObject();
+
+      /* User의 과목 수강 학기 */
+      const userLectures = await UserLecture.findOne({
+        userId: comment.userId._id,
+      }).populate("lectureDetailId");
+      const userLectureDetails = userLectures.lectureDetailId.sort((a, b) =>
+        sortLectureSemester(a, b)
+      );
+      for (const lectureDetail of userLectureDetails) {
+        if (lectureDetail.lectureId.equals(lectureId)) {
+          comment["userLectureSemester"] = lectureDetail.lectureSemester;
+          break;
+        }
+      }
+
       if (comment.userId._id.equals(article.userId)) {
         comment["username"] = comment.isAnonymous
           ? "작성자"
@@ -198,7 +240,7 @@ const getComment = async (req, res) => {
       comment["isIdentify"] = comment.userId._id.equals(userId) ? true : false;
       delete comment["userId"];
       if (comment.isDeleted) {
-        let { _id, articleId, groupId, depth, order, isDeleted } = comment;
+        const { _id, articleId, groupId, depth, order, isDeleted } = comment;
         newComments.push({ _id, articleId, groupId, depth, order, isDeleted });
       } else {
         newComments.push(comment);
