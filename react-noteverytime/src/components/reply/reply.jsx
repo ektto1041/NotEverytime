@@ -13,6 +13,7 @@ export const Reply = ({
   isDeleted,
   isAnonymous,
   isIdentify,
+  profileImage,
 }) => {
   return (
     <div className={depth == 0 ? "reply" : "reply re-reply"}>
@@ -20,7 +21,7 @@ export const Reply = ({
         <div className="info">
           <img
             className="profile"
-            src="/images/account-circle.svg"
+            src={isAnonymous ? "/images/account-circle.svg" : profileImage}
             alt="account"
           />
           <div className={isIdentify ? "reply-writer blue" : "reply-writer"}>

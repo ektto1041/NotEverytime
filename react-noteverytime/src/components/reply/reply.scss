@@ -20,6 +20,9 @@
     margin: 0.5em 0;
     .info {
       display: flex;
+      .profile {
+        border-radius: 50%;
+      }
       .reply-writer {
         white-space: nowrap;
         align-self: center;
