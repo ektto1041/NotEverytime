@@ -6,7 +6,6 @@ import { AuthSemesterBox } from '../../components/authSemesterBox/authSemesterBo
 import { AuthSemesterModal } from '../../components/authSemesterModal/authSemesterModal';
 import { ProfileBox } from '../../components/profileBox/profileBox';
 import { Button } from "../../components/globalComponents/globalComponent";
-import { MyContent } from '../../components/myContent/myContent';
 import { getMyPageApi, loginApi, logoutApi } from '../../utils/api';
 import './myPage.scss';
 
@@ -79,17 +78,6 @@ export const MyPage = () => {
           <Button size="small" text="로그아웃" onClick={handleClickLogout}/>
         </div>
         <ProfileBox user={user} setUser={setUser} />
-      </div>
-
-      <div className="part-box">
-        <div className="part-title">
-          <div className="h5">내가 작성한 콘텐츠</div>
-        </div>
-        <div className="my-contents-box">
-          <MyContent text="내가 작성한 글" link="mypost"/>
-          <div className="semester-box"></div>
-          <MyContent text="내가 댓글단 글" link="myarticle"/>
-        </div>
       </div>
 
       <div className="part-box">

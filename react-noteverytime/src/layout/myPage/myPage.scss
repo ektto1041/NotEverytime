@@ -16,20 +16,6 @@
     & + .part-box {
       margin-top: 3rem;
     }
-
-    .my-contents-box {
-      width: 100%;
-      display: flex;
-      flex-direction: column;
-
-      @include containerBorderStyle();
-
-      & > .semester-box {
-        @include semester-box();
-        margin-top: 0;
-        margin-bottom: 0;
-      }
-    }
   }
 
   .part-title {
