@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
 import { LectureThumbnail } from "../../components/lectureThumbnail/lectureThumbnail";
+import { SelectSemester } from '../../components/globalComponents/globalComponent';
 import { getUserLectures, getUserLecturesBySemester } from "../../utils/api";
 import "./main.scss";
 
@@ -34,17 +35,7 @@ export const Main = () => {
     <div className="main-Container">
       <div className="menu">
         <div className="h5 title">인증한 수강 과목 게시판</div>
-        <div className="controll-box">
-          <select
-            className="p3 select-semester"
-            value={semester}
-            onChange={handleSelectSemester}
-          >
-            {semesterList.map((semester) => {
-              return <option value={semester}>{semester} 학기</option>;
-            })}
-          </select>
-        </div>
+        <SelectSemester value={semester} onChange={handleSelectSemester} list={semesterList}/>
       </div>
       {userLectures.length === 0 ? (
         <div className="grid-EmptyBox">

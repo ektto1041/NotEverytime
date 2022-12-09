@@ -20,7 +20,7 @@ $mobile: 768px;
 $tablet: 1024px;
 
 @mixin widthContainer {
-    width: calc(100% - 3em);
+    width: calc(100% - 3rem);
 }
 
 @mixin flexCenter() {
