@@ -70,10 +70,10 @@ const LectureResult = () => {
   return (
     <div className='lecture-result-container'>
       <div className='lecture-result-header'>
-        <button className='lecture-result-back-button' onClick={handleClickBack}>
+        <button className='p3 lecture-result-back-button' onClick={handleClickBack}>
           뒤로
         </button>
-        <div className='lecture-result-title'>
+        <div className='h5 lecture-result-title'>
           검색결과
         </div>
       </div>

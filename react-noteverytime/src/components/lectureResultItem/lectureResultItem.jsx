@@ -9,7 +9,7 @@ const Column = ({
   data,
 }) => {
   return (
-    <div className='lecture-result-item-column' style={{ width, }}>
+    <div className='p3 lecture-result-item-column' style={{ width, }}>
       <div className='lecture-result-item-thead'>
         {thead}
       </div>
@@ -43,10 +43,11 @@ const LectureResultItem = ({
   return (
     <div className='lecture-result-item-container' onClick={handleClick}>
       <div className='lecture-result-item-header'>
-        <div className='lecture-result-item-title'>
+        <div className='h6 lecture-result-item-title'>
           {lectureName}
         </div>
       </div>
+      <div className="semester-box"></div>
       <div className='lecture-result-item-body'>
         <Column width='28%' thead='과목코드' data={[lectureCode]} />
         <Column width='28%' thead='교수명' data={[lectureProfessor]} />

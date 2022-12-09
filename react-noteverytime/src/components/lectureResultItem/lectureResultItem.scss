@@ -2,10 +2,10 @@
 
 .lecture-result-item-container {
   width: 100%;
-  margin-top: 1em;
-  border: 1px solid $grey-border;
-  border-radius: 12px;
-  padding: 1em;
+  
+  @include containerBorderStyle();
+
+  padding: 1rem 1.5rem;
   background-color: white;
   cursor: pointer;
 
@@ -13,34 +13,44 @@
     background-color: $background-first;
   }
 
+  & + & {
+    margin-top: 1.25rem;
+  }
+
   .lecture-result-item-header {
     width: 100%;
     text-align: start;
-    text-indent: 1em;
-    padding-bottom: 1em;
-    border-bottom: 1px solid $grey-border;
 
     .lecture-result-item-title {
-      font-size: 1.5em;
-      background-image: url(../../../public/images/Icon_RightArrow.svg);
-      background-repeat: no-repeat;
-      background-position-x: right;
-      background-size: 1.5em;
+      background: {
+        image: url(../../../public/images/Icon_RightArrow.svg);
+        repeat: no-repeat;
+        position-x: right;
+        size: 1.5em;
+      };
     }
+  }
+
+  & > .semester-box {
+    @include semester-box();
+    margin: 1rem 0;
   }
 
   .lecture-result-item-body {
     width: 100%;
     display: flex;
     text-align: start;
-    text-indent: 1em;
+    padding: 0 1.5rem;
 
     .lecture-result-item-column {
 
       .lecture-result-item-thead {
-        color: $text-grey;
-        margin-top: 1em;
-        margin-bottom: 1em;
+        color: $ajou-silver;
+        margin-bottom: 0.63rem;
+      }
+
+      .lecture-result-item-tbody {
+        color: $text-dark;
       }
     }
   }
