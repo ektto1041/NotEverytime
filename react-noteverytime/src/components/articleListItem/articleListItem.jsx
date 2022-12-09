@@ -19,7 +19,7 @@ export const ArticleListItem = ({ article }) => {
     <div className="article-item-container">
       <Link to={`/article/${_id}`}>
         <div className="article-item-box">
-          <div className={`article-info`}>
+          <div className="article-info">
             <div className="p3 article-title">{title}</div>
             <div className="p3 article-preview">
               {/* {content.length > 70 ? content.substring(0, 70) + "..." : content} */}
