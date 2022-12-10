@@ -1,7 +1,6 @@
-const AWS = require('aws-sdk');
-const multer = require('multer');
-const multerS3 = require('multer-s3');
-const path = require('path');
+const AWS = require("aws-sdk");
+const multer = require("multer");
+const multerS3 = require("multer-s3");
 const { UnauthorizedError } = require("./errors/authError");
 
 const s3 = new AWS.S3({
@@ -13,29 +12,29 @@ const s3 = new AWS.S3({
 const profileImageUploader = multerS3({
   s3: s3,
   bucket: process.env.AWS_S3_PROFILE_BUCKET,
-  acl: 'public-read-write',
+  acl: "public-read-write",
   key: (req, file, callback) => {
-    callback(null, `${Date.now()}_${file.originalname}`)
-  }
+    callback(null, `${Date.now()}_${file.originalname}`);
+  },
 });
 
 const articleImageUploader = multerS3({
   s3: s3,
   bucket: process.env.AWS_S3_ARTICLE_BUCKET,
-  acl: 'public-read-write',
+  acl: "public-read-write",
   key: (req, file, callback) => {
-    callback(null, `${Date.now()}_${file.originalname}`)
-  }
+    callback(null, `${Date.now()}_${file.originalname}`);
+  },
 });
 
 const profileUpload = multer({
   dest: "uploads/profile/",
-  storage : profileImageUploader,
+  storage: profileImageUploader,
 });
 
 const articleUpload = multer({
   dest: "uploads/article/",
-  storage : articleImageUploader,
+  storage: articleImageUploader,
 });
 
 const isSessionMiddleware = async (req, res, next) => {
@@ -46,14 +45,14 @@ const isSessionMiddleware = async (req, res, next) => {
     } else {
       console.log("isNotLogined");
       throw new UnauthorizedError("권한 없는 사용자입니다.", 401);
-    } 
+    }
   } catch (error) {
     next(error);
   }
-}
+};
 
 module.exports = {
   isSessionMiddleware,
   profileUpload,
-  articleUpload
+  articleUpload,
 };

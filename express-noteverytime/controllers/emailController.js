@@ -8,7 +8,7 @@ const postEmail = (req, res) => {
   const EMAIL = process.env.EMAIL;
   const EMAIL_PW = process.env.EMAIL_PW;
   const HOST = process.env.HOST;
-  let transport = nodemailer.createTransport({
+  const transport = nodemailer.createTransport({
     service: "gmail",
     auth: {
       user: EMAIL,
@@ -17,7 +17,7 @@ const postEmail = (req, res) => {
   });
 
   // 전송할 email 내용 작성
-  let mailOptions = {
+  const mailOptions = {
     from: EMAIL,
     to: req.email,
     subject: "[noteverytime] 이메일 인증 확인 메일입니다.",
@@ -39,7 +39,7 @@ const postEmail = (req, res) => {
 };
 
 const confirmEmail = async (req, res, next) => {
-  let token = await UserEmailAuth.findOne({ token: req.query.token });
+  const token = await UserEmailAuth.findOne({ token: req.query.token });
   if (!token) {
     req.message =
       "expired token";
@@ -52,7 +52,7 @@ const confirmEmail = async (req, res, next) => {
           req.message = "cannot find user info";
           next(message, res);
         } else if (user.isAuth) {
-          req.message = "already auth user";
+          req.message = "이미 인증된 유저입니다.";
           console.log(req.message);
           next();
         } else {
@@ -70,7 +70,7 @@ const confirmEmail = async (req, res, next) => {
 };
 
 const sendResultMessage = (req, res) => {
-  let script =
+  const script =
     "<script>alert('" +
     req.message +
     '\'); window.location.href="https://www.naver.com";</script>';

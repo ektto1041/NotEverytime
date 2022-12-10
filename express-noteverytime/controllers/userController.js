@@ -23,7 +23,7 @@ const currentSemester = "2022-2";
 
 const getLogin = async (req, res, next) => {
   const isLogined = req.session.isLogined || false;
-  return res.status(200).send({isLogined});
+  return res.status(200).send({ isLogined });
 };
 
 const isEmpty = (field) => field === "" || field === undefined;
@@ -83,9 +83,9 @@ const postLogin = async (req, res, next) => {
     if (isEmpty(password)) {
       throw new InputValidationError("비밀번호를 입력해주세요.", 400);
     }
-    let user = await User.findOne({ accountId });
+    const user = await User.findOne({ accountId });
     if (user) {
-      let isPasswordRight = await bcrypt.compare(password, user.password);
+      const isPasswordRight = await bcrypt.compare(password, user.password);
       if (!user || !isPasswordRight) {
         throw new UnauthenticatedError("등록되지 않은 ID 또는 PW입니다.", 402);
       } else if (!user.isAuth) {
@@ -95,7 +95,7 @@ const postLogin = async (req, res, next) => {
         delete user["password"];
         req.session.user = user;
         req.session.isLogined = true;
-        let session = req.session;
+        const session = req.session;
         return res.status(200).send(session);
       }
     } else {
@@ -134,7 +134,7 @@ const getMypage = async (req, res, next) => {
     if (!user) {
       throw new UnauthorizedError("등록되지 않은 사용자입니다.", 401);
     }
-    let userResult = {
+    const userResult = {
       _id: user._id,
       accountId: user.accountId,
       username: user.username,
@@ -142,11 +142,11 @@ const getMypage = async (req, res, next) => {
       isAuth: user.isAuth,
       profileImage: user.profileImage,
     };
-    let userLecture = await UserLecture.findOne({ userId });
+    const userLecture = await UserLecture.findOne({ userId });
     if (!userLecture) {
       return res.status(200).send({ userResult });
     }
-    let lectures = [];
+    const lectures = [];
     for (let lectureDetail of userLecture.lectureDetailId) {
       let lecture = await LectureDetail.findById(lectureDetail).populate(
         "lectureId"
@@ -207,7 +207,7 @@ const getAuthLecture = async (req, res, next) => {
 
 const postAuthLecture = async (req, res, next) => {
   const userId = req.session.user._id;
-  let authLectureData = req.body;
+  const authLectureData = req.body;
   if (!authLectureData) {
     throw new InvalidLectureAuth("인증할 수강정보가 없습니다.", 400);
   }
@@ -219,7 +219,7 @@ const postAuthLecture = async (req, res, next) => {
      * 4. userLecture에 lectuerDetailId를 추가
      */
 
-    let userLecture = await UserLecture.findOne({ userId }).select(
+    const userLecture = await UserLecture.findOne({ userId }).select(
       "userAuthSemeter"
     );
     if (userLecture && userLecture.userAuthSemeter) {
@@ -232,13 +232,13 @@ const postAuthLecture = async (req, res, next) => {
       );
     }
 
-    let lectureDetails = [];
+    const lectureDetails = [];
     for (let data of authLectureData) {
-      let lectureId = await Lecture.find({
+      const lectureId = await Lecture.find({
         lectureName: data.lectureName,
         lectureProfessor: data.lectureProfessor,
       });
-      let lectureDetail = await LectureDetail.findOne({
+      const lectureDetail = await LectureDetail.findOne({
         lectureId,
         lectureSemester: data.lectureSemester,
         lectureCode: data.lectureCode,

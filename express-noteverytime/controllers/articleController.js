@@ -66,7 +66,7 @@ const editArticle = async (req, res, next) => {
     const userId = req.session.user._id;
     const { lectureId, title, content, category, isImage, isAnonymous } =
       req.body;
-    let article = await Article.create({
+    const article = await Article.create({
       lectureId,
       userId,
       title,
@@ -78,7 +78,7 @@ const editArticle = async (req, res, next) => {
       modifiedAt: new Date(),
     });
 
-    let articleImages = [];
+    const articleImages = [];
     if (article && isImage) {
       const image = req.files;
       const path = image.map((img) => img.location);
@@ -101,7 +101,6 @@ const editArticle = async (req, res, next) => {
 };
 
 const deleteArticle = async (req, res, next) => {
-  
   try {
     const userId = req.session.user._id;
     const articleId = req.params.articleId;
@@ -113,8 +112,8 @@ const deleteArticle = async (req, res, next) => {
       throw new NotFoundArticle("해당하는 게시글 정보가 없습니다.", 404);
     }
     if (article.userId.equals(userId)) {
-      let deleteArticle = await Article.deleteOne({ _id: articleId }).exec();
-      let deleteComments = await Comment.deleteMany({ articleId });
+      const deleteArticle = await Article.deleteOne({ _id: articleId }).exec();
+      const deleteComments = await Comment.deleteMany({ articleId });
       return res.status(200).send({ deleteArticle, deleteComments });
     } else {
       throw new UnauthorizedError("삭제 권한이 없습니다.", 401);

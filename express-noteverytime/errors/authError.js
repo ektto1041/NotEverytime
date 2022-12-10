@@ -1,11 +1,11 @@
-const CustomError = require('./customError');
+const CustomError = require("./customError");
 
 class UnauthenticatedError extends CustomError {
   constructor(message, status) {
     super();
     Error.captureStackTrace(this, this.constructor);
     this.name = this.constructor.name;
-    this.errorCode = "UNAUTHENTICATED_USER"
+    this.errorCode = "UNAUTHENTICATED_USER";
     this.message = message || "Unauthorized Access";
     this.status = status || 402;
   }
@@ -16,7 +16,7 @@ class UnauthorizedError extends CustomError {
     super();
     Error.captureStackTrace(this, this.constructor);
     this.name = this.constructor.name;
-    this.errorCode = "UNAUTHORIZED_USER"
+    this.errorCode = "UNAUTHORIZED_USER";
     this.message = message || "Unauthorized Access";
     this.status = status || 401;
   }
@@ -27,7 +27,7 @@ class DuplicatedAuthError extends CustomError {
     super();
     Error.captureStackTrace(this, this.constructor);
     this.name = this.constructor.name;
-    this.errorCode = "DUPLICATED_AUTH"
+    this.errorCode = "DUPLICATED_AUTH";
     this.message = message || "Duplicated Auth";
     this.status = status || 409;
   }
@@ -38,7 +38,7 @@ class DuplicatedAccountError extends CustomError {
     super();
     Error.captureStackTrace(this, this.constructor);
     this.name = this.constructor.name;
-    this.errorCode = "DUPLICATED_ACCOUNT"
+    this.errorCode = "DUPLICATED_ACCOUNT";
     this.message = message || "Duplicated Account";
     this.status = status || 409;
   }
@@ -49,7 +49,7 @@ class InvalidLectureAuth extends CustomError {
     super();
     Error.captureStackTrace(this, this.constructor);
     this.name = this.constructor.name;
-    this.errorCode = "INVALID_LECTURE_AUTH"
+    this.errorCode = "INVALID_LECTURE_AUTH";
     this.message = message || "Invalid Lecture Auth";
     this.status = status || 400;
   }
@@ -60,5 +60,5 @@ module.exports = {
   UnauthorizedError,
   DuplicatedAuthError,
   DuplicatedAccountError,
-  InvalidLectureAuth
-}
+  InvalidLectureAuth,
+};

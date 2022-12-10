@@ -1,6 +1,13 @@
+/** @format */
+
 const express = require("express");
 const lectureRouter = express.Router();
-const { getLecture, getArticles, getUserLecture, searchLecture } = require("../controllers/lectureController");
+const {
+  getLecture,
+  getArticles,
+  getUserLecture,
+  searchLecture,
+} = require("../controllers/lectureController");
 const { isSessionMiddleware, articleUpload } = require("../middleware");
 
 lectureRouter.get("/", (req, res, next) => {

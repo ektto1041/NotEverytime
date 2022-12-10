@@ -5,29 +5,10 @@ const LectureDetail = require("../models/lecture/lectureDetail");
 const Article = require("../models/article/article");
 const ArticleImage = require("../models/article/articleImage");
 const Comment = require("../models/article/comment");
-const User = require("../models/user/user");
 const UserLecture = require("../models/user/userLecture");
 
 const { InputValidationError } = require("../errors/generalError");
-const {
-  NotFoundLecture,
-  NotFoundUserLecture,
-} = require("../errors/notFoundError");
-
-const currentSemester = "2022-2";
-
-const getBoard = async (req, res, next) => {
-  const { lectureId } = req.params;
-  const tab = req.query.tab || 1;
-  try {
-    const lecture = await getLecture(lectureId);
-    const lectureDetail = await getLectureDetail(lectureId);
-    const articles = await getArticles(lectureId, tab);
-    return res.status(200).send({ lecture, lectureDetail, articles });
-  } catch (error) {
-    next(error);
-  }
-};
+const { NotFoundLecture } = require("../errors/notFoundError");
 
 const getLecture = async (req, res, next) => {
   const userId = req.session.user._id;
@@ -40,14 +21,12 @@ const getLecture = async (req, res, next) => {
     }
 
     // 강의 세부 정보
-    let lectureDetail;
-    lectureDetail = await getLectureDetail(lectureId);
+    const lectureDetail = await getLectureDetail(lectureId);
     if (!lectureDetail) {
       throw new NotFoundLecture("해당하는 강의 세부 정보가 없습니다.", 404);
     }
     // 유저 강의 정보
-    let userLectureDetail;
-    userLectureDetail = await getUserLectureDetail(userId, lectureId);
+    const userLectureDetail = await getUserLectureDetail(userId, lectureId);
     return res.status(200).send({ lecture, lectureDetail, userLectureDetail });
   } catch (error) {
     next(error);
@@ -82,11 +61,11 @@ const getUserLecture = async (req, res, next) => {
   const semester = req.params.semester || "";
 
   try {
-    let userLecture = await UserLecture.findOne({ userId });
+    const userLecture = await UserLecture.findOne({ userId });
     if (!userLecture) {
       return res.status(200).send([]);
     }
-    let lectures = [];
+    const lectures = [];
     for (let lectureDetail of userLecture.lectureDetailId) {
       let lecture = await LectureDetail.findById(lectureDetail).populate(
         "lectureId"
@@ -144,12 +123,12 @@ const getArticles = async (req, res, next) => {
         searchQuery
       );
     }
-    let articles = await Article.find(query)
+    const articles = await Article.find(query)
       .sort({ _id: -1 })
       .limit(size)
       .populate("userId");
 
-    let newArticles = []; // 게시글 익명/유저 네임/이미지링크 반환
+    const newArticles = []; // 게시글 익명/유저 네임/이미지링크 반환
     for (let article of articles) {
       article = article.toObject();
       if (article.isImage) {
@@ -177,28 +156,26 @@ const getArticles = async (req, res, next) => {
 };
 
 const searchLecture = async (req, res, next) => {
-  const userId = req.session.user._id;
   const keyword = req.query.keyword || null;
   if (!keyword) {
     throw new InputValidationError("강의 검색 키워드가 비어있습니다.", 400);
   }
   try {
-    let lectures = await Lecture.find({ $text: { $search: keyword } }).sort({
+    const lectures = await Lecture.find({ $text: { $search: keyword } }).sort({
       _id: -1,
     });
     if (lectures.length === 0) {
       return res.status(200).send("해당하는 강의가 없습니다.");
     }
-    let searchLectures = [];
+    const searchLectures = [];
     for (let lecture of lectures) {
-      let lectureId = lecture._id;
-
-      let lectureDetails = await LectureDetail.find({ lectureId }).sort({
+      const lectureId = lecture._id;
+      const lectureDetails = await LectureDetail.find({ lectureId }).sort({
         lectureSemester: -1,
       });
-      let lectureTime = lectureDetails[0].lectureTime;
-      let lectureCode = lectureDetails[0].lectureCode;
-      let lectureSemester = [];
+      const lectureTime = lectureDetails[0].lectureTime;
+      const lectureCode = lectureDetails[0].lectureCode;
+      const lectureSemester = [];
       for (let lectureDetail of lectureDetails) {
         lectureSemester.push(lectureDetail.lectureSemester);
       }

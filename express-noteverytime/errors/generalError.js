@@ -1,5 +1,4 @@
-/** @format */
-const CustomError = require('./customError');
+const CustomError = require("./customError");
 
 class InputValidationError extends CustomError {
   constructor(message, status) {
