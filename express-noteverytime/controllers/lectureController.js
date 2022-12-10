@@ -9,7 +9,10 @@ const User = require("../models/user/user");
 const UserLecture = require("../models/user/userLecture");
 
 const { InputValidationError } = require("../errors/generalError");
-const { NotFoundLecture, NotFoundUserLecture } = require("../errors/notFoundError");
+const {
+  NotFoundLecture,
+  NotFoundUserLecture,
+} = require("../errors/notFoundError");
 
 const currentSemester = "2022-2";
 
@@ -27,7 +30,6 @@ const getBoard = async (req, res, next) => {
 };
 
 const getLecture = async (req, res, next) => {
-
   const userId = req.session.user._id;
   const { lectureId } = req.params;
   try {
@@ -43,10 +45,6 @@ const getLecture = async (req, res, next) => {
     if (!lectureDetail) {
       throw new NotFoundLecture("해당하는 강의 세부 정보가 없습니다.", 404);
     }
-    if (lectureDetail.lectureSemester !== currentSemester) {
-      lectureDetail = undefined;
-    }
-
     // 유저 강의 정보
     let userLectureDetail;
     userLectureDetail = await getUserLectureDetail(userId, lectureId);
@@ -61,7 +59,7 @@ const getUserLectureDetail = async (userId, lectureId) => {
     .populate("lectureDetailId")
     .sort({ lectureSemester: -1 });
   if (!userLecture) {
-    throw new NotFoundUserLecture("사용자의 강의정보가 없습니다.", 404);
+    return [];
   }
   const lectures = userLecture.lectureDetailId;
   let userLectureDetail;
@@ -80,7 +78,6 @@ const getLectureDetail = async (lectureId) => {
 };
 
 const getUserLecture = async (req, res, next) => {
-
   const userId = req.session.user._id;
   const semester = req.params.semester || "";
 
@@ -180,7 +177,6 @@ const getArticles = async (req, res, next) => {
 };
 
 const searchLecture = async (req, res, next) => {
-
   const userId = req.session.user._id;
   const keyword = req.query.keyword || null;
   if (!keyword) {
