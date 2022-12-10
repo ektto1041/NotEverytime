@@ -84,18 +84,22 @@ const postLogin = async (req, res, next) => {
       throw new InputValidationError("비밀번호를 입력해주세요.", 400);
     }
     let user = await User.findOne({ accountId });
-    let isPasswordRight = await bcrypt.compare(password, user.password);
-    if (!user || !isPasswordRight) {
-      throw new UnauthenticatedError("등록되지 않은 ID 또는 PW입니다.", 402);
-    } else if (!user.isAuth) {
-      throw new UnauthenticatedError("이메일이 인증되지 읺았습니다.", 402);
+    if (user) {
+      let isPasswordRight = await bcrypt.compare(password, user.password);
+      if (!user || !isPasswordRight) {
+        throw new UnauthenticatedError("등록되지 않은 ID 또는 PW입니다.", 402);
+      } else if (!user.isAuth) {
+        throw new UnauthenticatedError("이메일이 인증되지 읺았습니다.", 402);
+      } else {
+        user = user.toObject();
+        delete user["password"];
+        req.session.user = user;
+        req.session.isLogined = true;
+        let session = req.session;
+        return res.status(200).send(session);
+      }
     } else {
-      user = user.toObject();
-      delete user["password"];
-      req.session.user = user;
-      req.session.isLogined = true;
-      let session = req.session;
-      return res.status(200).send(session);
+      throw new UnauthenticatedError("등록되지 않은 ID 또는 PW입니다.", 402);
     }
   } catch (error) {
     next(error);
