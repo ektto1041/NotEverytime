@@ -132,6 +132,7 @@ export const Article = () => {
                   isAnonymous={comment.isAnonymous}
                   isIdentify={comment.isIdentify}
                   profileImage={comment.profileImage}
+                  isWriter={comment.isWriter}
                 />
                 {reComments[comment._id] &&
                   reComments[comment._id].map((comment) => {
@@ -148,6 +149,7 @@ export const Article = () => {
                         isAnonymous={comment.isAnonymous}
                         isIdentify={comment.isIdentify}
                         profileImage={comment.profileImage}
+                        isWriter={comment.isWriter}
                       />
                     );
                   })}

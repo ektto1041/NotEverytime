@@ -17,6 +17,7 @@ export const Reply = ({
   isAnonymous,
   isIdentify,
   profileImage,
+  isWriter,
 }) => {
   const navigate = useNavigate();
   const onDeleteComment = async () => {
@@ -41,9 +42,9 @@ export const Reply = ({
             alt="account"
           />
           <div
-            className={isIdentify ? "p4 reply-writer blue" : "p4 reply-writer"}
+            className={isWriter ? "p4 reply-writer blue" : "p4 reply-writer"}
           >
-            {isDeleted ? "(삭제)" : isAnonymous ? "익명" : username}
+            {isDeleted ? "(삭제)" : username}
           </div>
           <div className="label2 date">
             {!isDeleted && moment(createdAt).format("YY.MM.DD HH:mm")}
