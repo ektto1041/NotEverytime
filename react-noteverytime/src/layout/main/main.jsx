@@ -3,7 +3,7 @@ import { useState } from "react";
 import { LectureThumbnail } from "../../components/lectureThumbnail/lectureThumbnail";
 import { getUserLectures, getUserLecturesBySemester } from "../../utils/api";
 import "./main.scss";
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from "react-router-dom";
 
 export const Main = () => {
   const navigate = useNavigate();
@@ -23,10 +23,10 @@ export const Main = () => {
 
         semesters && setSemesterList(Array.from(semesters));
         semesters && setSemester(Array.from(semesters).slice(-1));
-      } catch(err) {
+      } catch (err) {
         // 메인에서 발생하는 권한 에러는 경고 없이 로그인 페이지로 이동
         // alert(err.response.data.message);
-        navigate('/login');
+        navigate("/login");
       }
     })();
   }, []);
@@ -72,7 +72,6 @@ export const Main = () => {
               <div className="Icon_RightArrow"></div>
             </div>
           </Link>
-          
         </div>
       ) : (
         <div className="grid-box">

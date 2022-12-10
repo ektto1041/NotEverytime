@@ -13,6 +13,12 @@ export const Login = () => {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
+  useEffect(() => {
+    (async () => {
+      //TODO: if Logged in, get Back
+    })();
+  }, []);
+
   const handleIdChange = (e) => {
     setId(e.target.value);
   };
@@ -30,7 +36,8 @@ export const Login = () => {
       const login = await loginApi(newLoginData);
       navigate("/");
     } catch (err) {
-      alert(err.response.data);
+      console.dir(err);
+      alert(err.response.data.message);
     }
   };
 
@@ -57,7 +64,7 @@ export const Login = () => {
       </div>
 
       <div className="p3 login-registerBox">
-        계정이 없으신가요?{" "}
+        계정이 없으신가요?
         <a className="p3" href="/register">
           회원가입
         </a>

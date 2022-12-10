@@ -58,26 +58,7 @@ export const Register = () => {
       alert("인증 메일을 확인해주세요");
       navigate("/login");
     } catch (err) {
-      switch (err.response.data) {
-        case "please input username":
-          alert("닉네임을 입력하세요");
-          break;
-        case "please input id":
-          alert("id를 입력하세요");
-          break;
-        case "please input email":
-          alert("email을 입력하세요");
-          break;
-        case "id already exists":
-          alert("이미 존재하는 아이디입니다.");
-          break;
-        case "username already exists":
-          alert("이미 존재하는 닉네임입니다.");
-          break;
-        case "email already exists":
-          alert("이미 존재하는 이메일입니다.");
-          break;
-      }
+      alert(err.response.data.message);
     }
   };
 

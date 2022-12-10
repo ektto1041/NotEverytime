@@ -25,7 +25,7 @@ export const Reply = ({
       await deleteComment(articleId, commentId);
       navigate(0);
     } catch (err) {
-      alert(err.response.data);
+      alert(err.response.data.message);
     }
   };
   return (
