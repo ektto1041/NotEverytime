@@ -44,7 +44,7 @@ export const Article = () => {
       await deleteArticle(articleId);
       navigate(-1);
     } catch (err) {
-      alert(err.message);
+      alert(err.response.data);
     }
   };
 
