@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Reply } from "../../components/reply/reply";
 import { ReplyInput } from "../../components/replyInput/replyInput";
 import { getArticle, deleteArticle, getComments } from "../../utils/api";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { getCategoryString } from "../../utils/globalFunction";
 import moment from "moment";
 import "./article.scss";
@@ -12,6 +12,8 @@ export const Article = () => {
   const [article, setArticle] = useState({});
   const [comments, setComments] = useState([]);
   const [reComments, setReComments] = useState({});
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     (async () => {
@@ -40,10 +42,10 @@ export const Article = () => {
   const onDeleteArticle = async () => {
     try {
       await deleteArticle(articleId);
+      navigate(-1);
     } catch (err) {
-      alert(err);
+      alert(err.message);
     }
-    //TODO:뒤로가기
   };
 
   return (
