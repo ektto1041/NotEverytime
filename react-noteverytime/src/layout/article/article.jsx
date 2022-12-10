@@ -38,7 +38,11 @@ export const Article = () => {
   }, []);
 
   const onDeleteArticle = async () => {
-    await deleteArticle(articleId);
+    try {
+      await deleteArticle(articleId);
+    } catch (err) {
+      alert(err);
+    }
     //TODO:뒤로가기
   };
 
@@ -65,7 +69,10 @@ export const Article = () => {
       </div>
       <div className="content">
         <div className="text-container">
-          <div className="p3" dangerouslySetInnerHTML={{ __html: article.content }}></div>
+          <div
+            className="p3"
+            dangerouslySetInnerHTML={{ __html: article.content }}
+          ></div>
         </div>
         <div className="photo-container">
           {article.isImage &&
@@ -147,7 +154,13 @@ export const Article = () => {
           })}
         </div>
       </div>
-      <ReplyInput articleId={article._id} groupId={false} font="p3" text="댓글을 입력해주세요" size="large"/>
+      <ReplyInput
+        articleId={article._id}
+        groupId={false}
+        font="p3"
+        text="댓글을 입력해주세요"
+        size="large"
+      />
     </div>
   );
 };

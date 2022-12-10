@@ -20,8 +20,12 @@ export const Reply = ({
 }) => {
   const navigate = useNavigate();
   const onDeleteComment = async () => {
-    await deleteComment(articleId, commentId);
-    navigate(0);
+    try {
+      await deleteComment(articleId, commentId);
+      navigate(0);
+    } catch (err) {
+      alert(err);
+    }
   };
   return (
     <div className={depth == 0 ? "reply" : "reply re-reply"}>
@@ -36,7 +40,9 @@ export const Reply = ({
             }
             alt="account"
           />
-          <div className={isIdentify ? "p4 reply-writer blue" : "p4 reply-writer"}>
+          <div
+            className={isIdentify ? "p4 reply-writer blue" : "p4 reply-writer"}
+          >
             {isDeleted ? "(삭제)" : isAnonymous ? "익명" : username}
           </div>
           <div className="label2 date">
@@ -55,7 +61,15 @@ export const Reply = ({
       <div className="p4 reply-content">
         {isDeleted ? "삭제된 댓글입니다." : content}
       </div>
-      {depth == 0 && <ReplyInput articleId={articleId} groupId={groupId} font="p4" text="답글을 입력해주세요" size="small"/>}
+      {depth == 0 && (
+        <ReplyInput
+          articleId={articleId}
+          groupId={groupId}
+          font="p4"
+          text="답글을 입력해주세요"
+          size="small"
+        />
+      )}
     </div>
   );
 };
