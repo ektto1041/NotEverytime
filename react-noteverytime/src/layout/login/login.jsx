@@ -7,6 +7,7 @@ import {
 } from "../../components/globalComponents/globalComponent.jsx";
 import { loginApi } from "../../utils/api";
 import { useNavigate } from "react-router-dom";
+import { toast } from 'material-react-toastify';
 
 export const Login = () => {
   const [id, setId] = useState("");
@@ -37,7 +38,8 @@ export const Login = () => {
       navigate("/");
     } catch (err) {
       console.dir(err);
-      alert(err.response.data.message);
+      toast.error(err.response.data.message);
+      // alert(err.response.data.message);
     }
   };
 

@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./register.scss";
 import { registerUser } from "../../utils/api";
+import { toast } from 'material-react-toastify';
 import {
   Button,
   InputContainer,
@@ -39,7 +40,8 @@ export const Register = () => {
   const handleRegister = async () => {
     if (password != passwordConfirm) {
       //FIXME
-      alert("비밀번호를 확인해주세요.");
+      toast.error("비밀번호를 확인해주세요.");
+      // alert("비밀번호를 확인해주세요.");
       return;
     }
     const newUser = {
@@ -58,10 +60,11 @@ export const Register = () => {
       alert("인증 메일을 확인해주세요");
       navigate("/login");
     } catch (err) {
-      alert(err.response.data.message);
+      toast.error(err.response.data.message);
+      // alert(err.response.data.message);
     }
   };
-
+  
   return (
     <div className="register-Container">
       <div className="register-Box">
