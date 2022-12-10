@@ -35,7 +35,7 @@ export const PostItem = ({
               3
             </div>
             <div className='images'>
-              <img src="/images/image_icon.svg" alt='image' />
+              <img src="/images/image_icon.svg" alt='comment' />
               2
             </div>
           </div>

@@ -1,11 +1,9 @@
 import React from 'react';
-import { useCallback } from 'react';
 import { useEffect } from 'react';
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { BoardButton } from '../../components/boardButton/boardButton';
 import { PostItem } from '../../components/postItem/postItem';
-import { getBoardByIdApi } from '../../utils/api';
 import { DUMMY } from '../../utils/constants';
 import './lecture.scss';
 
@@ -16,15 +14,7 @@ export const Lecture = () => {
   const [selectedBoardId, setSelectedBoardId] = useState(0);
   const [postList, setPostList] = useState(DUMMY.lectureList[0].boardList[0].postList);
 
-  const getBoardById = useCallback(async () => {
-    const response = await getBoardByIdApi('637a65caa487509eed65f74c');
-
-    console.log(response);
-  }, []);
-
   useEffect(() => {
-    getBoardById();
-
     setLecture(DUMMY.lectureList[params.lectureId]);
     setSelectedBoardId(0);
   }, [params]);

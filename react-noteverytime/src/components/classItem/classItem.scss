@@ -1,56 +1,45 @@
 @import "../../styles/variables.scss";
 
 .class-item-container {
-  width: 23.13em;
-  height: 17.25em;
+  width: 370px;
+  height: 276px;
   border: 1px solid $grey-border;
   border-radius: 12px;
+  margin-right: 10px;
+  margin-bottom: 10px;
+  cursor: pointer;
 
-  padding: 1.50em 0;
-  margin-bottom: 1.25em;
-  
-  .class-item-title {
-    display: flex;
-    justify-content: space-between;
-    text-align: start;
-
-    padding: 0 1.50em;
+  .class-item-name {
+    width: calc(100% - 30px);
+    height: 75px;
+    line-height: 75px;
     margin: 0 auto;
-    
-    cursor: pointer;
-  }
-
-  .Icon_RightArrow {
-    width: 2.25em;
-    height: 2.25em;
-    background-image: url("../../../public/images/Icon_RightArrow.svg");
-  }
-
-  .semester-box {
-    height: 1px;
-    background-color: $grey-border;
-    border-radius: 0.75em;
-    margin: 1.00em 1.50em;
+    text-align: start;
+    font-size: 20px;
+    font-weight: 500;
+    border-bottom: 1px solid $grey-border;
   }
 
   .class-item-preview-list {
+    width: calc(100% - 30px);
+    margin: 10px auto;
     display: flex;
+    height: 181px;
     flex-direction: column;
     justify-content: space-around;
 
-    margin: 10px auto;
-
     .class-item-preview {
-      height: 2.50em;
-      color: $text-grey;
-      
       display: flex;
-      justify-content: space-between;
-      align-items:center;
-      
-      padding: 0.50em 1.50em;
+      color: $text-grey;
 
-      cursor: pointer;
+      .preview-title {
+        width: 85%;
+      }
+      
+      .preview-created-at {
+        width: 15%;
+        text-align: end;
+      }
     }
   }
 }
