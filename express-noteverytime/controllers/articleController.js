@@ -5,16 +5,17 @@ const ArticleImage = require("../models/article/articleImage");
 const Comment = require("../models/article/comment");
 const UserLecture = require("../models/user/userLecture");
 
-const getArticle = async (req, res) => {
-  if (!req.session.user) {
-    return res.status(400).send("세션 없음");
-  }
+const { ParamsValidationError } = require("../errors/generalError");
+const { UnauthorizedError } = require("../errors/authError");
+const { NotFoundArticle, NotFoundComment } = require("../errors/notFoundError");
+
+const getArticle = async (req, res, next) => {
   const userId = req.session.user._id;
   const articleId = req.params.articleId;
-  if (!articleId) {
-    throw new Error("article id가 입력되지 않았습니다.");
-  }
   try {
+    if (!articleId) {
+      throw new ParamsValidationError("URL parmaeter가 없습니다.", 400);
+    }
     let article = await Article.findOne({ _id: articleId }).populate("userId");
     article = article.toObject();
 
@@ -49,7 +50,7 @@ const getArticle = async (req, res) => {
     delete article["userId"];
     return res.status(200).send(article);
   } catch (error) {
-    return res.status(400).send(error.message);
+    next(error);
   }
 };
 
@@ -60,14 +61,11 @@ const sortLectureSemester = (a, b) => {
   else return -1;
 };
 
-const editArticle = async (req, res) => {
-  if (!req.session.user) {
-    return res.status(400).send("세션 없음");
-  }
-  const userId = req.session.user._id;
-  const { lectureId, title, content, category, isImage, isAnonymous } =
-    req.body;
+const editArticle = async (req, res, next) => {
   try {
+    const userId = req.session.user._id;
+    const { lectureId, title, content, category, isImage, isAnonymous } =
+      req.body;
     let article = await Article.create({
       lectureId,
       userId,
@@ -98,52 +96,46 @@ const editArticle = async (req, res) => {
     }
     return res.status(200).send(article);
   } catch (error) {
-    return res.status(400).send(error.message);
+    next(error);
   }
 };
 
-const deleteArticle = async (req, res) => {
-  if (!req.session.user) {
-    return res.status(400).send("세션 없음");
-  }
-  const userId = req.session.user._id;
-  const articleId = req.params.articleId;
-  if (!articleId) {
-    return res.status(400).send("게시글 id가 없습니다.");
-  }
-
+const deleteArticle = async (req, res, next) => {
+  
   try {
+    const userId = req.session.user._id;
+    const articleId = req.params.articleId;
+    if (!articleId) {
+      throw new ParamsValidationError("URL parmaeter가 없습니다.", 400);
+    }
     const article = await Article.findById(articleId);
     if (!article) {
-      throw new Error("해당하는 게시글이 article db에 없습니다.");
+      throw new NotFoundArticle("해당하는 게시글 정보가 없습니다.", 404);
     }
     if (article.userId.equals(userId)) {
       let deleteArticle = await Article.deleteOne({ _id: articleId }).exec();
       let deleteComments = await Comment.deleteMany({ articleId });
       return res.status(200).send({ deleteArticle, deleteComments });
     } else {
-      throw new Error("삭제 권한이 없습니다.");
+      throw new UnauthorizedError("삭제 권한이 없습니다.", 401);
     }
   } catch (error) {
-    return res.status(400).send(error.message);
+    next(error);
   }
 };
 
-const editComment = async (req, res) => {
-  if (!req.session.user) {
-    return res.status(400).send("세션 없음");
-  }
+const editComment = async (req, res, next) => {
   const userId = req.session.user._id;
   const { articleId, groupId, content, isAnonymous } = req.body;
   console.log(articleId, groupId, content, isAnonymous); // DEBUG
 
   if (!articleId) {
-    return res.status(400).send("게시글 id가 없습니다.");
+    throw new ParamsValidationError("URL parmaeter가 없습니다.", 400);
   }
   try {
     const article = await Article.findById(articleId);
     if (!article) {
-      throw new Error("해당하는 게시글이 article db에 없습니다.");
+      throw new NotFoundArticle("해당하는 게시글 정보가 없습니다.", 404);
     }
 
     let comment;
@@ -183,23 +175,20 @@ const editComment = async (req, res) => {
     }
     return res.status(200).send(comment);
   } catch (error) {
-    return res.status(400).send(error.message);
+    next(error);
   }
 };
 
-const getComment = async (req, res) => {
-  if (!req.session.user) {
-    return res.status(400).send("세션 없음");
-  }
+const getComment = async (req, res, next) => {
   const userId = req.session.user._id;
   const articleId = req.params.articleId;
   if (!articleId) {
-    return res.status(400).send("게시글 id가 없습니다.");
+    throw new ParamsValidationError("URL parmaeter가 없습니다.", 400);
   }
   try {
     const article = await Article.findById(articleId);
     if (!article) {
-      throw new Error("해당하는 게시글이 article db에 없습니다.");
+      throw new NotFoundArticle("해당하는 게시글 정보가 없습니다.", 404);
     }
     const comments = await Comment.find({ articleId }).populate("userId");
     const lectureId = article.lectureId;
@@ -249,32 +238,29 @@ const getComment = async (req, res) => {
     }
     return res.status(200).send(newComments);
   } catch (error) {
-    return res.status(400).send(error.message);
+    next(error);
   }
 };
 
-const deleteComment = async (req, res) => {
-  if (!req.session.user) {
-    return res.status(400).send("세션 없음");
-  }
+const deleteComment = async (req, res, next) => {
   const userId = req.session.user._id;
   const { articleId, commentId } = req.params;
 
   if (!articleId) {
-    return res.status(400).send("게시글 id가 없습니다.");
+    throw new ParamsValidationError("URL parmaeter가 없습니다.", 400);
   }
   if (!commentId) {
-    return res.status(400).send("댓글 id가 없습니다.");
+    throw new ParamsValidationError("URL parmaeter가 없습니다.", 400);
   }
 
   try {
     const article = await Article.findById(articleId);
     if (!article) {
-      throw new Error("해당하는 게시글이 article db에 없습니다.");
+      throw new NotFoundArticle("해당하는 게시글 정보가 없습니다.", 404);
     }
     const comment = await Comment.findOne({ _id: commentId, articleId });
     if (!comment) {
-      throw new Error("해당하는 댓글이 comment db에 없습니다.");
+      throw new NotFoundComment("해당하는 댓글 정보가 없습니다.", 404);
     }
 
     if (comment.userId.equals(userId)) {
@@ -285,10 +271,10 @@ const deleteComment = async (req, res) => {
       );
       return res.status(200).send(deleteComment);
     } else {
-      throw new Error("삭제 권한이 없습니다.");
+      throw new UnauthorizedError("삭제 권한이 없습니다.", 401);
     }
   } catch (error) {
-    return res.status(400).send(error.message);
+    next(error);
   }
 };
 

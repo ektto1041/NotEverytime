@@ -4,6 +4,7 @@ const db = require('./db');
 require('dotenv').config();
 const session = require('express-session');
 const MongoStore = require('connect-mongo');
+const globalErrorHandler = require('./errors/globalErrorHandler');
 
 require('dotenv').config();
 
@@ -44,6 +45,7 @@ const articleRouter = require("./routers/articleRouter");
 app.use('/', rootRouter);
 app.use('/lecture', lectureRouter);
 app.use('/articles', articleRouter);
+app.use(globalErrorHandler);
 
 app.listen(4000, () => {
   console.log("Hello! Node.js!");

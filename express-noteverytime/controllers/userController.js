@@ -9,6 +9,16 @@ const Lecture = require("../models/lecture/lecture");
 const LectureDetail = require("../models/lecture/lectureDetail");
 const authLecture = require("../models/authLecture.json");
 
+const { InputValidationError } = require("../errors/generalError");
+const {
+  UnauthenticatedError,
+  UnauthorizedError,
+  DuplicatedAuthError,
+  DuplicatedAccountError,
+  InvalidLectureAuth,
+} = require("../errors/authError");
+const { NotFoundLecture } = require("../errors/notFoundError");
+
 const currentSemester = "2022-2";
 const isEmpty = (field) => field === "" || field === undefined;
 
@@ -17,26 +27,26 @@ const postJoin = async (req, res, next) => {
   const isAuth = false;
   const profileImage = process.env.DEFAULT_PROFILE_IMAGE;
 
-  if (isEmpty(accountId)) {
-    return res.status(409).send("please input id");
-  } else if (isEmpty(password)) {
-    return res.status(409).send("please input password");
-  } else if (isEmpty(username)) {
-    return res.status(409).send("please input username");
-  } else if (isEmpty(email)) {
-    return res.status(409).send("please input email");
-  }
-
-  if (await User.exists({ accountId })) {
-    return res.status(409).send("id already exists");
-  } else if (await User.exists({ username })) {
-    return res.status(409).send("username already exists");
-  } else if (await User.exists({ email })) {
-    return res.status(409).send("email already exists");
-  }
-
   try {
-    let user = await User.create({
+    if (isEmpty(accountId)) {
+      throw new InputValidationError("id를 입력하세요.", 400);
+    } else if (isEmpty(password)) {
+      throw new InputValidationError("비밀번호를 입력하세요.", 400);
+    } else if (isEmpty(username)) {
+      throw new InputValidationError("닉네임을 입력하세요.", 400);
+    } else if (isEmpty(email)) {
+      throw new InputValidationError("email을 입력하세요.", 400);
+    }
+
+    if (await User.exists({ accountId })) {
+      throw new DuplicatedAccountError("이미 존재하는 아이디입니다.", 409);
+    } else if (await User.exists({ username })) {
+      throw new DuplicatedAccountError("이미 존재하는 닉네임입니다.", 409);
+    } else if (await User.exists({ email })) {
+      throw new DuplicatedAccountError("이미 존재하는 이메일입니다.", 409);
+    }
+
+    const user = await User.create({
       accountId,
       password,
       username,
@@ -44,87 +54,79 @@ const postJoin = async (req, res, next) => {
       isAuth,
       profileImage,
     });
-    
-    let userEmailAuth = await UserEmailAuth.create({
+
+    const userEmailAuth = await UserEmailAuth.create({
       userId: user._id,
-      token: crypto.randomBytes(16).toString('hex'),
+      token: crypto.randomBytes(16).toString("hex"),
     });
     req.email = email;
     req.token = userEmailAuth.token;
     next();
   } catch (error) {
+    next(error);
     console.error(error);
-    return res.status(400).send(error.message);
   }
 };
 
-const getLogin = async (req, res) => {
+const getLogin = async (req, res, next) => {
   return res.status(200).send("get login");
 };
 
-const postLogin = async (req, res) => {
+const postLogin = async (req, res, next) => {
   const { accountId, password } = req.body;
   try {
     if (isEmpty(accountId)) {
-      throw new Error("아이디를 입력해주세요.");
+      throw new InputValidationError("아이디를 입력해주세요.", 400);
     }
     if (isEmpty(password)) {
-      throw new Error("비밀번호를 입력해주세요.");
+      throw new InputValidationError("비밀번호를 입력해주세요.", 400);
     }
     let user = await User.findOne({ accountId });
     let isPasswordRight = await bcrypt.compare(password, user.password);
     if (!user || !isPasswordRight) {
-      return res.status(400).send("등록되지 않은 ID 또는 PW입니다.");
-    }
-    else if (!user.isAuth) {
-      return res.status(401).send("'Your Email has not been verified.");
+      throw new UnauthenticatedError("등록되지 않은 ID 또는 PW입니다.", 402);
+    } else if (!user.isAuth) {
+      throw new UnauthenticatedError("이메일이 인증되지 읺았습니다.", 402);
     } else {
       user = user.toObject();
-      delete user['password'];
+      delete user["password"];
       req.session.user = user;
       req.session.isLogined = true;
       let session = req.session;
       return res.status(200).send(session);
     }
   } catch (error) {
-    return res.status(400).send(error.message);
+    next(error);
   }
 };
 
-const getLogout = async (req, res) => {
-  if (!req.session.user) {
-    return res.status(400).send("세션 없음");
-  }
+const getLogout = async (req, res, next) => {
   req.session.destroy();
   res.status(200).send("세션 삭제");
 };
 
-const getProfile = async (req, res) => {
-  if (!req.session.user) {
-    return res.status(400).send("세션 없음");
-  }
+const getProfile = async (req, res, next) => {
   const userId = req.session.user._id;
   try {
     const user = await User.findById(userId);
     if (!user) {
-      throw new Error("등록되지 않은 ID 또는 PW입니다.");
+      throw new UnauthorizedError("등록되지 않은 사용자입니다.", 401);
     }
-    const profileImage = user.profileImage ? user.profileImage : process.env.DEFAULT_PROFILE_IMAGE;
-    return res.status(200).send({profileImage});
+    const profileImage = user.profileImage
+      ? user.profileImage
+      : process.env.DEFAULT_PROFILE_IMAGE;
+    return res.status(200).send({ profileImage });
   } catch (error) {
-    return res.status(500).send(error.message);
+    next(error);
   }
-}
+};
 
-const getMypage = async (req, res) => {
-  if (!req.session.user) {
-    return res.status(400).send("세션 없음");
-  }
+const getMypage = async (req, res, next) => {
   const userId = req.session.user._id;
   try {
     const user = await User.findById(userId);
     if (!user) {
-      throw new Error("등록되지 않은 ID 또는 PW입니다.");
+      throw new UnauthorizedError("등록되지 않은 사용자입니다.", 401);
     }
     let userResult = {
       _id: user._id,
@@ -144,7 +146,7 @@ const getMypage = async (req, res) => {
         "lectureId"
       );
       if (!lecture) {
-        throw new Error("해당하는 lectureDetail 정보가 없습니다.");
+        throw new NotFoundLecture("해당하는 강의 정보가 없습니다.", 404);
       } else {
         lecture = lecture.toObject();
         lecture["lecture"] = lecture["lectureId"];
@@ -154,14 +156,11 @@ const getMypage = async (req, res) => {
     }
     return res.status(200).send({ userResult, lectures });
   } catch (error) {
-    return res.status(400).send(error.message);
+    next(error);
   }
 };
 
-const editMypage = async (req, res) => {
-  if (!req.session.user) {
-    return res.status(400).send("세션 없음");
-  }
+const editMypage = async (req, res, next) => {
   const userId = req.session.user._id;
   const userUpdateInfo = req.body;
   try {
@@ -175,14 +174,11 @@ const editMypage = async (req, res) => {
     req.session.user = updatedUser;
     return res.status(200).send(updatedUser);
   } catch (error) {
-    return res.status(400).send(error.message);
+    next(error);
   }
 };
 
-const editMypageProfile = async (req, res) => {
-  if (!req.session.user) {
-    return res.status(400).send("세션 없음");
-  }
+const editMypageProfile = async (req, res, next) => {
   const userId = req.session.user._id;
   try {
     const updatedUser = await User.findOneAndUpdate(
@@ -195,25 +191,19 @@ const editMypageProfile = async (req, res) => {
     req.session.user = updatedUser;
     return res.status(200).send(updatedUser);
   } catch (error) {
-    return res.status(400).send(error.message);
+    next(error);
   }
 };
 
-const getAuthLecture = async (req, res) => {
-  if (!req.session.user) {
-    return res.status(400).send("세션 없음");
-  }
+const getAuthLecture = async (req, res, next) => {
   return res.status(200).send(authLecture);
 };
 
-const postAuthLecture = async (req, res) => {
-  if (!req.session.user) {
-    return res.status(400).send("세션 없음");
-  }
+const postAuthLecture = async (req, res, next) => {
   const userId = req.session.user._id;
   let authLectureData = req.body;
   if (!authLectureData) {
-    return res.status(400).send("인증할 수강정보가 없습니다.");
+    throw new InvalidLectureAuth("인증할 수강정보가 없습니다.", 400);
   }
   try {
     /**
@@ -226,9 +216,10 @@ const postAuthLecture = async (req, res) => {
     let userLecture = await UserLecture.findOne({ userId }).select(
       "userAuthSemeter"
     );
-    if (userLecture && userLecture.userAuthSemeter) { // 이미 수강인증한 학기가 있는 경우
+    if (userLecture && userLecture.userAuthSemeter) {
+      // 이미 수강인증한 학기가 있는 경우
       if (userLecture.userAuthSemeter === currentSemester) {
-        return res.status(400).send("이미 수강인증되었습니다.");
+        throw new DuplicatedAuthError("이미 수강인증되었습니다.", 409);
       }
       authLectureData = authLectureData.filter(
         (lecture) => lecture.lectureSemester > userLecture.userAuthSemeter
@@ -248,14 +239,15 @@ const postAuthLecture = async (req, res) => {
         lectureTime: data.lectureTime,
       });
       if (!lectureDetail) {
-        return res.status(500).send("강의 정보가 DB에 없습니다.");
+        throw new NotFoundLecture("해당하는 강의 세부 정보가 없습니다.", 404);
       } else {
         lectureDetails.push(lectureDetail._id);
       }
     }
 
     let updateUserLecture = {};
-    if (!userLecture) { // 수강 인증한 학기가 아예 없는 경우 userLecture document 새로 생성
+    if (!userLecture) {
+      // 수강 인증한 학기가 아예 없는 경우 userLecture document 새로 생성
       updateUserLecture = await UserLecture.create({
         userId,
         lectureDetailId: lectureDetails,
@@ -274,7 +266,7 @@ const postAuthLecture = async (req, res) => {
 
     return res.status(200).send(updateUserLecture);
   } catch (error) {
-    return res.status(400).send(error.message);
+    next(error);
   }
 };
 

@@ -7,6 +7,7 @@ lectureRouter.get("/", (req, res, next) => {
   res.send("lectureRouter");
 });
 
+lectureRouter.use(isSessionMiddleware);
 lectureRouter.get("/semesters/:semester?", getUserLecture);
 lectureRouter.get("/search", searchLecture);
 lectureRouter.get("/:lectureId", getLecture);

@@ -8,9 +8,12 @@ const Comment = require("../models/article/comment");
 const User = require("../models/user/user");
 const UserLecture = require("../models/user/userLecture");
 
+const { InputValidationError } = require("../errors/generalError");
+const { NotFoundLecture, NotFoundUserLecture } = require("../errors/notFoundError");
+
 const currentSemester = "2022-2";
 
-const getBoard = async (req, res) => {
+const getBoard = async (req, res, next) => {
   const { lectureId } = req.params;
   const tab = req.query.tab || 1;
   try {
@@ -19,28 +22,26 @@ const getBoard = async (req, res) => {
     const articles = await getArticles(lectureId, tab);
     return res.status(200).send({ lecture, lectureDetail, articles });
   } catch (error) {
-    return res.status(500).send(error.message);
+    next(error);
   }
 };
 
-const getLecture = async (req, res) => {
-  if (!req.session.user) {
-    return res.status(400).send("세션 없음");
-  }
+const getLecture = async (req, res, next) => {
+
   const userId = req.session.user._id;
   const { lectureId } = req.params;
   try {
     // 강의 정보
     const lecture = await Lecture.findById({ _id: lectureId });
     if (!lecture) {
-      throw new Error("Lecture not found.");
+      throw new NotFoundLecture("해당하는 강의 정보가 없습니다.", 404);
     }
 
     // 강의 세부 정보
     let lectureDetail;
     lectureDetail = await getLectureDetail(lectureId);
     if (!lectureDetail) {
-      throw new Error("개설된 강의 세부 정보가 없음");
+      throw new NotFoundLecture("해당하는 강의 세부 정보가 없습니다.", 404);
     }
     if (lectureDetail.lectureSemester !== currentSemester) {
       lectureDetail = undefined;
@@ -51,7 +52,7 @@ const getLecture = async (req, res) => {
     userLectureDetail = await getUserLectureDetail(userId, lectureId);
     return res.status(200).send({ lecture, lectureDetail, userLectureDetail });
   } catch (error) {
-    return res.status(500).send(error.message);
+    next(error);
   }
 };
 
@@ -60,7 +61,7 @@ const getUserLectureDetail = async (userId, lectureId) => {
     .populate("lectureDetailId")
     .sort({ lectureSemester: -1 });
   if (!userLecture) {
-    throw new Error("User's lecture not found.");
+    throw new NotFoundUserLecture("사용자의 강의정보가 없습니다.", 404);
   }
   const lectures = userLecture.lectureDetailId;
   let userLectureDetail;
@@ -78,10 +79,8 @@ const getLectureDetail = async (lectureId) => {
   );
 };
 
-const getUserLecture = async (req, res) => {
-  if (!req.session.user) {
-    return res.status(400).send("세션 없음");
-  }
+const getUserLecture = async (req, res, next) => {
+
   const userId = req.session.user._id;
   const semester = req.params.semester || "";
 
@@ -96,7 +95,7 @@ const getUserLecture = async (req, res) => {
         "lectureId"
       );
       if (!lecture) {
-        throw new Error("해당하는 lectureDetail 정보가 없습니다.");
+        throw new NotFoundLecture("해당하는 강의 세부 정보가 없습니다.", 404);
       } else {
         lecture = lecture.toObject();
         lecture["lecture"] = lecture["lectureId"];
@@ -114,19 +113,16 @@ const getUserLecture = async (req, res) => {
       return res.status(200).send(lectures);
     }
   } catch (error) {
-    return res.status(400).send(error.message);
+    next(error);
   }
 };
 
-const getArticles = async (req, res) => {
+const getArticles = async (req, res, next) => {
   const lectureId = req.params.lectureId;
   const keyword = req.query.keyword || "";
   const tab = req.query.tab || 1;
   const lastLoadedId = req.query.id;
   const size = req.query.size || 10;
-  if (!req.session.user) {
-    return res.status(400).send("세션 없음");
-  }
   const userId = req.session.user._id;
 
   try {
@@ -179,18 +175,16 @@ const getArticles = async (req, res) => {
     // 리턴값이 오름차순 정렬이므로 내림차순으로 정렬 필요
     return res.status(200).send(newArticles.sort((a, b) => b - a));
   } catch (error) {
-    return res.status(400).send(error.message);
+    next(error);
   }
 };
 
-const searchLecture = async (req, res) => {
-  if (!req.session.user) {
-    return res.status(400).send("세션 없음");
-  }
+const searchLecture = async (req, res, next) => {
+
   const userId = req.session.user._id;
   const keyword = req.query.keyword || null;
   if (!keyword) {
-    return res.status(400).send("강의 검색 키워드가 비어있습니다.");
+    throw new InputValidationError("강의 검색 키워드가 비어있습니다.", 400);
   }
   try {
     let lectures = await Lecture.find({ $text: { $search: keyword } }).sort({
@@ -202,21 +196,26 @@ const searchLecture = async (req, res) => {
     let searchLectures = [];
     for (let lecture of lectures) {
       let lectureId = lecture._id;
-      
-      let lectureDetails = await LectureDetail
-      .find({ lectureId })
-      .sort({ lectureSemester: -1 });
+
+      let lectureDetails = await LectureDetail.find({ lectureId }).sort({
+        lectureSemester: -1,
+      });
       let lectureTime = lectureDetails[0].lectureTime;
       let lectureCode = lectureDetails[0].lectureCode;
       let lectureSemester = [];
       for (let lectureDetail of lectureDetails) {
         lectureSemester.push(lectureDetail.lectureSemester);
       }
-      searchLectures.push({ lecture, lectureTime, lectureCode, lectureSemester});
+      searchLectures.push({
+        lecture,
+        lectureTime,
+        lectureCode,
+        lectureSemester,
+      });
     }
     return res.status(200).send(searchLectures);
   } catch (error) {
-    return res.status(400).send(error.message);
+    next(error);
   }
 };
 

@@ -7,6 +7,7 @@ articleRouter.get("/", (req, res, next) => {
   res.send("articleRouter");
 });
 
+articleRouter.use(isSessionMiddleware);
 articleRouter.get("/:articleId", getArticle);
 articleRouter.post("/edit", articleUpload.array('articleImage', 10), editArticle);
 articleRouter.delete("/:articleId", deleteArticle);

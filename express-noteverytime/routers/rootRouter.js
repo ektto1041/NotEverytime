@@ -4,12 +4,14 @@ const { postJoin, getLogin, postLogin, getLogout, getProfile, getMypage, editMyp
 const { postEmail, confirmEmail, sendResultMessage } = require("../controllers/emailController");
 const { isSessionMiddleware, profileUpload } = require("../middleware");
 
-rootRouter.get("/", isSessionMiddleware, (req, res) => {
+rootRouter.post("/join", postJoin, postEmail);
+rootRouter.route("/login").get(getLogin).post(postLogin);
+
+rootRouter.get("/", (req, res) => {
   res.send("rootRouter");
 });
 
-rootRouter.post("/join", postJoin, postEmail);
-rootRouter.route("/login").get(getLogin).post(postLogin);
+rootRouter.use(isSessionMiddleware);
 rootRouter.get("/logout", isSessionMiddleware, getLogout);
 rootRouter.get("/profile", getProfile);
 rootRouter.get("/mypage" ,getMypage);

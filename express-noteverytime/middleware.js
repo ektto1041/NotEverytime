@@ -2,6 +2,7 @@ const AWS = require('aws-sdk');
 const multer = require('multer');
 const multerS3 = require('multer-s3');
 const path = require('path');
+const { UnauthorizedError } = require("./errors/authError");
 
 const s3 = new AWS.S3({
   accessKeyId: process.env.AWS_ACCESS_KEY,
@@ -38,11 +39,16 @@ const articleUpload = multer({
 });
 
 const isSessionMiddleware = async (req, res, next) => {
-
-  if (req.session.isLogined) {
-    return next();
-  } else {
-    return res.status(400).send("인증되지 않은 사용자");
+  try {
+    if (req.session.isLogined) {
+      console.log("isLogined");
+      return next();
+    } else {
+      console.log("isNotLogined");
+      throw new UnauthorizedError("권한 없는 사용자입니다.", 401);
+    } 
+  } catch (error) {
+    next(error);
   }
 }
 
