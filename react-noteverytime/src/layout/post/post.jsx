@@ -39,7 +39,6 @@ export const Post = () => {
   }, [userStatus]);
 
   const handleAddImage = useCallback((e) => {
-    console.log(images.length);
     // 이미지 최대 갯수
     if(images.length === 10) {
       alert('최대 10개의 이미지까지 등록할 수 있습니다.');
@@ -70,7 +69,7 @@ export const Post = () => {
 
       navigate(`/lecture/${lectureId}`);
     } catch(err) {
-      console.log(err);
+      alert(err.response.data.message);
     }
   }, [lectureId, title, editorRef, category, images, isAnonymous]);
 

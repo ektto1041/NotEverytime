@@ -13,27 +13,6 @@ const LectureResult = () => {
   const [lectures, setLectures] = useState([]);
 
   const searchLectures = async (keyword) => {
-    // const data = [
-    //   {
-    //     lectureId: 'asdfasdfasdf',
-    //     lectureName: '수학1',
-    //     lectureCode: 'X253',
-    //     lectureProfessor: '황성임 교수님',
-    //     lectureTime: ['월 09:00 ~ 10:30', '화 09:00 ~ 10:30'],
-    //     lectureSemester: ['2022-2학기', '2022-1학기', '2021-2학기', '2021-1학기'],
-    //   },
-    //   {
-    //     lectureId: 'bvcbsdfbsdfb',
-    //     lectureName: '수학2',
-    //     lectureCode: 'X255',
-    //     lectureProfessor: '박상연 교수님',
-    //     lectureTime: ['수 09:00 ~ 10:30', '목 09:00 ~ 10:30'],
-    //     lectureSemester: ['2022-2학기'],
-    //   },
-    // ];
-
-    // setLectures(data);
-
     try {
       const response = await searchLecturesApi(keyword);
 
@@ -48,12 +27,8 @@ const LectureResult = () => {
 
       setLectures(newLectures);
     } catch(err) {
-      if(err.response.data === '세션 없음') {
-        alert('로그인이 필요한 서비스입니다.');
-        navigate('/login');
-      } else {
-        console.log(err);
-      }
+      alert(err.response.data.message);
+      navigate('/login');
     }
   }
 

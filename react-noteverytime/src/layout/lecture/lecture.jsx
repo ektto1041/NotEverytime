@@ -55,8 +55,6 @@ export const Lecture = () => {
   const getLecture = useCallback(async () => {
     try {
       const response = await getLectureApi(lectureId);
-      console.log('# 강의 정보');
-      console.log(response);
 
       const newLecture = {
         id: response.data.lecture._id,
@@ -74,12 +72,8 @@ export const Lecture = () => {
       setLecture(newLecture);
       setNeedArticles(true);
     } catch (err) {
-      if(err.response.data === '세션 없음') {
-        alert('로그인이 필요한 서비스입니다.');
-        navigate('/login');
-      } else {
-        console.log(err);
-      }
+      alert(err.response.data.message);
+      navigate('/login');
     }
   }, [lectureId]);
   
@@ -87,9 +81,6 @@ export const Lecture = () => {
     // TODO 실제 데이터 추가
     try {
       const response = await getArticlesApiPaging(lectureId, keyword, tab, PAGE_SIZE);
-
-      console.log('# 강의/게시판 가져온 결과');
-      console.log(response);
 
       setArticleList(response.data?.map(article => ({
         ...article,
@@ -100,15 +91,13 @@ export const Lecture = () => {
       setNeedArticles(false);
       setNextPage(response.data.length > 0);
     } catch(err) {
-      console.log(err);
+      alert(err.response.data.message);
     }
   }, [lectureId]);
 
   const getArticles = useCallback(async () => {
     try {
       const response = await getArticlesApiPaging(lectureId, fixedKeyword, selectedCategoryId, PAGE_SIZE, cursor);
-      console.log('# 강의/게시판 가져온 결과');
-      console.log(response);
   
       setArticleList([...articleList, ...response.data?.map(article => ({
         ...article,
@@ -119,7 +108,7 @@ export const Lecture = () => {
       setFetching(false);
       setNextPage(response.data.length > 0);
     } catch(err) {
-      console.log(err);
+      alert(err.response.data.message);
     }
   }, [lectureId, fixedKeyword, cursor, articleList]);
 
@@ -155,8 +144,6 @@ export const Lecture = () => {
 
   useEffect(() => {
     // 아직 강의 정보가 로딩되지 않았으면 실행되지 않음
-    console.log('hasLecture:' + hasLecture);
-    console.log('isNeedArticles: ' + isNeedArticles)
     if(!hasLecture) return;
     if(!isNeedArticles) return;
     getArticlesFirst('', selectedCategoryId);
@@ -167,7 +154,6 @@ export const Lecture = () => {
    */
   useEffect(() => {
     // 아직 강의 정보가 로딩되지 않았으면 실행되지 않음
-    console.log('게시판 눌렀을 떄 hasLecture: ' + hasLecture);
     if(!hasLecture) return;
 
     // 검색어 초기화
@@ -176,7 +162,6 @@ export const Lecture = () => {
 
     // 게시글 가져오기
     setNeedArticles(true);
-    console.log('setNeedArticles(true)')
   // eslint-disable-next-line
   }, [selectedCategoryId]);
 

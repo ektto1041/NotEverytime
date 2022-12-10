@@ -20,8 +20,6 @@ export const MyPage = () => {
     try {
       // 마이페이지 정보 가져오기
       const response = await getMyPageApi();
-      console.log('# 마이페이지 정보');
-      console.log(response);
 
       setUser(response.data.userResult);
       const newLecturesBySemesterObj = {};
@@ -37,12 +35,8 @@ export const MyPage = () => {
       });
       setLecturesBySemester(newLecturesBySemester);
     } catch(err) {
-      if(err.response.data === '세션 없음') {
-        alert('로그인이 필요한 서비스입니다.');
-        navigate('/login');
-      } else {
-        console.log(err);
-      }
+      alert(err.response.data.message);
+      navigate('/login');
     }
   }, []);
 
@@ -58,7 +52,7 @@ export const MyPage = () => {
 
       navigate('/login');
     } catch(err) {
-      console.log(err);
+      alert(err.response.data.message);
     }
   }, []);
 

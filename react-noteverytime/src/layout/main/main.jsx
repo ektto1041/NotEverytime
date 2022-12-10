@@ -1,34 +1,41 @@
 import React, { useEffect } from "react";
 import { useState } from "react";
 import { LectureThumbnail } from "../../components/lectureThumbnail/lectureThumbnail";
-import { SelectSemester } from '../../components/globalComponents/globalComponent';
 import { getUserLectures, getUserLecturesBySemester } from "../../utils/api";
 import "./main.scss";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 export const Main = () => {
+  const navigate = useNavigate();
+
   const [semesterList, setSemesterList] = useState([]);
   const [semester, setSemester] = useState("수강 인증 필요"); // 학기 정보
   const [userLectures, setUserLectures] = useState([]);
 
   useEffect(() => {
     (async () => {
-      const lectures = await getUserLectures();
-      console.log(lectures);
-      const semesters = new Set();
-      for (const lecture of lectures.data)
-        semesters.add(lecture.lectureSemester);
-      console.log(semesters);
-      semesters && setSemesterList(Array.from(semesters));
-      semesters && setSemester(Array.from(semesters).slice(-1));
+      try {
+        const lectures = await getUserLectures();
+
+        const semesters = new Set();
+        for (const lecture of lectures.data)
+          semesters.add(lecture.lectureSemester);
+
+        semesters && setSemesterList(Array.from(semesters));
+        semesters && setSemester(Array.from(semesters).slice(-1));
+      } catch(err) {
+        // 메인에서 발생하는 권한 에러는 경고 없이 로그인 페이지로 이동
+        // alert(err.response.data.message);
+        navigate('/login');
+      }
     })();
   }, []);
 
   useEffect(() => {
     (async () => {
       const lectures = await getUserLecturesBySemester(semester);
+
       setUserLectures(lectures.data);
-      console.log(lectures.data);
     })();
   }, [semester]);
 
