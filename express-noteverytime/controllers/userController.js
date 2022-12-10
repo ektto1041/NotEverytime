@@ -20,6 +20,12 @@ const {
 const { NotFoundLecture } = require("../errors/notFoundError");
 
 const currentSemester = "2022-2";
+
+const getLogin = async (req, res, next) => {
+  const isLogined = req.session.isLogined || false;
+  return res.status(200).send({isLogined});
+};
+
 const isEmpty = (field) => field === "" || field === undefined;
 
 const postJoin = async (req, res, next) => {
@@ -66,10 +72,6 @@ const postJoin = async (req, res, next) => {
     next(error);
     console.error(error);
   }
-};
-
-const getLogin = async (req, res, next) => {
-  return res.status(200).send("get login");
 };
 
 const postLogin = async (req, res, next) => {
@@ -271,8 +273,8 @@ const postAuthLecture = async (req, res, next) => {
 };
 
 module.exports = {
-  postJoin,
   getLogin,
+  postJoin,
   postLogin,
   getLogout,
   getProfile,
