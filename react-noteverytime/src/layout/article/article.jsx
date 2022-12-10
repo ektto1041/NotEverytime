@@ -17,25 +17,27 @@ export const Article = () => {
 
   useEffect(() => {
     (async () => {
-      const article = await getArticle(articleId);
-      setArticle(article.data);
-      console.dir(article);
-      const allComments = await getComments(articleId);
-      const comments = [];
-      const reComments = {};
-      for (const comment of allComments.data) {
-        if (comment.depth == 0) {
-          comments.push(comment);
-        } else {
-          reComments[comment.groupId]
-            ? reComments[comment.groupId].push(comment)
-            : (reComments[comment.groupId] = [comment]);
+      try {
+        const article = await getArticle(articleId);
+        setArticle(article.data);
+        const allComments = await getComments(articleId);
+        const comments = [];
+        const reComments = {};
+        for (const comment of allComments.data) {
+          if (comment.depth == 0) {
+            comments.push(comment);
+          } else {
+            reComments[comment.groupId]
+              ? reComments[comment.groupId].push(comment)
+              : (reComments[comment.groupId] = [comment]);
+          }
         }
+        setComments(comments);
+        setReComments(reComments);
+      } catch (err) {
+        alert(err.response.data.message);
+        navigate("/login");
       }
-      setComments(comments);
-      setReComments(reComments);
-      console.log(comments);
-      console.log(reComments);
     })();
   }, []);
 
