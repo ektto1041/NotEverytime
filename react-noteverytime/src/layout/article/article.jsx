@@ -106,14 +106,17 @@ export const Article = () => {
                 <div className="p4">{article.articleImages.length}</div>
               </div>
             )}
+          </div>
+
+          <div className="date-container">
+            <div className="p4 date">
+              {moment(article.modifiedAt).format("YY.MM.DD HH:mm")}
+            </div>
             <div className="p4 delete-article" onClick={onDeleteArticle}>
               삭제
             </div>
           </div>
 
-          <div className="p4 date">
-            {moment(article.modifiedAt).format("YY.MM.DD HH:mm")}
-          </div>
         </div>
       </div>
       <div className="reply-section">

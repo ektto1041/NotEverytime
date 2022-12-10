@@ -23,7 +23,6 @@
 
     .writer {
       width: 100%;
-
       display: flex;
 
       img {
@@ -75,16 +74,6 @@
         color: $text-dark;
       }
     }
-    // .anonymous {
-    //   display: flex;
-    //   justify-content: space-between;
-    //   align-items: center;
-    //   padding: 0 0.5em;
-    //   width: 5em;
-    //   height: 2.5em;
-    //   border: 1px solid $grey-border;
-    //   border-radius: 12px;
-    // }
   }
 
   .content {
@@ -110,12 +99,12 @@
       margin-bottom: 1.5rem;
 
       .photo {
-        width: 9.38rem;
-        height: 9.38rem;
+        width: 8rem;
+        height: 8rem;
         @include containerBorderStyle();
         
         & + .photo {
-          margin-left: 1.25rem;
+          margin-left: 1rem;
         }
       }
     }
@@ -141,16 +130,43 @@
         .icon-image {
           color: $ajou-silver;
         }
-        .delete-article {
-          align-self: center;
-          margin-left: 1em;
-
-          color: $ajou-silver;
-          cursor: pointer;
-        }
+        
       }
-      .date {
-        color: $ajou-silver;
+
+      .date-container {
+        
+        display: flex;
+        align-items: center;
+
+        & > div + div {
+          &::before {
+            content: "";
+            display: flex;
+            @include semester-box();
+            margin: 0;
+            margin-right: 1rem;
+            width: 1px;
+            height: 1.5rem;
+          }
+        }
+
+        .date {
+          display: flex;
+          color: $ajou-silver;
+        }
+
+        .delete-article {
+          display: flex;
+          align-items: center;
+          margin-left: 1rem;
+
+          color: $text-dark;
+          cursor: pointer;
+
+          &:hover {
+            color: $ajou-blue;
+          }
+        }
       }
     }
   }
@@ -186,7 +202,6 @@
           @include semester-box();
           margin: 1rem 0;
         }
-        
       }
     }
   }
