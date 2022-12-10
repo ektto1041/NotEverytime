@@ -227,6 +227,7 @@ const getComment = async (req, res) => {
         comment["username"] = comment.isAnonymous
           ? "작성자"
           : `${comment["userId"].username}(작성자)`;
+        comment["isWriter"] = true;
       } else {
         users.add(comment.userId._id.toString());
         userIndex = Array.from(users).indexOf(comment.userId._id.toString());
