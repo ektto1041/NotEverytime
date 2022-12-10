@@ -225,8 +225,8 @@ const getComment = async (req, res) => {
 
       if (comment.userId._id.equals(article.userId)) {
         comment["username"] = comment.isAnonymous
-          ? "작성자"
-          : `${comment["userId"].username}(작성자)`;
+          ? "익명(글쓴이)"
+          : `${comment["userId"].username}(글쓴이)`;
         comment["isWriter"] = true;
       } else {
         users.add(comment.userId._id.toString());
