@@ -83,7 +83,7 @@ const postLogin = async (req, res, next) => {
     if (isEmpty(password)) {
       throw new InputValidationError("비밀번호를 입력해주세요.", 400);
     }
-    const user = await User.findOne({ accountId });
+    let user = await User.findOne({ accountId });
     if (user) {
       const isPasswordRight = await bcrypt.compare(password, user.password);
       if (!user || !isPasswordRight) {
