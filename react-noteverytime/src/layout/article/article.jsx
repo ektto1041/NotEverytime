@@ -109,7 +109,7 @@ export const Article = () => {
             </div>
           </div>
 
-          <div className="date">
+          <div className="p4 date">
             {moment(article.modifiedAt).format("YY.MM.DD HH:mm")}
           </div>
         </div>

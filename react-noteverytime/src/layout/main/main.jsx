@@ -49,7 +49,7 @@ export const Main = () => {
         <div className="h5 title">인증한 수강 과목 게시판</div>
         <div className="controll-box">
           <select
-            className="p3 select-semester"
+            className="p3 select"
             value={semester}
             onChange={handleSelectSemester}
           >

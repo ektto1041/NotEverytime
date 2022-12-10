@@ -3,7 +3,7 @@
 .lecture-result-container {
   @include widthContainer();
   max-width: $column-size;
-  margin-top: 3.75rem;
+  margin: 3.75rem 0;
 
   .lecture-result-header {
     width: 100%;

@@ -52,7 +52,7 @@ export const Header = () => {
           }}
         >
           <div className="profile-img-wrapper">
-            <img src={profileImage} height="44px" />
+            <img src={profileImage}/>
           </div>
         </div>
       </div>

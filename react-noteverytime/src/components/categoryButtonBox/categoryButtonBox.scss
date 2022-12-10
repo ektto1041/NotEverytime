@@ -16,7 +16,7 @@
     cursor: pointer;
   
     &:not(.selected):hover {
-      background-color: rgba($ajou-yellow, 0.5) ;
+      color: lighten($ajou-yellow, 10%);
     }
   }
 
@@ -35,6 +35,6 @@
   }
 
   div.selected::before, div.selected + div::before {
-    content: none;
+    opacity: 0;
   }
 }

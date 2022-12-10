@@ -35,7 +35,7 @@ export const ReplyInput = ({ articleId, groupId, font, text, size}) => {
     navigate(0);
   };
   return (
-    <div className="p4 reply-input-container">
+    <div className={`p4 reply-input-container ${size}`}>
       <input
         type="text"
         className={`${font} reply-input`}

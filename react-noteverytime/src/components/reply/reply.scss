@@ -28,6 +28,7 @@
         width: 1.5rem;
         height: 1.5rem;
         border-radius: 100%;
+        object-fit: cover;
       }
 
       .reply-writer, .date {
@@ -43,7 +44,7 @@
         color: $ajou-blue;
       }
     }
-    
+
     .reply-button-container {
       width: fit-content;
       display: flex;
@@ -68,9 +69,13 @@
         display: flex;
         align-items: center;
         
-        color: $text-dark;
+        color: $text-grey;
         white-space: nowrap;
         cursor: pointer;
+
+        &:hover {
+          color: $ajou-blue;
+        }
       }
     }
   }

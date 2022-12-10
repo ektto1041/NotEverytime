@@ -47,7 +47,6 @@
 
     display: flex;
     flex-direction: column;
-    // justify-content: space-around;
 
     & > .p4 {
       height: 100%;
@@ -66,6 +65,10 @@
       padding: 0.5em 1.5em;
 
       cursor: pointer;
+
+      &:hover {
+        background-color: lighten($ajou-silver, 35%);
+      }
 
       .preview-title {
         overflow: hidden;
