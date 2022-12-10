@@ -6,6 +6,7 @@ const { isSessionMiddleware, profileUpload } = require("../middleware");
 
 rootRouter.post("/join", postJoin, postEmail);
 rootRouter.route("/login").get(getLogin).post(postLogin);
+rootRouter.get("/authenticate/email", confirmEmail, sendResultMessage);
 
 rootRouter.get("/", (req, res) => {
   res.send("rootRouter");
@@ -17,7 +18,6 @@ rootRouter.get("/profile", getProfile);
 rootRouter.get("/mypage" ,getMypage);
 rootRouter.post("/mypage/profile/edit", profileUpload.single('profileImage'), editMypageProfile);
 rootRouter.post("/mypage/edit", editMypage);
-rootRouter.get("/authenticate/email", confirmEmail, sendResultMessage);
 rootRouter.get("/authenticate/lecture", getAuthLecture);
 rootRouter.post("/authenticate/lecture", postAuthLecture);
 
