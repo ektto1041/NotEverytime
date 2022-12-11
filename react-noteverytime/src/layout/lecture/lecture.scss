@@ -41,7 +41,7 @@
       @extend .lecture-infoUser;
 
       .lecture-name {
-        height: 2.25rem;
+        min-height: 2.25rem;
         color: $ajou-blue;
       }
 
