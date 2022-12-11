@@ -13,22 +13,27 @@ const LectureResult = () => {
   const [lectures, setLectures] = useState([]);
 
   const searchLectures = async (keyword) => {
+
     try {
       const response = await searchLecturesApi(keyword);
 
-      const newLectures = response.data?.map(item => ({
-        lectureId: item.lecture._id,
-        lectureName: item.lecture.lectureName,
-        lectureCode: item.lectureCode,
-        lectureProfessor: item.lecture.lectureProfessor,
-        lectureTime: item.lectureTime,
-        lectureSemester: item.lectureSemester,
-      }));
-
-      setLectures(newLectures);
+      if(response.data === '해당하는 강의가 없습니다.') setLectures([]);
+      else {
+        const newLectures = response.data?.map(item => ({
+          lectureId: item.lecture._id,
+          lectureName: item.lecture.lectureName,
+          lectureCode: item.lectureCode,
+          lectureProfessor: item.lecture.lectureProfessor,
+          lectureTime: item.lectureTime,
+          lectureSemester: item.lectureSemester,
+        }));
+  
+        setLectures(newLectures);
+      }
     } catch(err) {
-      alert(err.response.data.message);
-      navigate('/login');
+      if(err.response.data.message === '강의 검색 키워드가 비어있습니다.') setLectures([]);
+      else alert(err.response.data.message);
+      // navigate('/login');
     }
   }
 
