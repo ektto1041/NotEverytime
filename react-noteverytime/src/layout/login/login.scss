@@ -1,69 +1,52 @@
 @import '../../styles/variables.scss';
 
-.login-container {
-  width: 100vw;
-  height: 100vh;
-  display: flex;
-  align-items: center;
+.login-Container {
+  @include widthContainer();
+  max-width: 35.25rem;
   
-  .wrapper {
-    width: 564px;
-    margin: 0 auto;
+  margin-top: 7.5rem;
+  margin-bottom: 3.75rem;
+
+  & > div + div {
+    margin-top: 1.25rem;
   }
 
-  .login-box {
-    height: 480px;
-    border: 1px solid $grey-border;
-    border-radius: 12px;
-    display: flex;
+  .login-Box {
+    width: 100%;
+    @include flexCenter();
     flex-direction: column;
+  
+    @include containerBorderStyle();
+    padding: 3rem 1.5rem;
 
     .logo {
       width: 100%;
-      height: 180px;
-      line-height: 180px;
-      text-align: center;
-      font-weight: bold;
-      color: $ajou-blue;
-      font-style: italic;
-      font-size: 60px;
+      max-width: 22.5rem;
+      margin-bottom: 4rem;
     }
 
-    .input {
-      width: 516px;
-      height: 56px;
-      margin: 0 auto;
-      border-radius: 12px;
-      border: 1px solid $grey-border;
-      background-color: $background-second;
-      text-indent: 30px;
-      font-size: 16px;
-      margin-top: 20px;
-    }
-
-    .login-button {
-      width: 516px;
-      height: 56px;
-      margin: 0 auto;
-      margin-top: 40px;
-      font-size: 16px;
-      background-color: $ajou-yellow;
-      color: white;
-      border: 0;
-      border-radius: 12px;
+    .input-Box {
+      width: 100%;
+      margin-bottom: 3rem;
+    
+      & > div + div {
+        margin-top: 2.5rem;
+      }
     }
   }
 
-  .tip-box {
-    width: 564px;
-    height: 72px;
-    line-height: 72px;
-    margin-top: 20px;
-    border: 1px solid $grey-border;
-    border-radius: 12px;
-
-    a {
-      font-weight: bold;
+  .login-registerBox {
+    width: 100%;
+    @include flexCenter();
+  
+    color: $text-grey;
+  
+    @include containerBorderStyle();
+    padding: 1.5rem 0;
+    column-gap: 0.63rem;
+  
+    & > a {
+      font-weight: 500;
       color: $ajou-blue;
       text-decoration: none;
     }

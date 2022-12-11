@@ -1,0 +1,41 @@
+@import '../../styles/variables.scss';
+
+.lecture-result-container {
+  @include widthContainer();
+  max-width: $column-size;
+  margin: 3.75rem 0;
+
+  .lecture-result-header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .lecture-result-back-button {
+      width: 4.5rem;
+      text-align: end;
+      color: $text-grey;
+      border: 0;
+
+      background: {
+        color: white;
+        image: url(../../../public/images/Icon_LeftArrow_Grey.svg);
+        repeat: no-repeat;
+        position-y: center;
+      };
+      cursor: pointer;
+    }
+
+    .lecture-result-title {
+      color: $ajou-blue;
+    }
+  }
+
+  .lecture-result-body {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+
+    margin-top: 1rem;
+  }
+}

@@ -2,18 +2,78 @@
 
 .reply-input-container {
   width: 100%;
+  height: 2.75rem;
+  @include containerBorderStyle();
+
   display: flex;
-  align-self: flex-end;
   align-items: center;
-  border: 1px solid $grey-border;
-  border-radius: 12px;
-  padding: 0.25em 1em;
-  margin: 0.5em 0em;
+  overflow: hidden;
+
+  padding-right: 1rem;
+
+  &.large {
+    height: 3rem;
+  }
+
+  &:has(.reply-input:focus) {
+    border-color: $ajou-sky;
+    border-width: 2px;
+    padding-right: 0.94rem;
+  }
+
   .reply-input {
     width: 100%;
+    height: 100%;
+
     border: none;
+    outline-width: 0;
+
+    padding-left: 1rem;
+
+    &:focus {
+      padding-left: 0.94rem;
+    }
   }
+
   .checkbox {
-    border: 1px solid $ajou-blue;
+    white-space: nowrap;
+    color: $ajou-silver;
+    display: flex;
+    margin-right: 1rem;
+    align-items: center;
+
+    cursor: pointer;
+
+    input {
+      display: none;
+    }
+
+    &::before {
+      content: url(../../../public/images/Icon_Checkbox_State=OFF.svg);
+      width: 1.5rem;
+      height: 1.5rem;
+      margin-right: 0.25rem;
+    }
+
+    &:has(input:checked)::before {
+      content: url(../../../public/images/Icon_Checkbox_State=ON.svg);
+    }
+  }
+
+  .reply-submit {
+    display: flex;
+    cursor: pointer;
+
+    img {
+      &.small {
+        width: 1.5rem;
+        height: 1.5rem;
+      }
+
+      &.large {
+        width: 1.75rem;
+        height: 1.75rem;
+      }
+    }
   }
 }

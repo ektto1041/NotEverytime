@@ -1,0 +1,40 @@
+@import '../../styles/variables.scss';
+
+.category-button-box-container {
+  @include containerBorderStyle();
+  overflow: hidden;
+
+  .category-button {
+    width: 100%;
+    height: 3.5rem;
+
+    background-color: white;
+    color: $ajou-silver;
+    padding: 1rem 1.5rem;
+    border: none;
+
+    cursor: pointer;
+  
+    &:not(.selected):hover {
+      color: lighten($ajou-yellow, 10%);
+    }
+  }
+
+  & > div:not(:first-child)::before {
+    content: "";
+    display: flex;
+    @include semester-box();
+
+    margin: 0 1.5rem;
+  }
+
+  button.selected {
+    background-color: $ajou-yellow;
+    color: white;
+    font-weight: 500;
+  }
+
+  div.selected::before, div.selected + div::before {
+    opacity: 0;
+  }
+}

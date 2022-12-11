@@ -3,13 +3,16 @@ import { AuthSemesterList } from '../authSemesterList/authSemesterList';
 import './authSemesterBox.scss';
 
 export const AuthSemesterBox = ({
-  semesters,
+  lecturesBySemester,
 }) => {
   return (
-    <div className='auth-semester-box-container'>
-      {semesters?.map(semester => (
-        <AuthSemesterList key={semester.name} semester={semester} />
-      ))}
+    <div className={`auth-semester-box-container`}>
+      {lecturesBySemester.length > 0
+      ? lecturesBySemester?.map((lectureBySemester) => (
+        <AuthSemesterList key={`${lectureBySemester.semester}`} lectureBySemester={lectureBySemester} />
+      ))
+      : <div className="h6">현재 인증된 수강 과목이 없습니다.</div>
+      }
     </div>
   );
 };

@@ -13,3 +13,44 @@ $background-first: #f6f6f8;
 $background-second: #f9fafb;
 $text-grey: #666666;
 $text-dark: #303030;
+
+$column-size: 71.88em;
+
+$mobile: 768px;
+$tablet: 1024px;
+
+@mixin widthContainer {
+    width: calc(100% - 3rem);
+}
+
+@mixin flexCenter() {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+@mixin containerBorderStyle() {
+    border: 1px solid $grey-border;
+    border-radius: 12px;
+}
+
+@mixin mobile {
+    @media (max-width: $mobile) {
+        @content;
+    }
+}
+
+@mixin tablet {
+    @media (max-width: $tablet) {
+        @content;
+    }
+}
+
+@mixin semester-box {
+    height: 1px;
+    background-color: $grey-border;
+    border-radius: 0.75em;
+    margin: 1.00em 1.50em;
+}
+
+

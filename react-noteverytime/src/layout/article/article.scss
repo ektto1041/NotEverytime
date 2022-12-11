@@ -1,103 +1,118 @@
 @import "../../styles/variables.scss";
 
 .article-container {
-  width: 100%;
-  padding: 3em 5em;
+  @include widthContainer();
+  max-width: $column-size;
+
+  @include flexCenter();
+  flex-direction: column;
+
+  margin-top: 3.75rem;
+  margin-bottom: 3.75rem;
+
+  & > div + div {
+    margin-top: 1.25rem;
+  }
 
   .article-top {
     width: 100%;
-    height: 5em;
-    margin-bottom: 10px;
     display: flex;
     align-items: center;
     justify-content: space-between;
 
     .writer {
-      display: flex;
-      height: 50%;
       width: 100%;
+      display: flex;
+
       img {
-        height: 100%;
+        width: 2.75rem;
+        height: 2.75rem;
+        object-fit: cover;
+        border-radius: 100%;
       }
+
       .writer-meta {
-        margin-left: 1em;
         display: flex;
         flex-direction: column;
         align-items: flex-start;
         align-self: center;
+
+        margin-left: 1rem;
+
+        .writer-name {
+          color: black;
+        }
+        .writer-semester {
+          color: $text-grey;
+        }
       }
     }
 
     .category {
       width: fit-content;
-      font-weight: bold;
       color: $ajou-blue;
-      font-size: 1.5em;
       white-space: nowrap;
     }
   }
 
   .meta {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
     width: 100%;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
     .title-bar {
       width: 100%;
-      div {
-        display: flex;
-        width: 100%;
-        height: 3em;
-        padding-left: 1em;
-        border: 1px solid $grey-border;
-        border-radius: 12px;
+      @include containerBorderStyle();
+      padding: 0.63rem 0;
+      padding-left: 1.5rem;
+
+      & > div {
         text-align: start;
         align-items: center;
+        color: $text-dark;
       }
-    }
-    .anonymous {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 0 0.5em;
-      width: 5em;
-      height: 2.5em;
-      border: 1px solid $grey-border;
-      border-radius: 12px;
     }
   }
 
   .content {
-    margin-top: 1em;
     width: 100%;
-    border: 1px solid $grey-border;
-    border-radius: 12px;
+    @include containerBorderStyle();
+    padding: 1rem 1.5rem;
 
     .text-container {
-      min-height: 25em;
-      padding: 1em;
+      min-height: 25rem;
       text-align: left;
-      line-height: 1.5em;
+
+      margin-bottom: 1rem;
+      color: $text-dark;
+
+      & > div > p {
+        margin: 0;
+      }
     }
 
     .photo-container {
       display: flex;
       justify-content: flex-start;
-      margin: 1em;
+      margin-bottom: 1.5rem;
 
       .photo {
-        width: 10em;
-        height: 10em;
-        border: 1px solid $grey-border;
-        border-radius: 12px;
-        margin-right: 1em;
+        width: 8rem;
+        height: 8rem;
+        @include containerBorderStyle();
+
+        & + .photo {
+          margin-left: 1rem;
+        }
       }
     }
 
     .status-container {
       display: flex;
-      margin: 1em;
       justify-content: space-between;
+      align-items: center;
+
       .item-container {
         display: flex;
         .item {
@@ -115,32 +130,75 @@
           color: $ajou-silver;
         }
       }
-      .date {
-        color: $ajou-silver;
+
+      .date-container {
+        display: flex;
+        align-items: center;
+
+        & > div + div {
+          &::before {
+            content: "";
+            display: flex;
+            @include semester-box();
+            margin: 0;
+            margin-right: 1rem;
+            width: 1px;
+            height: 1.5rem;
+          }
+        }
+
+        .date {
+          display: flex;
+          color: $ajou-silver;
+        }
+
+        .delete-article {
+          display: flex;
+          align-items: center;
+          margin-left: 1rem;
+
+          color: $text-dark;
+          cursor: pointer;
+
+          &:hover {
+            color: $ajou-blue;
+          }
+        }
       }
     }
   }
 
   .reply-section {
+    width: 100%;
+    @include containerBorderStyle();
     display: flex;
     flex-direction: column;
     align-items: center;
-    border: 1px solid $grey-border;
-    border-radius: 12px;
-    margin: 1em 0;
 
-    h1 {
-      height: auto;
-      width: 90%;
+    padding: 1rem 1.5rem;
+
+    .top {
+      width: 100%;
       align-items: flex-start;
-      text-align: left;
-      margin-bottom: 0;
+      text-align: start;
+
+      margin-bottom: 1.5rem;
     }
     .reply-container {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
       width: 100%;
+
+      & > div + div {
+        margin-top: 0.63rem;
+      }
+
+      & > .reply + .reply:not(.re-reply) {
+        &::before {
+          content: "";
+          display: flex;
+          @include semester-box();
+          margin: 1rem 0;
+        }
+      }
     }
   }
 }

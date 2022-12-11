@@ -1,127 +1,33 @@
-const newPost = (() => {
-  let id = 0;
-  return () => {
-    const post = {
-      _id: id,
-      user: 'Park',
-      title: `아주대 정말 최고입니다. ${id}`,
-      content: Array.from({length: 10}, (v, i) => "웹시스템설계를 수강하게 되어 정말 다행입니다. ").join(),
-      createdAt: "2022-11-13",
-      modifiedAt: "2022-11-13",
-      isImage: true,
-    }
-
-    id++;
-
-    return post;
+export const USER_STATUS = {
+  none: Symbol(),
+  prev: Symbol(),
+  current: Symbol(),
+  getStr: function(userStatus) {
+    if(userStatus === this.none) return '미수강생';
+    if(userStatus === this.prev) return '이전 학기 수강생';
+    if(userStatus === this.current) return '현재 학기 수강생';
+  },
+  getSymbol: function(userStatusStr) {
+    if(userStatusStr === '미수강생') return this.none;
+    if(userStatusStr === '이전 학기 수강생') return this.prev;
+    if(userStatusStr === '현재 학기 수강생') return this.current;
   }
-})();
+};
 
-const newLecture = (() => {
-  let id = 0;
-  return () => {
-    const lecture = {
-      _id: id,
-      lectureName: `강의 ${id}`,
-      lectureSemester: '2022-2',
-      lectureCode: `F00${id}`,
-      professor: '부블레',
-      lectureTimes: [
-        '월 09:00 ~ 10:30',
-        '수 09:00 ~ 10:30',
-      ],
-      boardList: [
-        {   // index 0 board
-          postList: [
-            newPost(),
-            newPost(),
-            newPost(),
-            newPost(),
-            newPost(),
-          ]
-        },
-        {   // index 1 board
-          postList: [
-            newPost(),
-            newPost(),
-            newPost(),
-            newPost(),
-            newPost(),
-          ]
-        },
-        {   // index 2 board
-          postList: [
-            newPost(),
-            newPost(),
-            newPost(),
-            newPost(),
-            newPost(),
-          ]
-        },
-        {   // index 3 board
-          postList: [
-            newPost(),
-            newPost(),
-            newPost(),
-            newPost(),
-            newPost(),
-          ]
-        }
-      ],
-    }
+export const getUserStatus = (lectureSemester, userSemester) => {
+  return userSemester ? ( userSemester === lectureSemester ? USER_STATUS.current : USER_STATUS.prev ) : USER_STATUS.none;
+};
 
-    id++;
+export const CATEGORIES = [
+  '0은 묵음',
+  { name: '자유게시판', [USER_STATUS.none]: 0b11, [USER_STATUS.prev]: 0b11, [USER_STATUS.current]: 0b11 },
+  { name: '선배의 팁 게시판', [USER_STATUS.none]: 0b01, [USER_STATUS.prev]: 0b11, [USER_STATUS.current]: 0b01},
+  { name: '과제 Q&A 게시판', [USER_STATUS.none]: 0b00, [USER_STATUS.prev]: 0b01, [USER_STATUS.current]: 0b11},
+  { name: '팀원 모집 게시판', [USER_STATUS.none]: 0b00, [USER_STATUS.prev]: 0b00, [USER_STATUS.current]: 0b11},
+];
 
-    return lecture;
-  }
-})();
-
-const newSemester = (() => {
-  let id = 0;
-  return () => {
-    const semester = {
-      _id: id,
-      name: `2022-${id}학기`,
-      lectures: [
-        newLecture(),
-        newLecture(),
-        newLecture(),
-        newLecture(),
-        newLecture(),
-        newLecture(),
-      ],
-    };
-    id++;
-    return semester;
-  }
-})();
-
-const newUser = (() => {
-  let id = 0;
-  return () => {
-    const user = {
-      _id: id,
-      id: 'ajou123',
-      email: 'ajou123@ajou.ac.kr',
-      nickname: `${id}pilots`,
-      semesters: [
-        newSemester(),
-        newSemester(),
-      ]
-    };
-
-    id++;
-    return user;
-  }
-})();
-
-export const DUMMY = {
-  userList: [
-    newUser(),
-  ],
-  lectureList: [
-    newLecture(),
-    newLecture(),
-    newLecture(),
-  ],
+export const getCategoryAuthority = (categoryId, userStatus) => {
+  const write = (CATEGORIES[categoryId][userStatus] & 0b10) === 0b10;
+  const read = (CATEGORIES[categoryId][userStatus] & 0b01) === 0b01;
+  return {write, read};
 }

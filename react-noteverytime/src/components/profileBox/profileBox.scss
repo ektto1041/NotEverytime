@@ -1,17 +1,28 @@
 @import '../../styles/variables.scss';
 
 .profile-box-container {
-  width: 72em;
-  border: 1px solid $grey-border;
-  border-radius: 12px;
-  padding: 1em;
-  margin-bottom: 2em;
+  width: 100%;
+
+  @include containerBorderStyle();
+
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+
+  padding: 1rem 3rem;
 
   .profile-img-box {
-    width: 8em;
-    height: 8em;
-    margin: 0 auto;
+    width: 8rem;
+    height: 8rem;
+    margin-bottom: 1.5rem;
     position: relative;
+
+    .profile-img-wrapper {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      border-radius: 100%;
+    }
 
     .camera-img-box {
       position: absolute;
@@ -19,23 +30,37 @@
       right: 0;
       width: 2.5em;
       height: 2.5em;
-      border-radius: 2.5em;
+      border-radius: 100%;
       background-color: $ajou-silver;
-      display: flex;
-      justify-content: center;
-      align-items: center;
+      transition: 0.3s all ease-out;
+
+      label {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 100%;
+        cursor: pointer;
+      }
+
+      input {
+        width: 0;
+        height: 0;
+      }
+
+      &:hover {
+        transform: scale(1.2);
+      }
     }
   }
-
+  
   .profile-content {
-    width: 66em;
-    margin: 0 auto;
+    width: 100%;
     position: relative;
 
     .edit-nickname-button {
       background: none;
-      border: 0;
-      font-size: 1em;
+      border: none;
       color: $ajou-blue;
       position: absolute;
       right: 0;

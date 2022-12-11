@@ -1,0 +1,90 @@
+@import '../../styles/variables.scss';
+
+.auth-semester-modal-background {
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  left: 0;
+  top: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(black, .5);
+  z-index: 100;
+  
+  .auth-semester-modal-container {
+    @include widthContainer();
+    max-width: $column-size;
+
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 12px;
+
+
+    & > .semester-box {
+      width: 100%;
+      @include semester-box();
+      margin: 0;
+    }
+
+    .auth-semester-modal-title {
+      width: 100%;
+      text-align: start;
+      display: flex;
+      justify-content: space-between;
+
+      padding: 1.5rem 3rem;
+
+      .auth-semester-modal-cancel-button {
+        width: 1.5em;
+        height: 1.5em;
+
+        cursor: pointer;
+        background-image: url(../../../public/images/Icon_Cancel.svg);
+        background-size: contain;
+      }
+    }
+
+    .auth-semester-modal-body {
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+
+      & > div + div {
+        margin-top: 1.5rem;
+      }
+      
+
+      .auth-semester-modal-select-box {
+        width: 100%;
+
+        display: flex;
+        justify-content: flex-end;
+        margin-top: 1.5rem;
+        padding-right: 3rem;
+      }
+
+      .auth-semester-modal-button-box {
+        display: flex;
+        justify-content: flex-end;
+        margin-right: 3rem;
+        margin-bottom: 1.5rem;
+
+        & > .button + .button {
+          margin-left: 1.5rem;
+        }
+
+        .auth-semester-modal-cancel-button {
+          background: white;
+        }
+
+        .auth-semester-modal-submit-button {
+          background: $ajou-yellow;
+          color: white;
+        }
+      }
+    }
+  }
+}

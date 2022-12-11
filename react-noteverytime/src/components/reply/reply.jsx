@@ -1,28 +1,86 @@
-import React from "react";
+import React, { useState } from "react";
 import { ReplyInput } from "../replyInput/replyInput";
+import moment from "moment";
+import { deleteComment } from "../../utils/api";
 import "./reply.scss";
+import { useNavigate } from "react-router-dom";
 
-export const Reply = () => {
+export const Reply = ({
+  articleId,
+  commentId,
+  username,
+  content,
+  createdAt,
+  depth,
+  groupId,
+  isDeleted,
+  isAnonymous,
+  profileImage,
+  isWriter,
+}) => {
+  const [recomenting, setRecommenting] = useState(false);
+
+  const navigate = useNavigate();
+  const onDeleteComment = async () => {
+    try {
+      await deleteComment(articleId, commentId);
+      navigate(0);
+    } catch (err) {
+      alert(err.response.data.message);
+    }
+  };
   return (
-    <div className="reply">
+    <div className={depth == 0 ? "reply" : "reply re-reply"}>
       <div className="reply-top">
         <div className="info">
           <img
             className="profile"
-            src="/images/account-circle.svg"
+            src={
+              isAnonymous || isDeleted
+                ? "/images/account-circle.svg"
+                : profileImage
+            }
             alt="account"
           />
-          <div className="reply-writer">익명 1</div>
-          <div className="date">22.11.11 23:00</div>
+          <div
+            className={isWriter ? "p4 reply-writer blue" : "p4 reply-writer"}
+          >
+            {isDeleted ? "(삭제)" : username}
+          </div>
+          <div className="label2 date">
+            {!isDeleted && moment(createdAt).format("YY.MM.DD HH:mm")}
+          </div>
         </div>
-        <div className="rereply-button">답글</div>
+        {!isDeleted && (
+          <div className="reply-button-container">
+            {depth == 0 && (
+              <div
+                className="p4 rereply-button"
+                onClick={() => {
+                  setRecommenting(!recomenting);
+                }}
+              >
+                답글
+              </div>
+            )}
+            <div className="p4 remove-button" onClick={onDeleteComment}>
+              삭제
+            </div>
+          </div>
+        )}
       </div>
-      <div className="reply-content">
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas, dicta
-        modi natus rerum cumque dolores odio voluptate quam. Consequuntur cumque
-        eveniet tempora numquam officia? Quo adipisci eum id libero ipsam!
+      <div className="p4 reply-content">
+        {isDeleted ? "삭제된 댓글입니다." : content}
       </div>
-      <ReplyInput />
+      {depth == 0 && recomenting && (
+        <ReplyInput
+          articleId={articleId}
+          groupId={groupId}
+          font="p4"
+          text="답글을 입력해주세요"
+          size="small"
+        />
+      )}
     </div>
   );
 };
