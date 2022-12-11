@@ -27,15 +27,13 @@ export const LectureThumbnail = ({ lectureName, lectureId, semester }) => {
       <div className="class-item-preview-list">
         {articles?.length > 0 ? (
           articles.slice(0, 5).map((article) => (
-            <div className="class-item-preview">
-              <div
-                className="p4 preview-title"
-                onClick={() => {
-                  navigate(`/article/${article._id}`);
-                }}
-              >
-                {article.title}
-              </div>
+            <div
+              className="class-item-preview"
+              onClick={() => {
+                navigate(`/article/${article._id}`);
+              }}
+            >
+              <div className="p4 preview-title">{article.title}</div>
               <div className="p4 preview-createdAt">
                 {moment(article.createdAt).format("YY-MM-DD")}
               </div>
