@@ -12,6 +12,8 @@ const ax = axios.create({
 
 export const registerUser = (userInfo) => ax.post("/join", userInfo);
 
+export const getLogin = () => ax.get("/login");
+
 export const getUserLectures = () => ax.get("/lecture/semesters");
 
 export const getUserLecturesBySemester = (semester) =>

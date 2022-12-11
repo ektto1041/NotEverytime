@@ -1,9 +1,9 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./register.scss";
-import { registerUser } from "../../utils/api";
-import { toast } from 'material-react-toastify';
+import { registerUser, getLogin } from "../../utils/api";
+import { toast } from "material-react-toastify";
 import {
   Button,
   InputContainer,
@@ -15,7 +15,18 @@ export const Register = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordConfirm, setPasswordConfirm] = useState("");
+
   const navigate = useNavigate();
+
+  useEffect(() => {
+    (async () => {
+      const isLogin = await getLogin();
+      if (isLogin.data.isLogined) {
+        alert("이미 로그인된 상태입니다. 로그아웃을 진행하고 가입해주세요");
+        navigate(-1);
+      }
+    })();
+  }, []);
 
   const handleNameChange = (e) => {
     setName(e.target.value);
@@ -39,9 +50,7 @@ export const Register = () => {
 
   const handleRegister = async () => {
     if (password != passwordConfirm) {
-      //FIXME
       toast.error("비밀번호를 확인해주세요.");
-      // alert("비밀번호를 확인해주세요.");
       return;
     }
     const newUser = {
@@ -61,10 +70,9 @@ export const Register = () => {
       navigate("/login");
     } catch (err) {
       toast.error(err.response.data.message);
-      // alert(err.response.data.message);
     }
   };
-  
+
   return (
     <div className="register-Container">
       <div className="register-Box">
