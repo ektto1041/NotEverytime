@@ -170,7 +170,7 @@ const editMypage = async (req, res, next) => {
   const userId = req.session.user._id;
   const userUpdateInfo = req.body;
   try {
-    const updatedUser = await User.findOneAndUpdate(
+    let updatedUser = await User.findOneAndUpdate(
       { _id: userId },
       {
         $set: userUpdateInfo,
@@ -178,6 +178,8 @@ const editMypage = async (req, res, next) => {
       { new: true }
     ).exec();
     req.session.user = updatedUser;
+    updatedUser = updatedUser.toObject();
+    delete updatedUser["password"];
     return res.status(200).send(updatedUser);
   } catch (error) {
     next(error);
