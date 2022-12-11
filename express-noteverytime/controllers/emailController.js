@@ -4,7 +4,6 @@ const nodemailer = require("nodemailer");
 const User = require("../models/user/user");
 const UserEmailAuth = require("../models/user/userEmailAuth");
 const ejs = require("ejs");
-const path = require("path");
 
 const postEmail = (req, res) => {
   const EMAIL = process.env.EMAIL;
@@ -93,7 +92,7 @@ const sendResultMessage = (req, res, next) => {
     const script =
       "<script>alert('" +
       req.message +
-      '\'); window.location.href="https://www.naver.com";</script>';
+      '\'); window.location.href="https://not-everytime.netlify.app";</script>';
     res.write(script);
   } catch (error) {
     next(error);
