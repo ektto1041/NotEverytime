@@ -3,11 +3,31 @@
 const nodemailer = require("nodemailer");
 const User = require("../models/user/user");
 const UserEmailAuth = require("../models/user/userEmailAuth");
+const ejs = require("ejs");
+const path = require("path");
 
 const postEmail = (req, res) => {
   const EMAIL = process.env.EMAIL;
   const EMAIL_PW = process.env.EMAIL_PW;
-  const HOST = process.env.HOST;
+  const AUTH_DOMAIN = process.env.AUTH_DOMAIN;
+
+  let emailTemplete;
+  ejs.renderFile(
+    "views/authMail.ejs",
+    {
+      url: `${AUTH_DOMAIN}/authenticate/email`,
+      email: `${req.email}`,
+      token: `${req.token}`,
+    },
+    function (err, data) {
+      if (err) {
+        console.log(err);
+        console.log("ejs.renderFile err");
+      }
+      emailTemplete = data;
+    }
+  );
+
   const transport = nodemailer.createTransport({
     service: "gmail",
     auth: {
@@ -21,9 +41,7 @@ const postEmail = (req, res) => {
     from: EMAIL,
     to: req.email,
     subject: "[noteverytime] 이메일 인증 확인 메일입니다.",
-    html:
-      "<p>이메일 인증을 위해서는 아래 링크를 클릭하여 주세요.</p>" +
-      `http://${HOST}/authenticate/email?email=${req.email}&token=${req.token}`,
+    html: emailTemplete,
   };
 
   // email 전송
@@ -41,18 +59,17 @@ const postEmail = (req, res) => {
 const confirmEmail = async (req, res, next) => {
   const token = await UserEmailAuth.findOne({ token: req.query.token });
   if (!token) {
-    req.message =
-      "expired token";
+    req.message = "expired token";
     next();
   } else {
     User.findOne(
       { _id: token.userId, email: req.query.email },
       (error, user) => {
         if (!user) {
-          req.message = "cannot find user info";
+          req.message = "사용자 정보를 찾을 수 없습니다.";
           next(message, res);
         } else if (user.isAuth) {
-          req.message = "이미 인증된 유저입니다.";
+          req.message = "이미 인증된 사용자입니다.";
           console.log(req.message);
           next();
         } else {
@@ -60,21 +77,27 @@ const confirmEmail = async (req, res, next) => {
           user.save((error) => {
             error
               ? (req.message = error.message)
-              : (req.message = "auth success");
+              : (req.message = "이메일 인증에 성공하였습니다.");
             next();
           });
+
         }
       }
     );
   }
 };
 
-const sendResultMessage = (req, res) => {
-  const script =
-    "<script>alert('" +
-    req.message +
-    '\'); window.location.href="https://www.naver.com";</script>';
-  res.write(script);
+const sendResultMessage = (req, res, next) => {
+  try {
+    res.writeHead(200, { "Content-Type": "text/html;charset=UTF-8" });
+    const script =
+      "<script>alert('" +
+      req.message +
+      '\'); window.location.href="https://www.naver.com";</script>';
+    res.write(script);
+  } catch (error) {
+    next(error);
+  }
 };
 
 module.exports = {
