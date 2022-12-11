@@ -54,7 +54,7 @@ export const Register = () => {
       return;
     }
     if (email.slice(-11) != "@ajou.ac.kr") {
-      toast.err("아주대학교 계정으로 가입이 가능합니다.");
+      toast.error("아주대학교 계정으로 가입이 가능합니다.");
       return;
     }
     const newUser = {
