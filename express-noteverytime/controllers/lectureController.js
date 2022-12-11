@@ -9,6 +9,7 @@ const UserLecture = require("../models/user/userLecture");
 
 const { InputValidationError } = require("../errors/generalError");
 const { NotFoundLecture } = require("../errors/notFoundError");
+const currentSemester = process.env.CURRENT_SEMESTER;
 
 const getLecture = async (req, res, next) => {
   const userId = req.session.user._id;
@@ -27,7 +28,7 @@ const getLecture = async (req, res, next) => {
     }
     // 유저 강의 정보
     const userLectureDetail = await getUserLectureDetail(userId, lectureId);
-    return res.status(200).send({ lecture, lectureDetail, userLectureDetail });
+    return res.status(200).send({ currentSemester, lecture, lectureDetail, userLectureDetail });
   } catch (error) {
     next(error);
   }

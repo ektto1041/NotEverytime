@@ -19,7 +19,7 @@ const {
 } = require("../errors/authError");
 const { NotFoundLecture } = require("../errors/notFoundError");
 
-const currentSemester = "2022-2";
+const currentSemester = process.env.CURRENT_SEMESTER;
 
 const getLogin = async (req, res, next) => {
   const isLoggedIn = req.session.isLogined || false;
