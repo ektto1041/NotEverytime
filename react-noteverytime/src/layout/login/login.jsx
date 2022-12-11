@@ -17,7 +17,7 @@ export const Login = () => {
   useEffect(() => {
     (async () => {
       const isLogin = await getLogin();
-      if (isLogin.data.isLogined) {
+      if (isLogin.data.isLoggedIn) {
         alert("이미 로그인된 상태입니다. 로그아웃을 진행하고 로그인해주세요");
         navigate(-1);
       }
