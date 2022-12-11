@@ -1,0 +1,24 @@
+{
+  "files": {
+    "main.css": "/NotEverytime/static/css/main.3224172b.css",
+    "main.js": "/NotEverytime/static/js/main.4e8fa987.js",
+    "static/media/Icon_Camera_grey.svg": "/NotEverytime/static/media/Icon_Camera_grey.7849437a8b453985385a.svg",
+    "static/media/Icon_Camera.svg": "/NotEverytime/static/media/Icon_Camera.c90366c558ae77a30e84.svg",
+    "static/media/Icon_Search.svg": "/NotEverytime/static/media/Icon_Search.acf1e1f71437c8e05f10.svg",
+    "index.html": "/NotEverytime/index.html",
+    "static/media/Icon_Checkbox_State=ON.svg": "/NotEverytime/static/media/Icon_Checkbox_State=ON.1b8ca456a99ef9cc1c81.svg",
+    "static/media/Icon_DownArrow.svg": "/NotEverytime/static/media/Icon_DownArrow.13b62703514e0e456e41.svg",
+    "static/media/Icon_LeftArrow_Grey.svg": "/NotEverytime/static/media/Icon_LeftArrow_Grey.1c82796baba197ee55ee.svg",
+    "static/media/Icon_RightArrow.svg": "/NotEverytime/static/media/Icon_RightArrow.fac738d8bd3b4da7b15e.svg",
+    "static/media/Icon_RightArrow(24).svg": "/NotEverytime/static/media/Icon_RightArrow(24).21492c857663784424d3.svg",
+    "static/media/Icon_Checkbox_State=OFF.svg": "/NotEverytime/static/media/Icon_Checkbox_State=OFF.f2edb63d8725f36e9e42.svg",
+    "static/media/Icon_Cancel.svg": "/NotEverytime/static/media/Icon_Cancel.8c3823287839c07c4a23.svg",
+    "static/media/Icon_Cancel_white.svg": "/NotEverytime/static/media/Icon_Cancel_white.beaeb54f7b5955973b07.svg",
+    "main.3224172b.css.map": "/NotEverytime/static/css/main.3224172b.css.map",
+    "main.4e8fa987.js.map": "/NotEverytime/static/js/main.4e8fa987.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.3224172b.css",
+    "static/js/main.4e8fa987.js"
+  ]
+}
