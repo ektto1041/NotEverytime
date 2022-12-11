@@ -18,9 +18,7 @@ export const Login = () => {
     (async () => {
       const isLogin = await getLogin();
       if (isLogin.data.isLogined) {
-        alert(
-          "이미 로그인이 완료된 회원입니다. 로그아웃을 진행하고 로그인해주세요"
-        );
+        alert("이미 로그인된 상태입니다. 로그아웃을 진행하고 로그인해주세요");
         navigate(-1);
       }
     })();
