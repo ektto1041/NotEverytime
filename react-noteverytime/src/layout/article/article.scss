@@ -64,6 +64,7 @@
     justify-content: space-between;
     .title-bar {
       width: 100%;
+      min-height: 2.75rem;
       @include containerBorderStyle();
       padding: 0.63rem 0;
       padding-left: 1.5rem;
