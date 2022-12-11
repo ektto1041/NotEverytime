@@ -1,0 +1,90 @@
+@import "../../styles/variables.scss";
+
+.class-item-container {
+  width: 100%;
+  height: 17.25rem;
+  display: flex;
+  flex-direction: column;
+
+  @include containerBorderStyle();
+
+  padding: 1.5em 0;
+  margin-bottom: 1.25em;
+
+  .class-item-title {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    column-gap: 16px;
+
+    padding: 0 1.5em;
+    margin: 0 auto;
+
+    cursor: pointer;
+
+    .link-lecture {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      text-decoration: none;
+      color: $text-dark;
+    }
+    .title-name {
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .Icon_RightArrow {
+      min-width: 2.25em;
+      height: 2.25em;
+      background-image: url("../../../public/images/Icon_RightArrow.svg");
+    }
+  }
+
+  .class-item-preview-list {
+    flex: auto;
+
+    display: flex;
+    flex-direction: column;
+
+    & > .p4 {
+      height: 100%;
+      @include flexCenter();
+      color: $ajou-silver;
+    }
+
+    .class-item-preview {
+      height: 2.5em;
+      color: $text-grey;
+
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      column-gap: 16px;
+
+      padding: 0.5em 1.5em;
+
+      cursor: pointer;
+
+      &:hover {
+        background-color: lighten($ajou-silver, 35%);
+      }
+
+      .preview-title {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .preview-createdAt {
+        min-width: 2.25rem;
+        white-space: nowrap;
+      }
+    }
+  }
+}
+
+.semester-box {
+  @include semester-box();
+}

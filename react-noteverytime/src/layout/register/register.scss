@@ -1,0 +1,48 @@
+@import "../../styles/variables.scss";
+
+.register-Container {
+  @include widthContainer();
+  max-width: 35.25rem;
+
+  margin: 3.75rem 0;
+
+  .register-Box {
+    width: 100%;
+    @include containerBorderStyle();
+
+    @include flexCenter();
+    flex-direction: column;
+    
+    padding: 3rem 1.5rem;
+
+    div.h3{
+      width: 100%;
+      text-align: left;
+    }
+
+    .semester-box {
+      width: 100%;
+      @include semester-box();
+      
+      margin-top: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .register-inputBox {
+      width: 100%;
+      margin-bottom: 3rem;
+
+      & > div + div {
+        margin-top: 2.5rem;
+      }
+    }
+
+    .resgiter-buttonBox {
+      width: 100%;
+
+      & > button + button {
+        margin-top: 1.5rem;
+      }
+    }
+  }
+}

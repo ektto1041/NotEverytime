@@ -1,0 +1,136 @@
+@import "../../styles/variables.scss";
+
+.info-item {
+
+  & > div + div {
+    margin-top: 0.5rem;
+  }
+
+  .info-title {
+    color: $text-grey;
+  }
+
+  .info-content {
+    height: 1.63rem;
+    color: $text-dark;
+  }
+}
+
+.lecture-Container {
+  @include widthContainer();
+  max-width: $column-size;
+
+  display: flex;
+  column-gap: 1.25rem;
+
+  margin: 3.75rem 0;
+  
+  .lecture-infoBox {
+    width: 17.06rem;
+
+    & > div + div {
+      margin-top: 1.25rem;
+    }
+
+    .lecture-infoUser {
+      padding: 1.5rem;
+      @include containerBorderStyle();
+    }
+
+    .lecture-infoDetail {
+      @extend .lecture-infoUser;
+
+      .lecture-name {
+        height: 2.25rem;
+        color: $ajou-blue;
+      }
+
+      & > div + div {
+        margin-top: 1.5rem;
+      }
+
+      & > .info-item > .info-content + .info-content {
+        margin-top: 0;
+      }
+    }
+  }
+
+  .lecture-boardBox {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+
+    .lecture-boardMenu {
+      height: 3rem;
+      
+      display: flex;
+      column-gap: 1.5rem;
+
+      margin-bottom: 1.25rem;
+
+      form {
+        display: flex;
+        flex-grow: 1;
+      
+        input {
+          width: 100%;
+          @include containerBorderStyle();
+
+          padding-left: 4rem;
+
+          background: {
+            image: url("../../../public/images/Icon_Search.svg");
+            repeat: no-repeat;
+            position: 1.5rem center;
+            size: 1.5rem;
+          };
+
+          &::placeholder {
+            color: $text-grey;
+          }
+
+          &:focus {
+            outline-color: $ajou-sky;
+            &::placeholder {
+              color: transparent;
+            }
+          }
+        }
+      }
+
+      .write-button {
+        width: 4.81rem;
+        height: 100%;
+        
+        border-radius: 12px;
+        border: none;
+        background-color: $ajou-blue;
+        cursor: pointer;
+
+        & > img {
+          width: 1.5rem;
+          height: 1.5rem;
+        }
+
+        &:hover {
+          background-color: lighten($ajou-blue, 5%);
+        }
+      }
+    }
+
+    .article-list {
+      @include containerBorderStyle();
+      overflow: hidden;
+      flex-grow: 1;
+    }
+
+    .no-article-list {
+      @include containerBorderStyle();
+      @include flexCenter();
+      overflow: hidden;
+      flex-grow: 1;
+      color: rgba($text-grey, 0.5);
+      
+    }
+  }
+}

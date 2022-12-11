@@ -1,0 +1,34 @@
+@import '../../styles/variables.scss';
+
+.myPage-container {
+  @include widthContainer();
+  max-width: $column-size;
+
+  @include flexCenter();
+  flex-direction: column;
+
+  margin: 3.75rem 0;
+
+  .part-box {
+    width: 100%;
+
+    & + .part-box {
+      margin-top: 3rem;
+    }
+  }
+
+  .part-title {
+    width: 100%;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    color: $ajou-blue;
+
+    margin-bottom: 1.25rem;
+  }
+
+  
+}
+

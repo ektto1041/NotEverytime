@@ -1,0 +1,100 @@
+@import "../../styles/variables.scss";
+
+.reply {
+  & > div + div {
+    margin-top: 0.63rem;
+  }
+
+  & > .reply-input-container {
+    width: auto;
+    margin-left: 1.5rem;
+  }
+
+  .reply-top {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    
+    .info {
+      width: 100%;
+      display: flex;
+
+      & > * + * {
+        margin-left: 0.63rem;
+      }
+
+      .profile {
+        width: 1.5rem;
+        height: 1.5rem;
+        border-radius: 100%;
+        object-fit: cover;
+      }
+
+      .reply-writer, .date {
+        display: flex;
+        align-items: center;
+        align-self: center;
+
+        color: $text-grey;
+        white-space: nowrap;
+      }
+
+      .reply-writer.blue {
+        color: $ajou-blue;
+      }
+    }
+
+    .reply-button-container {
+      width: fit-content;
+      display: flex;
+
+      & > div + div {
+        &::before {
+          content: "";
+          display: flex;
+          @include semester-box();
+          margin: 0;
+          margin-right: 1rem;
+          width: 1px;
+          height: 1.5rem;
+        }
+      }
+
+      .rereply-button {
+        padding-right: 1rem;
+      }
+
+      .rereply-button, .remove-button {
+        display: flex;
+        align-items: center;
+        
+        color: $text-grey;
+        white-space: nowrap;
+        cursor: pointer;
+
+        &:hover {
+          color: $ajou-blue;
+        }
+      }
+    }
+  }
+  .reply-content {
+    width: 100%;
+    color: $text-dark;
+    text-align: left;
+  }
+}
+
+.re-reply {
+  @include containerBorderStyle();
+  border-radius: 12px;
+
+  background-color: $background-first;
+
+  padding: 0.63rem 1rem;
+  margin-left: 1.5rem;
+
+  display: flex;
+  flex-direction: column;
+}

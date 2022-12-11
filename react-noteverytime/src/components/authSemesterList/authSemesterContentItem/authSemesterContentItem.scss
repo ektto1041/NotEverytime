@@ -1,0 +1,12 @@
+@import '../../../styles/variables.scss';
+
+.auth-semester-content-item {
+  width: 100%;
+  display: flex;
+  padding: 0 1.5rem;
+
+  .auth-semester-content-column {
+    text-align: start;
+    color: $text-dark;
+  }
+}

@@ -1,0 +1,174 @@
+@import "../../styles/variables.scss";
+
+.post-container {
+  @include widthContainer();
+  max-width: $column-size;
+
+  text-align: start;
+  margin: 3.75rem 0;
+
+  & > div + div {
+    margin-top: 1.25rem;
+  }
+
+  .top {
+    width: 100%;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+
+    .logo {
+      color: $ajou-blue;
+    }
+  }
+
+  .meta {
+    width: 100%;
+    height: 2.75rem;
+
+    display: flex;
+
+    & > div + div {
+      margin-left: 1rem;
+    }
+
+    .title-bar {
+      display: flex;
+      flex: 1;
+
+      @include containerBorderStyle();
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+
+      &:has(input:focus) {
+        border-color: $ajou-sky;
+        border-width: 2px;
+        padding-right: 0.94rem;
+      }
+
+      & > input {
+        width: 100%;
+        height: 100%;
+        padding-left: 1rem;
+
+        color: $ajou-silver;
+
+        border: none;
+        outline-width: 0;
+
+        &:focus {
+          padding-left: 0.94rem;
+          &::placeholder {
+            color: transparent;
+          }
+        }
+      }
+    }
+
+    .anonymous {
+      @include containerBorderStyle();
+
+      display: flex;
+
+      .checkbox {
+        white-space: nowrap;
+        color: $ajou-silver;
+        display: flex;
+        align-items: center;
+
+        padding: 0.63rem 1.5rem;
+        
+        cursor: pointer;
+    
+        input {
+          display: none;
+        }
+    
+        &::before {
+          content: url(../../../public/images/Icon_Checkbox_State=OFF.svg);
+          width: 1.5rem;
+          height: 1.5rem;
+          margin-right: 0.25rem;
+        }
+    
+        &:has(input:checked)::before {
+          content: url(../../../public/images/Icon_Checkbox_State=ON.svg);
+        }
+      }
+    }
+  }
+
+  .photo-container {
+    display: flex;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+    gap: 1rem;
+
+    .photo-item {
+      position: relative;
+      width: 8rem;
+      height: 8rem;
+
+      cursor: pointer;
+
+      .photo-item-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        @include containerBorderStyle();
+        border-width: 2px;
+      }
+
+      .photo-item-delete-message {
+        @include containerBorderStyle();
+        border-width: 2px;
+        background-color: rgba(black, 0);
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+
+        background: {
+          image: url(../../../public/images/Icon_Cancel_white.svg);
+          repeat: no-repeat;
+          position: center;
+          size: 0;
+        };
+        transition: 0.25s ease all;
+
+        &:hover {
+          background-color: rgba(black, 0.5);
+          background-size: 3rem;
+        }
+      }
+    }
+
+    .photo-add {
+      width: 8rem;
+      height: 8rem;
+
+      @include containerBorderStyle();
+      transition: 0.25s all ease;
+
+      cursor: pointer;
+
+      background: {
+        color: white;
+        image: url(../../../public/images/Icon_Camera_grey.svg);
+        repeat: no-repeat;
+        position: center;
+        size: 1.75rem;
+      };
+
+      &:hover{
+        background: {
+          color: $ajou-blue;
+          image: url(../../../public/images/Icon_Camera.svg);
+        };
+      }
+    }
+  }
+}

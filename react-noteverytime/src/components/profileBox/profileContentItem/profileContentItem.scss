@@ -1,0 +1,22 @@
+@import '../../../styles/variables.scss';
+
+.profile-content-item-container {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  
+  & + & {
+    margin-top: 1rem;
+  }
+  
+  .profile-content-item-title {
+    color: $text-grey;
+    margin-right: 1.5rem;
+  }
+
+  .profile-content-item-value {
+    text-align: start;
+    width: 516px;
+    color: $text-dark;
+  }
+}
