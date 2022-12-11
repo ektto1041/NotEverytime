@@ -39,7 +39,7 @@ export const Header = () => {
             <input
               className="p3"
               type="text"
-              placeholder="게시판 검색"
+              placeholder="강의 검색"
               value={keyword}
               onChange={(e) => setKeyword(e.target.value)}
             ></input>
