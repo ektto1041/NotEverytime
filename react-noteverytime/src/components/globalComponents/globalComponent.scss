@@ -9,6 +9,13 @@
     @include containerBorderStyle();
 
     padding: 1rem 1.5rem;
+
+    &:focus {
+      outline-color: $ajou-sky;
+      &::placeholder {
+        color: transparent;
+      }
+    }
   }
 
   div.p3 {
@@ -32,6 +39,9 @@
 
   color: white;
   background-color: $ajou-yellow;
+  &:hover{
+    background-color: lighten($ajou-yellow, 5%);
+  }
 
   padding: 0.75rem 1.5rem;
   text-align: center;
@@ -40,13 +50,21 @@
 
   cursor: pointer;
 
+
   &.white {
     @include containerBorderStyle();
     color: $text-grey;
     background-color: white;
+
+    &:hover {
+      background-color: lighten(white, 5%);
+    }
   }
   &.grey {
     background-color: $ajou-silver;
+    &:hover {
+      background-color: lighten($ajou-silver, 5%);
+    }
   }
 
   &.small {
@@ -60,10 +78,12 @@
 }
 
 .controll-box {
-  width: 12.88em;
-  height: 2.75em;
+  width: 12.88rem;
+  height: 2.75rem;
 
-  .select-semester {
+  display: flex;
+
+  .select {
     appearance: none;
     -webkit-appearance: none; /* 사파리, 크롬 하위버전용 */
     -moz-appearance: none; /* 사파리, 크롬 하위버전용 */
@@ -77,9 +97,15 @@
     padding-right: 1em;
     color: $text-grey;
 
-    background-image: url("../../../public/images/Icon_DownArrow.svg");
-    background-repeat: no-repeat;
-    background-position: calc(100% - 16px) center;
+    background: {
+      image: url("../../../public/images/Icon_DownArrow.svg");
+      repeat: no-repeat;
+      position: calc(100% - 1rem) center;
+    };
+
+    &:focus {
+      outline-color: $ajou-sky;
+    }
 
     cursor: pointer;
 

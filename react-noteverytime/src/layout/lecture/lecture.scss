@@ -23,7 +23,7 @@
   display: flex;
   column-gap: 1.25rem;
 
-  margin-top: 3.75rem;
+  margin: 3.75rem 0;
   
   .lecture-infoBox {
     width: 17.06rem;
@@ -84,6 +84,13 @@
           &::placeholder {
             color: $text-grey;
           }
+
+          &:focus {
+            outline-color: $ajou-sky;
+            &::placeholder {
+              color: transparent;
+            }
+          }
         }
       }
 
@@ -99,6 +106,10 @@
         & > img {
           width: 1.5rem;
           height: 1.5rem;
+        }
+
+        &:hover {
+          background-color: lighten($ajou-blue, 5%);
         }
       }
     }

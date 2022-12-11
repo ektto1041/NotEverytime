@@ -31,7 +31,7 @@ export const LectureThumbnail = ({ lectureName, lectureId, semester }) => {
               <div
                 className="p4 preview-title"
                 onClick={() => {
-                  navigate(`/lecture/${article.lectureId}`);
+                  navigate(`/article/${article._id}`);
                 }}
               >
                 {article.title}

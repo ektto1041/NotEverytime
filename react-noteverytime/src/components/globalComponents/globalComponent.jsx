@@ -35,7 +35,7 @@ export const SelectSemester = ({value, onChange, list}) => {
   return (
     <div className="controll-box">
       <select
-        className="p3 select-semester"
+        className="p3 select"
         value={value}
         onChange={onChange}
       >
@@ -47,6 +47,22 @@ export const SelectSemester = ({value, onChange, list}) => {
             <option key={semester} value={semester}>{semester}학기</option>
             ))
           }
+      </select>
+    </div>
+  );
+}
+
+export const SelectCategory = ({value, onChange, list}) => { 
+  return (
+    <div className="controll-box">
+      <select
+        className="p3 select"
+        value={value}
+        onChange={onChange}
+      >
+        {list?.map((category, i) => (
+            <option key={i+1} value={i+1}>{category}</option>
+        ))}
       </select>
     </div>
   );

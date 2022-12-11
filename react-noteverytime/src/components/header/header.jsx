@@ -45,14 +45,13 @@ export const Header = () => {
             ></input>
           </form>
         </div>
-        <div
-          className="header-centerContainer"
-          onClick={() => {
-            navigate("/mypage");
-          }}
-        >
-          <div className="profile-img-wrapper">
-            <img src={profileImage} height="44px" />
+        <div className="header-centerContainer">
+          <div 
+            className="profile-img-wrapper"
+            onClick={() => {
+                        navigate("/mypage");
+                      }}>
+            <img src={profileImage}/>
           </div>
         </div>
       </div>

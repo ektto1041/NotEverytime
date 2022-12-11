@@ -17,25 +17,27 @@ export const Article = () => {
 
   useEffect(() => {
     (async () => {
-      const article = await getArticle(articleId);
-      setArticle(article.data);
-      console.dir(article);
-      const allComments = await getComments(articleId);
-      const comments = [];
-      const reComments = {};
-      for (const comment of allComments.data) {
-        if (comment.depth == 0) {
-          comments.push(comment);
-        } else {
-          reComments[comment.groupId]
-            ? reComments[comment.groupId].push(comment)
-            : (reComments[comment.groupId] = [comment]);
+      try {
+        const article = await getArticle(articleId);
+        setArticle(article.data);
+        const allComments = await getComments(articleId);
+        const comments = [];
+        const reComments = {};
+        for (const comment of allComments.data) {
+          if (comment.depth == 0) {
+            comments.push(comment);
+          } else {
+            reComments[comment.groupId]
+              ? reComments[comment.groupId].push(comment)
+              : (reComments[comment.groupId] = [comment]);
+          }
         }
+        setComments(comments);
+        setReComments(reComments);
+      } catch (err) {
+        alert(err.response.data.message);
+        navigate("/login");
       }
-      setComments(comments);
-      setReComments(reComments);
-      console.log(comments);
-      console.log(reComments);
     })();
   }, []);
 
@@ -44,7 +46,7 @@ export const Article = () => {
       await deleteArticle(articleId);
       navigate(-1);
     } catch (err) {
-      alert(err.response.data);
+      alert(err.response.data.message);
     }
   };
 
@@ -104,14 +106,17 @@ export const Article = () => {
                 <div className="p4">{article.articleImages.length}</div>
               </div>
             )}
+          </div>
+
+          <div className="date-container">
+            <div className="p4 date">
+              {moment(article.modifiedAt).format("YY.MM.DD HH:mm")}
+            </div>
             <div className="p4 delete-article" onClick={onDeleteArticle}>
               삭제
             </div>
           </div>
 
-          <div className="date">
-            {moment(article.modifiedAt).format("YY.MM.DD HH:mm")}
-          </div>
         </div>
       </div>
       <div className="reply-section">

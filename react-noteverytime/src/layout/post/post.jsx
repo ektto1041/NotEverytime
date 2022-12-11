@@ -2,6 +2,7 @@ import React, { useRef, useState } from "react";
 import { useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { getCategoryAuthority, USER_STATUS } from "../../utils/constants";
+import { Button, SelectCategory } from '../../components/globalComponents/globalComponent';
 import "./post.scss";
 import SunEditor from 'suneditor-react';
 import 'suneditor/dist/css/suneditor.min.css';
@@ -83,29 +84,36 @@ export const Post = () => {
     }
   }, [location]);
 
+  const categoryList = ["자유게시판", "선배의 팁 게시판", "과제 Q&A 게시판", "팀원 모집 게시판"]
+
   return (
     <div className="post-container">
       <div className="top">
-        <div className="logo">글 작성</div>
-        <button className="post-button" onClick={handleClickPost}>글 작성하기</button>
+        <div className="h5 logo">글 작성</div>
+        <Button
+          text="글 작성하기"
+          onClick={handleClickPost}
+        />
       </div>
       <div className="meta">
-        <select
-          className="select-category"
+        <SelectCategory
           value={category}
           onChange={handleSelectCategory}
-        >
-          <option value="1">자유게시판</option>
-          <option value="2">선배의 팁 게시판</option>
-          <option value="3">과제 Q&A 게시판</option>
-          <option value="4">팀원 모집 게시판</option>
-        </select>
+          list={categoryList}
+        />
         <div className="title-bar">
-          <input type="text" placeholder="제목을 입력해주세요" value={title} onChange={(e) => setTitle(e.target.value)}></input>
+          <input className="p3" type="text" placeholder="제목을 입력해주세요" value={title} onChange={(e) => setTitle(e.target.value)}></input>
         </div>
+        
         <div className="anonymous">
-          <input type="checkbox" name="익명" checked={isAnonymous} value={isAnonymous} onChange={(e) => setAnonymous(e.target.checked)} />
-          익명
+          <label className="p4 checkbox">
+            <input
+            type="checkbox"
+            value={isAnonymous}
+            checked={isAnonymous}
+            onChange={(e) => setAnonymous(e.target.checked)}
+            />익명
+          </label>
         </div>
       </div>
       <div className="post-editor-box">
@@ -136,7 +144,7 @@ export const Post = () => {
             <div className="photo-item-delete-message" />
           </div>
         ))}
-        <button className="photo-add" onClick={() => imageInputRef.current.click()}>사진 추가</button>
+        <button className="photo-add" onClick={() => imageInputRef.current.click()}></button>
       </div>
     </div>
   );

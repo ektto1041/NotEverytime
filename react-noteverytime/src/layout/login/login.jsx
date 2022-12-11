@@ -1,5 +1,5 @@
 import React from "react";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import "./login.scss";
 import {
   InputContainer,
@@ -7,11 +7,18 @@ import {
 } from "../../components/globalComponents/globalComponent.jsx";
 import { loginApi } from "../../utils/api";
 import { useNavigate } from "react-router-dom";
+import { toast } from 'material-react-toastify';
 
 export const Login = () => {
   const [id, setId] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
+
+  useEffect(() => {
+    (async () => {
+      //TODO: if Logged in, get Back
+    })();
+  }, []);
 
   const handleIdChange = (e) => {
     setId(e.target.value);
@@ -30,7 +37,9 @@ export const Login = () => {
       const login = await loginApi(newLoginData);
       navigate("/");
     } catch (err) {
-      alert(err.response.data);
+      console.dir(err);
+      toast.error(err.response.data.message);
+      // alert(err.response.data.message);
     }
   };
 
@@ -57,7 +66,7 @@ export const Login = () => {
       </div>
 
       <div className="p3 login-registerBox">
-        계정이 없으신가요?{" "}
+        계정이 없으신가요?
         <a className="p3" href="/register">
           회원가입
         </a>
