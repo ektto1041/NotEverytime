@@ -9,7 +9,7 @@ import './lecture.scss';
 import { CategoryButtonBox } from '../../components/categoryButtonBox/categoryButtonBox';
 import moment from 'moment';
 import 'moment/locale/ko';
-import { CATEGORIES, getCategoryAuthority, getUserStatus, USER_STATUS } from '../../utils/constants';
+import { getCategoryAuthority, getUserStatus, USER_STATUS } from '../../utils/constants';
 
 // TODO 페이지 사이즈 결정 필요
 const PAGE_SIZE = 10;

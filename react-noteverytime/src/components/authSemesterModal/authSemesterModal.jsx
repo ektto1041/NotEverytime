@@ -20,8 +20,6 @@ export const AuthSemesterModal = ({
   const authenticateLectures = useCallback(async () => {
     try {
       const response = await authenticateLectureApi();
-      console.log('# 학교에서 넘어온 수강 과목들');
-      console.log(response);
 
       setLectures(response.data);
 
@@ -30,12 +28,12 @@ export const AuthSemesterModal = ({
         if(!newLecturesBySemesterObj[lecture.lectureSemester]) newLecturesBySemesterObj[lecture.lectureSemester] = [];
         newLecturesBySemesterObj[lecture.lectureSemester].push(lecture);
       });
-      const sortedSemesters = Object.keys(newLecturesBySemesterObj).sort();
+      const sortedSemesters = Object.keys(newLecturesBySemesterObj).sort().reverse();
   
       setLecturesBySemester(newLecturesBySemesterObj);
-      setSemester(sortedSemesters[sortedSemesters.length - 1]);
+      setSemester(sortedSemesters[0]);
     } catch(err) {
-      console.log(err);
+      alert(err.response.data.message);
     }
   }, []);
 
@@ -57,12 +55,10 @@ export const AuthSemesterModal = ({
   const handleAuthenticateClick = useCallback(async () => {
     try {
       const response = await updateAuthenticatedLectureApi(lectures);
-      console.log("# 모달에서 수강 인증하기 누른 결과");
-      console.log(response);
 
       navigate(0);
     } catch(err) {
-      alert(err.response.data);
+      alert(err.response.data.message);
     }
   }, [lectures]);
 

@@ -22,7 +22,7 @@ export const AuthSemesterList = ({
       <div className="semester-box"></div>
       <div className='auth-semester-content'>
         {lectures?.map((lecture, i) => (
-          <AuthSemesterContentItem key={lecture._id} lecture={lecture} idx={i} />
+          <AuthSemesterContentItem key={lecture._id} lecture={lecture} idx={i+1} />
         ))}
       </div>
     </div>

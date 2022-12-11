@@ -27,7 +27,7 @@ export const MyPage = () => {
         if(!newLecturesBySemesterObj[lecture.lectureSemester]) newLecturesBySemesterObj[lecture.lectureSemester] = [];
         newLecturesBySemesterObj[lecture.lectureSemester].push(lecture);
       });
-      const sortedSemesters = Object.keys(newLecturesBySemesterObj).sort((a, b) => b - a);
+      const sortedSemesters = Object.keys(newLecturesBySemesterObj).sort().reverse();
 
       const newLecturesBySemester = [];
       sortedSemesters.forEach(semester => {
