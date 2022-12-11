@@ -158,10 +158,10 @@ const getArticles = async (req, res, next) => {
 
 const searchLecture = async (req, res, next) => {
   const keyword = req.query.keyword || null;
-  if (!keyword) {
-    throw new InputValidationError("강의 검색 키워드가 비어있습니다.", 400);
-  }
   try {
+    if (!keyword) {
+      throw new InputValidationError("강의 검색 키워드가 비어있습니다.", 400);
+    }
     const lectures = await Lecture.find({ $text: { $search: keyword } }).sort({
       _id: -1,
     });
