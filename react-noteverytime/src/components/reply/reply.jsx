@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { ReplyInput } from "../replyInput/replyInput";
 import moment from "moment";
 import { deleteComment } from "../../utils/api";
@@ -15,10 +15,11 @@ export const Reply = ({
   groupId,
   isDeleted,
   isAnonymous,
-  isIdentify,
   profileImage,
   isWriter,
 }) => {
+  const [recomenting, setRecommenting] = useState(false);
+
   const navigate = useNavigate();
   const onDeleteComment = async () => {
     try {
@@ -52,7 +53,16 @@ export const Reply = ({
         </div>
         {!isDeleted && (
           <div className="reply-button-container">
-            {depth == 0 && <div className="p4 rereply-button">답글</div>}
+            {depth == 0 && (
+              <div
+                className="p4 rereply-button"
+                onClick={() => {
+                  setRecommenting(!recomenting);
+                }}
+              >
+                답글
+              </div>
+            )}
             <div className="p4 remove-button" onClick={onDeleteComment}>
               삭제
             </div>
@@ -62,7 +72,7 @@ export const Reply = ({
       <div className="p4 reply-content">
         {isDeleted ? "삭제된 댓글입니다." : content}
       </div>
-      {depth == 0 && (
+      {depth == 0 && recomenting && (
         <ReplyInput
           articleId={articleId}
           groupId={groupId}
