@@ -26,7 +26,7 @@ export const AuthSemesterBoxInModal = ({
                 lectureProfessor: lecture.lectureProfessor,
               }
             }}
-            idx={i}
+            idx={i+1}
           />
         ))}
       </div>
