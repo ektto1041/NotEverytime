@@ -22,8 +22,8 @@ const { NotFoundLecture } = require("../errors/notFoundError");
 const currentSemester = "2022-2";
 
 const getLogin = async (req, res, next) => {
-  const isLogined = req.session.isLogined || false;
-  return res.status(200).send({ isLogined });
+  const isLoggedIn = req.session.isLogined || false;
+  return res.status(200).send({ isLoggedIn });
 };
 
 const isEmpty = (field) => field === "" || field === undefined;
