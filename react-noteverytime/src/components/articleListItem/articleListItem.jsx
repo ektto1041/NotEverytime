@@ -23,7 +23,7 @@ export const ArticleListItem = ({ article }) => {
             <div className="p3 article-title">{title}</div>
             <div className="p3 article-preview">
               {/* {content.length > 70 ? content.substring(0, 70) + "..." : content} */}
-              {content.replace(/<[^>]*>?/g, "")}
+              {content.replace(/(<[^>]*>?)|&nbsp;/g, "")}
             </div>
             <div className="article-data">
               <div className="article-data-info">
@@ -34,7 +34,7 @@ export const ArticleListItem = ({ article }) => {
                 </div>
                 <div className="p4 article-writer">{username}</div>
               </div>
-              
+
               <div className="article-icons">
                 <div className="p4 comments">
                   <img
