@@ -79,20 +79,20 @@
         align-items: center;
 
         padding: 0.63rem 1.5rem;
-        
+
         cursor: pointer;
-    
+
         input {
           display: none;
         }
-    
+
         &::before {
           content: url(../../../public/images/Icon_Checkbox_State=OFF.svg);
           width: 1.5rem;
           height: 1.5rem;
           margin-right: 0.25rem;
         }
-    
+
         &:has(input:checked)::before {
           content: url(../../../public/images/Icon_Checkbox_State=ON.svg);
         }
@@ -136,7 +136,7 @@
           repeat: no-repeat;
           position: center;
           size: 0;
-        };
+        }
         transition: 0.25s ease all;
 
         &:hover {
@@ -161,14 +161,23 @@
         repeat: no-repeat;
         position: center;
         size: 1.75rem;
-      };
+      }
 
-      &:hover{
+      &:hover {
         background: {
           color: $ajou-blue;
           image: url(../../../public/images/Icon_Camera.svg);
-        };
+        }
       }
+    }
+  }
+  .reply-section {
+    display: flex;
+    align-items: center;
+    .reply-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
     }
   }
 }

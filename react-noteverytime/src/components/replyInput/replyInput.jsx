@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { createComment } from "../../utils/api";
 import "./replyInput.scss";
 
-export const ReplyInput = ({ articleId, groupId, font, text, size}) => {
+export const ReplyInput = ({ articleId, groupId, font, text, size }) => {
   const [content, setContent] = useState("");
   const [anonymous, setAnonymous] = useState(false);
 
@@ -43,12 +43,14 @@ export const ReplyInput = ({ articleId, groupId, font, text, size}) => {
         value={content}
         onChange={handleContentChange}
       ></input>
-      <label className="checkbox"><input
-        type="checkbox"
-        id="isAnnonymous"
-        onChange={handleAnonymousChange}
-        
-      />익명</label>
+      <label className="checkbox">
+        <input
+          type="checkbox"
+          id="isAnnonymous"
+          onChange={handleAnonymousChange}
+        />
+        익명
+      </label>
       <div className="reply-submit" onClick={addCommentHandler}>
         <img className={size} src="/images/Icon_Send.svg" alt="보내기" />
       </div>

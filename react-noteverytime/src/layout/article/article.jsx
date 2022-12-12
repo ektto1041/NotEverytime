@@ -64,7 +64,16 @@ export const Article = () => {
             </div>
           </div>
         </div>
-        <div className="h6 category">{getCategoryString(article.category)}</div>
+        <div
+          className="h6 category"
+          onClick={() => {
+            navigate(`/lecture/${article.lectureId}`, {
+              state: article.category,
+            });
+          }}
+        >
+          {getCategoryString(article.category)}
+        </div>
       </div>
       <div className="meta">
         <div className="title-bar">
@@ -116,7 +125,6 @@ export const Article = () => {
               삭제
             </div>
           </div>
-
         </div>
       </div>
       <div className="reply-section">

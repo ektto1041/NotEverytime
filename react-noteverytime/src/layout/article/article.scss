@@ -13,7 +13,6 @@
   & > div + div {
     margin-top: 1.25rem;
   }
-    
 
   .article-top {
     width: 100%;
@@ -37,9 +36,9 @@
         flex-direction: column;
         align-items: flex-start;
         align-self: center;
-        
+
         margin-left: 1rem;
-        
+
         .writer-name {
           color: black;
         }
@@ -103,7 +102,7 @@
         width: 8rem;
         height: 8rem;
         @include containerBorderStyle();
-        
+
         & + .photo {
           margin-left: 1rem;
         }
@@ -114,7 +113,7 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      
+
       .item-container {
         display: flex;
         .item {
@@ -131,11 +130,9 @@
         .icon-image {
           color: $ajou-silver;
         }
-        
       }
 
       .date-container {
-        
         display: flex;
         align-items: center;
 
@@ -180,7 +177,6 @@
     align-items: center;
 
     padding: 1rem 1.5rem;
-    
 
     .top {
       width: 100%;
