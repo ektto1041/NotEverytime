@@ -26,7 +26,7 @@ export const LectureThumbnail = ({ lectureName, lectureId, semester }) => {
       <div className="semester-box"></div>
       <div className="class-item-preview-list">
         {articles?.length > 0 ? (
-          articles.slice(0, 5).map((article) => (
+          articles.slice(0, 4).map((article) => (
             <div
               className="class-item-preview"
               onClick={() => {

@@ -77,7 +77,6 @@ export const Main = () => {
         <div className="grid-box">
           {userLectures &&
             userLectures.map((userLecture) => {
-              //TODO: 여기서 article 때서 줘 응애
               return (
                 <LectureThumbnail
                   lectureName={userLecture.lecture.lectureName}
