@@ -39,7 +39,7 @@ export const Lecture = () => {
 
   const [lecture, setLecture] = useState({});                 // 강의에 대한 정보
   const hasLecture = Object.keys(lecture).length > 0;
-  const userStatus = getUserStatus(lecture.semester, lecture.userSemester);
+  const userStatus = getUserStatus(lecture.semester, lecture.userSemester, lecture.currentSemester);
   const [selectedCategoryId, setSelectedCategoryId] = useState(1);  // 선택한 카테고리
   const [isNeedArticles, setNeedArticles] = useState(false);
   const [articleList, setArticleList] = useState([]);         // 선택한 카테고리에 속한 글 리스트
@@ -55,6 +55,7 @@ export const Lecture = () => {
   const getLecture = useCallback(async () => {
     try {
       const response = await getLectureApi(lectureId);
+      console.log(response);
 
       const newLecture = {
         id: response.data.lecture._id,
@@ -65,7 +66,7 @@ export const Lecture = () => {
         semester: response.data.lectureDetail?.lectureSemester,
         // 유저의 학기가 null 이면 미수강생
         userSemester: response.data.userLectureDetail?.lectureSemester,
-        // userSemester: '20',
+        currentSemester: response.data.currentSemester,
         times: response.data.lectureDetail.lectureTime,
       };
 

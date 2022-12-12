@@ -14,8 +14,8 @@ export const USER_STATUS = {
   }
 };
 
-export const getUserStatus = (lectureSemester, userSemester) => {
-  return userSemester ? ( userSemester === lectureSemester ? USER_STATUS.current : USER_STATUS.prev ) : USER_STATUS.none;
+export const getUserStatus = (lectureSemester, userSemester, currentSemester) => {
+  return userSemester ? ( lectureSemester === currentSemester ? (userSemester === lectureSemester ? USER_STATUS.current : USER_STATUS.prev) : USER_STATUS.prev ) : USER_STATUS.none;
 };
 
 export const CATEGORIES = [

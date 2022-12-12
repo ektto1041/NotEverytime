@@ -41,12 +41,16 @@
       @extend .lecture-infoUser;
 
       .lecture-name {
-        height: 2.25rem;
+        min-height: 2.25rem;
         color: $ajou-blue;
       }
 
       & > div + div {
         margin-top: 1.5rem;
+      }
+
+      & > .info-item > .info-content + .info-content {
+        margin-top: 0;
       }
     }
   }

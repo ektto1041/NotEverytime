@@ -21,7 +21,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": [
@@ -42,7 +44,9 @@
     ]
   },
   "devDependencies": {
+    "gh-pages": "^4.0.0",
     "sass": "^1.56.0"
   },
-  "proxy": "http://3.37.86.239:4000/"
+  "proxy": "http://3.37.86.239:4000/",
+  "homepage": "http://ektto1041.github.io/NotEverytime"
 }
